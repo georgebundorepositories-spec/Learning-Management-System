@@ -19,5 +19,7 @@ The authoritative requirements are the user-supplied MASTER PROMPT v2.0, Parts A
 4. **Shared tables have school-scope integrity checks.** Cross-school teaching/guardian relationships are rejected even for privileged callers.
 5. **No production fees, messaging or school records were created.** These remain later phases.
 
+Hosted Supabase Phone Auth must be enabled through the Auth Providers settings before phone/password sign-in works; local development has Phone enabled but public signup disabled.
+
 ## Gates still required
 The Phase 0 gate is not merely compilation. Real signed-in web + Android flows and role isolation against realistic test accounts must be verified. Do not start Phase 1 until these are green.
