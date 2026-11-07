@@ -83,14 +83,27 @@ class MainActivity : ComponentActivity() {
           keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
           modifier = Modifier.fillMaxWidth()
         )
-        Button(enabled = pin.length in 4..8, onClick = {
-          try {
-            vault.enroll(pendingProfile!!, pin)
-            loggedInProfile = pendingProfile
-            pendingProfile = null
-            pin = ""; password = ""; error = null
-          } catch (_: Exception) { error = context.getString(R.string.pin_save_error) }
-        }) { Text(stringResource(R.string.save_pin)) }
+        Button(enabled = !busy && pin.length in 4..8, onClick = {
+          val profileToEnroll = pendingProfile!!
+          val submittedPin = pin
+          busy = true
+          error = null
+          scope.launch {
+            // PBKDF2 is deliberately expensive; never block the UI thread on slow tablets.
+            val saved = withContext(Dispatchers.Default) {
+              runCatching { vault.enroll(profileToEnroll, submittedPin) }
+            }
+            busy = false
+            saved.fold(
+              onSuccess = {
+                loggedInProfile = profileToEnroll
+                pendingProfile = null
+                pin = ""; password = ""; error = null
+              },
+              onFailure = { error = context.getString(R.string.pin_save_error) }
+            )
+          }
+        }) { Text(stringResource(if (busy) R.string.signing_in else R.string.save_pin)) }
       }
 
       else -> {
