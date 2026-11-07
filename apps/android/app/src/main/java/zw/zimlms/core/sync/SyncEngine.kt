@@ -53,8 +53,8 @@ class SyncEngine(
     var rejected = 0
     var pulled = 0
 
-    repeat(100) {
-      val op = queue.pending(1).firstOrNull() ?: return@repeat
+    for (attempt in 0 until 100) {
+      val op = queue.pending(1).firstOrNull() ?: break
       require(op.entity == "calendar_events") { "Unrecognised sync entity" }
       val outcome = api.push(op)
       if (outcome.result !in setOf("applied", "conflict", "rejected")) {
