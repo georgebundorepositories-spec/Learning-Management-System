@@ -55,10 +55,21 @@ cross-school or role tests.
   real hosted Auth connectivity still needs a separate end-to-end demonstration:
   [GitHub Actions #42405551506](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405551506).
 - [PASS] PIN enrolment's slow PBKDF2 operation is now executed off the UI thread.
-- [PENDING] Expanded Android API 26 + 29 emulator compatibility and preliminary debug-size jobs:
+- [PASS] Expanded Android API 26 + 29 emulator compatibility and preliminary debug-size jobs:
   [GitHub Actions #42405832856](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405832856).
 - [PENDING] Hosted Supabase phone auth provider, real administrator provisioning and end-to-end UI sign-in against the hosted project.
 
 **Phase 0 gate remains OPEN** until the remaining authentication checks and expanded device tests pass.
 Do not claim that passing mocked Android HTTP unit tests proves a live hosted server login.
 Do not start Phase 1 until the gate is verified.
+
+## Local phone Auth acceptance and hosted provider boundary
+
+- [PASS] Local phone/password Supabase Auth passed with an admin-provisioned synthetic phone identity, followed by an RLS-scoped profile read. The CI-only SMS-provider configuration is injected into the ephemeral GitHub runner and never deployed to LMS Omni:
+  [GitHub Actions #42406420243](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42406420243).
+- [PASS] GitHub Actions tests on Android API 26 (Android 8) and API 29 (Android 10); the current debug APK also passed a preliminary 25 MiB size budget:
+  [GitHub Actions #42405832856](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405832856).
+- [NOT VERIFIED] Hosted Supabase Phone provider and legitimate SMS delivery, real administrator provisioning, and full UI end-to-end sign-in with an authorised test school.
+- [NOT IMPLEMENTED] Persistent session lifecycle, refresh tokens and 72-hour multi-device offline sync, which belong to the subsequent sync gate.
+
+The local dummy SMS configuration is intentionally *not* part of checked-in `supabase/config.toml`; never enable dummy SMS credentials on the hosted project. Real SMS provisioning should use valid provider credentials through Supabase's hosted Auth settings.
