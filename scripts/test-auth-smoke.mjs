@@ -63,7 +63,26 @@ try {
     assert.ok(!profileResult.some(p=>users.filter(x=>x.school!==u.school).some(x=>x.id===p.id)),
       "No cross-school users visible");
 
+    // Exercise the real Data API with a non-owner JWT, not only SQL role simulation.
+    const ownClass = await check(await client.from("classes").select("id,school_id"),
+      "School-scoped class list");
+    assert.ok(ownClass.every(c => c.school_id === ids[u.school]),
+      "No cross-school classes may be returned");
+
+    const otherSchool = u.school === "A" ? ids.B : ids.A;
+    const deniedCrossSchool = await client.from("classes")
+      .insert({ name: "FORBIDDEN cross-school insertion", school_id: otherSchool })
+      .select("id");
+    assert.ok(deniedCrossSchool.error,
+      "Even an authenticated admin cannot insert classes into another school");
+
     if (u.role==="teacher") {
+      const deniedTeacherInsert = await client.from("classes")
+        .insert({ name: "FORBIDDEN teacher insertion", school_id: ids[u.school] })
+        .select("id");
+      assert.ok(deniedTeacherInsert.error,
+        "Teacher cannot self-provision a class");
+
       await client.from("users").update({role:"admin"}).eq("id",u.id);
       const raw = await check(await admin.from("users").select("role").eq("id",u.id).single(),
         "Verify role did not change");
@@ -71,7 +90,7 @@ try {
     }
     await client.auth.signOut();
   }
-  console.log("PASS: 3 real email Auth logins; school isolation; self-promotion denied");
+  console.log("PASS: 3 real email Auth logins; school isolation; cross-school write denial; teacher insert denial; self-promotion denied");
   // Phone/password is intentionally a separate test once the SMS/phone provider is enabled.
   // Never silently substitute passing email auth for a phone-auth acceptance test.
 } finally {
