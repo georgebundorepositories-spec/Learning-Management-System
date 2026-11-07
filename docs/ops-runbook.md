@@ -26,11 +26,12 @@ For a new *empty* school, configure secure, ignored environment variables:
 - `ZIMLMS_SCHOOL_NAME`, `ZIMLMS_ADMIN_FULL_NAME`
 - `ZIMLMS_ADMIN_PHONE` in Zimbabwe E.164 format
 - `ZIMLMS_ADMIN_PASSWORD` (minimum 12 characters)
+- Optional `ZIMLMS_ADMIN_EMAIL` for email/password sign-in before the hosted phone Auth provider is enabled
 - Optional `ZIMLMS_EMIS_NUMBER`
 
 Run `node scripts/create-admin.mjs`. This privileged command must run only in a trusted administrative environment and never in a browser, APK or public CI job. It creates one school and a phone-authenticated administrator.
 
-Note: The administration and bulk-invite UI are not yet implemented. Administrator provisioning is a gated operational action.
+Note: Phone/password login requires enabling **Phone** on the hosted Supabase Auth Providers page. This has not yet been verified on the hosted project. Email/password sign-in can be used for a provisioned admin meanwhile. The administration and bulk-invite UI are not yet implemented. Administrator provisioning is a gated operational action.
 
 ## Android Phase 0
 Set `ZIMLMS_SUPABASE_URL` and `ZIMLMS_SUPABASE_PUBLISHABLE_KEY` locally.
