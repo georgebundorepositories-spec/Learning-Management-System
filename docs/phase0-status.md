@@ -44,3 +44,21 @@ then verify `supabase migration list --remote`.
 Security auditor review after the repair: 11/11 public tables still have RLS enabled;
 Supabase security advisors returned zero findings. This does not replace end-to-end
 cross-school or role tests.
+
+## Additional verified Phase 0 work — 7 November 2026
+
+- [PASS] PostgreSQL migrations, pgTAP role/tenant policy matrix and local Supabase Auth API smoke:
+  [GitHub Actions #42403559420](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42403559420).
+- [PASS] Android emulator offline PIN protection and lockout, after resolving CI /dev/kvm permissions:
+  [GitHub Actions #42405183531](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405183531).
+- [PASS] Android online request/protected-profile unit tests (with in-process HTTP interceptors);
+  real hosted Auth connectivity still needs a separate end-to-end demonstration:
+  [GitHub Actions #42405551506](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405551506).
+- [PASS] PIN enrolment's slow PBKDF2 operation is now executed off the UI thread.
+- [PENDING] Expanded Android API 26 + 29 emulator compatibility and preliminary debug-size jobs:
+  [GitHub Actions #42405832856](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42405832856).
+- [PENDING] Hosted Supabase phone auth provider, real administrator provisioning and end-to-end UI sign-in against the hosted project.
+
+**Phase 0 gate remains OPEN** until the remaining authentication checks and expanded device tests pass.
+Do not claim that passing mocked Android HTTP unit tests proves a live hosted server login.
+Do not start Phase 1 until the gate is verified.
