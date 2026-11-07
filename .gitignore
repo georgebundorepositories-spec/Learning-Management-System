@@ -1,0 +1,16 @@
+node_modules/
+.next/
+dist/
+build/
+.gradle/
+.idea/
+*.iml
+.env
+.env.*
+!.env.example
+local.properties
+*.keystore
+*.jks
+.DS_Store
+coverage/
+.turbo/
