@@ -8,6 +8,10 @@ jobs:
   android:
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    # Publishable keys are intentionally public; privileged secret keys are NEVER embedded.
+    env:
+      ZIMLMS_SUPABASE_URL: https://mezbtcdkmvtkjxdmmhbw.supabase.co
+      ZIMLMS_SUPABASE_PUBLISHABLE_KEY: sb_publishable_nlxCwwfA_MWEpI-3zX1hWg__PlUl91m
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
