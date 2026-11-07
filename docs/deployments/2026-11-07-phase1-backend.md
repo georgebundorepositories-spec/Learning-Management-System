@@ -7,8 +7,8 @@ Deployment state: **Backend active; full Phase 1 acceptance not complete.**
 
 ## Deployed components
 
-- Additive SQL migration `p1_calendar_sync_slice` from source file `supabase/migrations/20261107204500_p1_calendar_sync_slice.sql` on commit `ef0bbae93dd2cd7374e1168b6ef72454676261a7`.
-- Additive performance migration `p1_sync_fk_indexes` from `supabase/migrations/20261107204600_p1_sync_fk_indexes.sql`: four missing foreign-key indexes.
+- Additive SQL migration `p1_calendar_sync_slice` from source file `supabase/migrations/20261107200601_p1_calendar_sync_slice.sql` on commit `ef0bbae93dd2cd7374e1168b6ef72454676261a7`.
+- Additive performance migration `p1_sync_fk_indexes` from `supabase/migrations/20261107200817_p1_sync_fk_indexes.sql`: four missing foreign-key indexes.
 - Supabase Edge Function `sync-push`, version 1, `verify_jwt=true`:
   `https://mezbtcdkmvtkjxdmmhbw.supabase.co/functions/v1/sync-push`
 - Supabase Edge Function `sync-pull`, version 1, `verify_jwt=true`:
@@ -41,3 +41,5 @@ Deployment state: **Backend active; full Phase 1 acceptance not complete.**
 2. Connect a Next.js hosting account (Vercel is appropriate), deploy a reviewed client and configure its publishable Supabase URL/key; never expose secret keys.
 3. Finish session persistence, web PWA and Android UI integration, 15-minute background sync, all required entities, 2G limits and real 72-hour cross-device convergence.
 4. Merge PR only after the release gates pass.
+
+Migration version verification: Supabase `list_migrations` returned `20261107200601 p1_calendar_sync_slice` and `20261107200817 p1_sync_fk_indexes`. The repository file prefixes now match these deployed versions to prevent repeat application by the Supabase CLI.
