@@ -23,3 +23,24 @@ Hosted Supabase Phone Auth must be enabled through the Auth Providers settings b
 
 ## Gates still required
 The Phase 0 gate is not merely compilation. Real signed-in web + Android flows and role isolation against realistic test accounts must be verified. Do not start Phase 1 until these are green.
+
+
+## Database migration history reconciliation (2026-11-07)
+
+Supabase MCP assigned its own migration timestamps for four successful live deployments.
+The remote tracking entries have been atomically reconciled to the exact four
+`supabase/migrations/20261107*.sql` filenames in GitHub:
+
+- `20261107171600_p0_shared_primitives.sql`
+- `20261107171700_p0_identity_and_rls.sql`
+- `20261107171800_p0_tenant_relationship_hardening.sql`
+- `20261107171900_p0_cron_and_net_extensions.sql`
+
+The SQL changes had already been executed; this was migration metadata repair only.
+Avoid future MCP migration applications that invent unmatched timestamps. Prefer
+`supabase db push --remote` with versioned files (after authenticated CLI setup),
+then verify `supabase migration list --remote`.
+
+Security auditor review after the repair: 11/11 public tables still have RLS enabled;
+Supabase security advisors returned zero findings. This does not replace end-to-end
+cross-school or role tests.
