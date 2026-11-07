@@ -1,0 +1,19 @@
+{
+  "name": "zimschool-lms",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "apps/web",
+    "packages/*",
+    "packages/plugins/*"
+  ],
+  "scripts": {
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "2.5.8"
+  }
+}
