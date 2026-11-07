@@ -59,7 +59,7 @@ export interface PullResponse {
 }
 export function validCursor(value: string): boolean {
   return /^(0|[1-9]\d{0,18})$/.test(value) &&
-    BigInt(value) <= 9223372036854775807n;
+    BigInt(value) <= BigInt("9223372036854775807");
 }
 export function advanceCursor(current: SyncCursor, incoming: SyncCursor): SyncCursor {
   if (!validCursor(current) || !validCursor(incoming)) throw new Error("Invalid sync cursor");
