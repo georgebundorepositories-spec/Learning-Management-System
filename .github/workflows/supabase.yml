@@ -5,6 +5,11 @@ on:
   pull_request:
     paths: ['supabase/**', '.github/workflows/supabase.yml']
 
+# Local Supabase exposes fixed ports; avoid overlapping CI runs on shared runners.
+concurrency:
+  group: supabase-database-validation
+  cancel-in-progress: false
+
 jobs:
   database:
     runs-on: ubuntu-latest
@@ -14,6 +19,8 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
+      - name: Clear stale local containers
+        run: supabase stop --no-backup || true
       - name: Start local Supabase
         run: supabase start
       - name: Reapply migrations cleanly
