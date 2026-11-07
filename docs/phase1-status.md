@@ -8,7 +8,7 @@ All Phase 1 changes live on the draft branch `feature/phase1-offline-sync` (PR #
 
 ## Implemented code
 
-- `supabase/migrations/20261107204500_p1_calendar_sync_slice.sql`: calendar events, device registry, operation log, audit log, feature flags, append-only change log; all public tables have RLS. Calendar writes use an allowlisted private, authorisation-checked function wrapped in an invoker RPC. The actor's school comes from the verified user profile, not the client.
+- `supabase/migrations/20261107200601_p1_calendar_sync_slice.sql`: calendar events, device registry, operation log, audit log, feature flags, append-only change log; all public tables have RLS. Calendar writes use an allowlisted private, authorisation-checked function wrapped in an invoker RPC. The actor's school comes from the verified user profile, not the client.
 - `supabase/functions/sync-push` and `sync-pull`: user-JWT-authenticated Edge endpoints with a fixed `calendar_events` allowlist. Retryable server errors do not acknowledge the queue.
 - `apps/web/lib/sync`: user/school-scoped IndexedDB queue, optimistic projections, transactional server-row acknowledgement and cursor commits, and an Edge transport.
 - `apps/android/app/src/main/java/zw/zimlms/core/sync`: Room queue and calendar snapshot schema, transactional sync engine, and JWT-based transport (requires session-broker integration).
