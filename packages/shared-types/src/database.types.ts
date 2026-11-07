@@ -61,6 +61,201 @@ export type Database = {
           },
         ]
       }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          deleted_at: string | null
+          diff: Json | null
+          entity: string | null
+          entity_id: string | null
+          id: string
+          ip: string | null
+          school_id: string
+          sync_version: number
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          diff?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip?: string | null
+          school_id: string
+          sync_version?: number
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          diff?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip?: string | null
+          school_id?: string
+          sync_version?: number
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_log_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      calendar_events: {
+        Row: {
+          all_day: boolean
+          approval_status: Database["public"]["Enums"]["approval_status"]
+          approved_at: string | null
+          approved_by: string | null
+          attachments: Json
+          audience_class_ids: string[] | null
+          audience_roles: string[] | null
+          category: Database["public"]["Enums"]["calendar_category"]
+          colour: string | null
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          description: string | null
+          end_at: string
+          id: string
+          is_published: boolean
+          location: string | null
+          push_sent: boolean
+          recurrence_parent_id: string | null
+          recurrence_rule: string | null
+          rejection_reason: string | null
+          school_id: string
+          start_at: string
+          sync_version: number
+          term_id: string | null
+          title: string
+          title_i18n: Json | null
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_scope"]
+        }
+        Insert: {
+          all_day?: boolean
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          approved_at?: string | null
+          approved_by?: string | null
+          attachments?: Json
+          audience_class_ids?: string[] | null
+          audience_roles?: string[] | null
+          category?: Database["public"]["Enums"]["calendar_category"]
+          colour?: string | null
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          description?: string | null
+          end_at: string
+          id?: string
+          is_published?: boolean
+          location?: string | null
+          push_sent?: boolean
+          recurrence_parent_id?: string | null
+          recurrence_rule?: string | null
+          rejection_reason?: string | null
+          school_id: string
+          start_at: string
+          sync_version?: number
+          term_id?: string | null
+          title: string
+          title_i18n?: Json | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_scope"]
+        }
+        Update: {
+          all_day?: boolean
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          approved_at?: string | null
+          approved_by?: string | null
+          attachments?: Json
+          audience_class_ids?: string[] | null
+          audience_roles?: string[] | null
+          category?: Database["public"]["Enums"]["calendar_category"]
+          colour?: string | null
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          description?: string | null
+          end_at?: string
+          id?: string
+          is_published?: boolean
+          location?: string | null
+          push_sent?: boolean
+          recurrence_parent_id?: string | null
+          recurrence_rule?: string | null
+          rejection_reason?: string | null
+          school_id?: string
+          start_at?: string
+          sync_version?: number
+          term_id?: string | null
+          title?: string
+          title_i18n?: Json | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_scope"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_recurrence_parent_id_fkey"
+            columns: ["recurrence_parent_id"]
+            isOneToOne: false
+            referencedRelation: "calendar_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "terms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_subject_teacher: {
         Row: {
           class_id: string
@@ -186,6 +381,97 @@ export type Database = {
             columns: ["teacher_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      device_registry: {
+        Row: {
+          app_version: string | null
+          created_at: string
+          deleted_at: string | null
+          device_id: string
+          fcm_token: string | null
+          id: string
+          last_seen: string
+          platform: string | null
+          sync_version: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          app_version?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id: string
+          fcm_token?: string | null
+          id?: string
+          last_seen?: string
+          platform?: string | null
+          sync_version?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          app_version?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id?: string
+          fcm_token?: string | null
+          id?: string
+          last_seen?: string
+          platform?: string | null
+          sync_version?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_registry_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          key: string
+          school_id: string
+          sync_version: number
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          key: string
+          school_id: string
+          sync_version?: number
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          key?: string
+          school_id?: string
+          sync_version?: number
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flags_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
             referencedColumns: ["id"]
           },
         ]
@@ -501,6 +787,116 @@ export type Database = {
           },
         ]
       }
+      sync_change_log: {
+        Row: {
+          entity: string
+          entity_id: string
+          recorded_at: string
+          row_data: Json
+          school_id: string
+          seq: number
+        }
+        Insert: {
+          entity: string
+          entity_id: string
+          recorded_at?: string
+          row_data: Json
+          school_id: string
+          seq?: never
+        }
+        Update: {
+          entity?: string
+          entity_id?: string
+          recorded_at?: string
+          row_data?: Json
+          school_id?: string
+          seq?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sync_change_log_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sync_op_log: {
+        Row: {
+          client_ts: string | null
+          conflict_detail: Json | null
+          created_at: string
+          deleted_at: string | null
+          device_id: string
+          entity: string
+          entity_id: string
+          id: string
+          op_id: string
+          op_type: string
+          result: string
+          school_id: string
+          server_row: Json | null
+          server_ts: string
+          sync_version: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_ts?: string | null
+          conflict_detail?: Json | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id: string
+          entity: string
+          entity_id: string
+          id?: string
+          op_id: string
+          op_type: string
+          result: string
+          school_id: string
+          server_row?: Json | null
+          server_ts?: string
+          sync_version?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_ts?: string | null
+          conflict_detail?: Json | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id?: string
+          entity?: string
+          entity_id?: string
+          id?: string
+          op_id?: string
+          op_type?: string
+          result?: string
+          school_id?: string
+          server_row?: Json | null
+          server_ts?: string
+          sync_version?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sync_op_log_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sync_op_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       terms: {
         Row: {
           academic_year_id: string
@@ -622,11 +1018,45 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      sync_calendar_operation: {
+        Args: {
+          p_base_version: number
+          p_client_ts: string
+          p_device_id: string
+          p_entity_id: string
+          p_op_id: string
+          p_op_type: string
+          p_payload: Json
+        }
+        Returns: Json
+      }
+      sync_current_cursor: { Args: never; Returns: string }
+      sync_pull_calendar: {
+        Args: { p_cursor?: number; p_limit?: number }
+        Returns: Json
+      }
     }
     Enums: {
+      approval_status: "draft" | "pending" | "approved" | "rejected"
+      calendar_category:
+        | "academic"
+        | "exam"
+        | "sports"
+        | "cultural"
+        | "admin"
+        | "holiday"
+        | "meeting"
+        | "trip"
+        | "other"
       curriculum: "zimsec" | "cambridge"
       user_role: "admin" | "head" | "teacher" | "student" | "parent" | "bursar"
+      visibility_scope:
+        | "all"
+        | "staff"
+        | "students"
+        | "parents"
+        | "admin"
+        | "custom"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -754,8 +1184,28 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      approval_status: ["draft", "pending", "approved", "rejected"],
+      calendar_category: [
+        "academic",
+        "exam",
+        "sports",
+        "cultural",
+        "admin",
+        "holiday",
+        "meeting",
+        "trip",
+        "other",
+      ],
       curriculum: ["zimsec", "cambridge"],
       user_role: ["admin", "head", "teacher", "student", "parent", "bursar"],
+      visibility_scope: [
+        "all",
+        "staff",
+        "students",
+        "parents",
+        "admin",
+        "custom",
+      ],
     },
   },
 } as const
