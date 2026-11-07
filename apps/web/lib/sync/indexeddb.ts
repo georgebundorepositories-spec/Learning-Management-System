@@ -97,6 +97,17 @@ export class BrowserSyncStore implements SyncPort {
       request(tx.objectStore("queue").getAll() as IDBRequest<QueuedOp[]>));
   }
 
+  async getDeviceId(): Promise<string> {
+    return this.transact(["meta"], "readwrite", async tx => {
+      const meta = tx.objectStore("meta");
+      const entry = await request(meta.get("device_id") as IDBRequest<{key:string;value:string}|undefined>);
+      if (entry?.value) return entry.value;
+      const value = crypto.randomUUID();
+      await request(meta.put({ key: "device_id", value }));
+      return value;
+    });
+  }
+
   async getCursor(): Promise<SyncCursor> {
     return this.transact(["meta"], "readonly", async tx => {
       const item = await request(tx.objectStore("meta").get("cursor") as IDBRequest<{key:string;value:string}|undefined>);
