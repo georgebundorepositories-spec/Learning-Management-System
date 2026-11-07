@@ -62,9 +62,10 @@ export async function runSync(port: SyncPort, transport: SyncTransport, maxOps =
 }> {
   let pushed = 0, conflicted = 0, rejected = 0, pulled = 0;
   // One in-flight op at a time preserves local order and makes same-entity CAS rebasing possible.
-  const operations = await port.getQueued(Math.min(100, maxOps));
-  for (const op of operations) {
-    if (op.status !== "queued") continue;
+  for (let i = 0; i < Math.min(100, maxOps); i++) {
+    // Reload after each ack: it may rebase the next same-entity operation's base_version.
+    const [op] = await port.getQueued(1);
+    if (!op) break;
     validateOp(op);
     const result = await transport.push(op);
     // Commit acknowledgement before sending another op. A lost response is replay-safe by op_id.
