@@ -1,0 +1,42 @@
+name: Refresh npm lockfile
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'package.json'
+      - 'apps/web/package.json'
+      - 'packages/**/package.json'
+      - '.github/workflows/npm-lockfile.yml'
+  workflow_dispatch:
+
+# Only the repository's own main branch is allowed to commit generated metadata.
+permissions:
+  contents: write
+
+concurrency:
+  group: npm-lockfile-main
+  cancel-in-progress: false
+
+jobs:
+  lockfile:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate lockfile without executing package install scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit deterministic lockfile
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add package-lock.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "P0-T10: lock npm dependencies for reproducible CI"
+          git pull --rebase origin main
+          git push origin HEAD:main
