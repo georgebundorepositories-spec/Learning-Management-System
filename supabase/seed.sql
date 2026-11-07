@@ -1,0 +1,3 @@
+-- P0: Production seed deliberately contains no real or synthetic student records.
+-- Transactional, synthetic school and role fixtures live in supabase/tests/rls/.
+-- Actual schools are provisioned via the privileged scripts/create-admin.mjs.
