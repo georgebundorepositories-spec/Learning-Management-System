@@ -12,9 +12,17 @@ shadow_port = 54320
 
 [auth]
 enabled = true
+# All accounts must be provisioned via the trusted administration process.
+enable_signup = false
 site_url = "http://localhost:3000"
 additional_redirect_urls = ["http://localhost:3000/auth/callback"]
 
 [studio]
 enabled = true
 port = 54323
+
+# Phone+password authentication for invited, admin-created users only.
+# SMS delivery and OTP verification must be configured before enabling public OTP flows.
+[auth.sms]
+enable_signup = true
+enable_confirmations = false
