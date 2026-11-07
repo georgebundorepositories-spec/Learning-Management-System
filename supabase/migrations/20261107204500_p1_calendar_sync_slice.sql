@@ -411,3 +411,12 @@ end;
 $$;
 revoke all on function public.sync_pull_calendar(bigint,integer) from public,anon,authenticated;
 grant execute on function public.sync_pull_calendar(bigint,integer) to authenticated;
+
+-- Informational head watermark. Never advance a client's durable pull cursor
+-- from the push response: only an acknowledged pull page may advance it.
+create function public.sync_current_cursor()
+returns text language sql stable security invoker set search_path='' as $$
+  select coalesce(max(seq),0)::text from public.sync_change_log;
+$$;
+revoke all on function public.sync_current_cursor() from public,anon,authenticated;
+grant execute on function public.sync_current_cursor() to authenticated;
