@@ -51,7 +51,7 @@ insert into public.classes (id,school_id,name,teacher_id) values
  ('cccccccc-cccc-4ccc-8ccc-ccccccccccc3','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','Test B1',null);
 insert into public.subjects (id,school_id,name) values
  ('dddddddd-dddd-4ddd-8ddd-ddddddddddd1','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','Mathematics'),
- ('dddddddd-dddd-4ddd-8ddd-ddddddddddd2','bbbbbbbb-bbbb-4bbb-8bbb-ddddddddddd2','Mathematics');
+ ('dddddddd-dddd-4ddd-8ddd-ddddddddddd2','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','Mathematics');
 insert into public.academic_years (id,school_id,name) values
  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','2030'),
  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee2','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','2030');
@@ -66,8 +66,8 @@ select plan(23);
 
 set local role anon;
 select set_config('request.jwt.claim.sub','','true');
-select is((select count(*) from public.schools), 0::bigint, 'Anonymous users cannot list schools');
-select is((select count(*) from public.users), 0::bigint, 'Anonymous users cannot list people');
+select throws_ok('select count(*) from public.schools', '42501', 'permission denied for table schools', 'Anonymous users cannot list schools');
+select throws_ok('select count(*) from public.users', '42501', 'permission denied for table users', 'Anonymous users cannot list people');
 reset role;
 
 set local role authenticated;
