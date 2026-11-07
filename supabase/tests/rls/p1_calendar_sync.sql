@@ -73,9 +73,10 @@ select is(
    '{}'::jsonb,2,now())->>'result'),
  'applied','Offline deletion produces tombstone'
 );
-select isnt((select deleted_at::text from public.calendar_events
- where id='eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1'::uuid),
- null::text,'Deleted event retains server tombstone');
+select isnt((select row_data->>'deleted_at' from public.sync_change_log
+ where entity_id='eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1'::uuid
+ order by seq desc limit 1),
+ null::text,'Deleted event is retained as a pull-visible tombstone');
 select is((select count(*) from public.sync_change_log),3::bigint,
  'Insert, update and delete produce three ordered entries');
 
