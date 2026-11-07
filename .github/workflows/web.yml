@@ -1,9 +1,9 @@
 name: Web authentication foundation
 on:
   push:
-    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', '.github/workflows/web.yml']
+    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
   pull_request:
-    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', '.github/workflows/web.yml']
+    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
 
 jobs:
   web:
@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install pinned dependencies
-        run: npm install --ignore-scripts
+        run: npm ci --ignore-scripts
       - name: Type-check web app
         run: npm run lint --workspace=@zimschool/web
       - name: Run login validation tests
