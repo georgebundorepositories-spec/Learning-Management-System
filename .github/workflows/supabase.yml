@@ -21,6 +21,24 @@ jobs:
           version: latest
       - name: Clear stale local containers
         run: supabase stop --no-backup || true
+      - name: Configure local-only phone provider for CI tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("supabase/config.toml")
+          config = p.read_text()
+          assert "[auth.sms]" in config
+          config = config.replace("[auth.sms]", "[auth.sms]\nenable_signup = true", 1)
+          config += """
+          [auth.sms.twilio]
+          enabled = true
+          account_sid = "AC00000000000000000000000000000000"
+          message_service_sid = "MG00000000000000000000000000000000"
+          auth_token = "env(SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN)"
+          """
+          p.write_text(config)
+          PY
+          echo 'SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN=CI-local-password-only-no-real-SMS' >> "$GITHUB_ENV"
       - name: Start local Supabase
         run: supabase start
       - name: Reapply migrations cleanly
