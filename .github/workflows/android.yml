@@ -33,6 +33,11 @@ jobs:
       - name: Build debug APK
         working-directory: apps/android
         run: gradle :app:assembleDebug --no-daemon
+      - name: Check preliminary debug APK size (not release certification)
+        run: |
+          bytes=$(stat -c%s apps/android/app/build/outputs/apk/debug/app-debug.apk)
+          echo "Debug APK bytes: $bytes"
+          test "$bytes" -le 26214400
       - uses: actions/upload-artifact@v4
         with:
           name: zimschool-phase0-debug-apk
@@ -42,6 +47,10 @@ jobs:
   offline-auth-emulator:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [26, 29]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -59,10 +68,20 @@ jobs:
       - name: Android emulator Keystore and offline PIN tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: ${{ matrix.api-level }}
           arch: x86_64
           target: google_apis
           profile: pixel_2
           disable-animations: true
           working-directory: apps/android
           script: gradle :app:connectedDebugAndroidTest --no-daemon
+
+      - name: Preserve device test results for debugging
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline-pin-tests-api-${{ matrix.api-level }}
+          path: |
+            apps/android/app/build/reports/androidTests/connected/
+            apps/android/app/build/outputs/androidTest-results/connected/
+          if-no-files-found: warn
