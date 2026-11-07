@@ -1,7 +1,7 @@
 name: Supabase database checks
 on:
   push:
-    paths: ['supabase/**', '.github/workflows/supabase.yml']
+    paths: ['supabase/**', 'scripts/test-auth-smoke.mjs', '.github/workflows/supabase.yml']
   pull_request:
     paths: ['supabase/**', '.github/workflows/supabase.yml']
 
@@ -27,6 +27,18 @@ jobs:
         run: supabase db reset
       - name: Run pgTAP database tests
         run: supabase test db
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked test dependencies
+        run: npm ci --ignore-scripts
+      - name: Auth API and tenant-isolation smoke test
+        run: |
+          eval "$(supabase status -o env)"
+          SUPABASE_URL="$API_URL" \
+          SUPABASE_SECRET_KEY="${SECRET_KEY:-$SERVICE_ROLE_KEY}" \
+          SUPABASE_PUBLISHABLE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}" \
+          node scripts/test-auth-smoke.mjs
       - name: Stop local Supabase
         if: always()
         run: supabase stop --no-backup
