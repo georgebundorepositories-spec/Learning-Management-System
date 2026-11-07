@@ -1,35 +1,62 @@
 # ZimSchool LMS
 
-Offline-first learning management system for Zimbabwean schools, based on **MASTER PROMPT v2.0 — ZimSchool LMS**.
+Offline-first school management and learning platform for Zimbabwean schools, governed by **MASTER PROMPT v2.0 — ZimSchool LMS**.
 
-## Project targets
-- Android (Kotlin/Jetpack Compose; Room + durable sync queue) first, web PWA (Next.js + Dexie) second, USSD/SMS fallback.
-- Supabase Postgres/Auth/Storage/Edge Functions with school-scoped row-level security.
-- English, Shona and Ndebele localisation.
-- Reliable offline-first operations, including conflict handling and idempotent sync.
+## Current build status — Phase 0 (Foundations)
+- Supabase project: [ZimSchool LMS](https://supabase.com/dashboard/project/mezbtcdkmvtkjxdmmhbw) in **LMS Omni** organisation.
+- Applied foundation migrations: shared primitives, identity model and tenant relationship hardening.
+- 11 school/identity tables have RLS policies and version triggers.
+- Next.js web app: phone/email login, invite-only registration, protected dashboard, sign-out, three-language UI foundation.
+- Kotlin/Compose Android app: online phone/email login and Keystore-encrypted offline PIN; pending on-device verification.
+- GitHub Actions: [web checks](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/web.yml), [database/RLS](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/supabase.yml), [Android debug APK](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/android.yml).
+- The Phase 0 **gate is not complete** until real end-to-end sign-in and on-device verification are demonstrated. Later phases are not implemented.
 
-## Build order
-Follow Part P of the specification; **do not implement feature phases before their phase gates pass**.
+## Local web quickstart
+Prerequisites: Node.js 22 and npm 10.
 
-1. **Phase 0 — Foundations:** repository toolchain, CI scaffold, database migrations, identity/RLS foundation, login prototypes and tests.
-2. **Phase 1 — Sync:** persistent offline queues, secure push/pull, reconnect and two-device convergence tests.
-3. Phase 2 — Calendar and sports.
-4. Phase 3 — Staff, student and parent portals.
-5. Phase 4 — Payments.
-6. Phase 5 — Messaging.
-7. Phase 6 — Content and reports.
-8. Phase 7 — Administration, localisation, accessibility and performance.
-9. Phase 8 — Security hardening and documentation.
+```bash
+npm ci
+# Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY to apps/web/.env.local
+npm run dev --workspace=@zimschool/web
+```
 
-## Development guardrails
-- Never commit credentials, service-role keys or real personal information.
-- Every new exposed table requires RLS and role-isolation tests.
-- Payment callbacks must be authenticated and idempotent; never trust client-reported payment success.
-- A client must never select an arbitrary SQL table or school scope for sync operations.
-- Never consider a phase complete without passing its acceptance tests.
+Visit http://localhost:3000/login and sign in with an administrator-provisioned account.
 
-## Status
-**Phase 0 initialized.** No application builds, Supabase migrations or integration tests have passed yet.
+## Local database testing
+Prerequisites: Supabase CLI and Docker.
 
-## Primary specification
-The controlling product requirements are in the user-supplied document `MASTER PROMPT v2.0 — ZimSchool LMS.txt`.
+```bash
+supabase start
+supabase db reset
+supabase test db
+```
+
+No public registration is enabled. Use the [ops runbook](docs/ops-runbook.md) for first-school setup.
+
+## Android development
+Set `ZIMLMS_SUPABASE_URL` and `ZIMLMS_SUPABASE_PUBLISHABLE_KEY` in your local environment. From `apps/android` run:
+
+```bash
+gradle :app:testDebugUnitTest :app:assembleDebug
+```
+
+GitHub Actions also publishes the compiled debug APK under the Android workflow artifacts.
+
+## Build phases
+0. Foundations and secure login — **in progress**.
+1. Offline sync and convergence — not started, must pass 72-hour two-device test.
+2. Calendar and sports.
+3. Teacher, student and parent portals.
+4. Payments, USSD and receipts.
+5. Messaging and alerts.
+6. Content and reports.
+7. Administration, localisation, performance and accessibility.
+8. Hardening, acceptance tests and documentation.
+
+See [current Phase 0 status](docs/phase0-status.md), [architecture](docs/architecture.md), [security baseline](docs/security.md), and [operations](docs/ops-runbook.md).
+
+## Security
+Do not commit secret keys, administrator passwords, student records or personal data. Use the public publishable key only in client apps. Each newly exposed table requires school-scoped RLS and negative access tests. Offline state never proves cloud authorisation.
+
+## Licence
+The specification calls for AGPL-3.0 with a separately drafted commercial exception for payments/messaging adapter interfaces. Licence wording and exceptions require review before external distribution.
