@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">ZimSchool LMS</string>
+  <string name="tagline">Your school, even without an internet connection.</string>
+  <string name="welcome">Welcome, %1$s</string>
+  <string name="role">Your role: %1$s</string>
+  <string name="offline_note">Cached information is available offline. Cloud features require a connection.</string>
+  <string name="sign_out">Sign out and remove offline access</string>
+  <string name="set_pin">Set your offline PIN</string>
+  <string name="set_pin_help">Choose 4 to 8 digits. Your PIN is protected on this device.</string>
+  <string name="offline_pin">Offline PIN</string>
+  <string name="save_pin">Save PIN and continue</string>
+  <string name="pin_save_error">Could not protect your offline PIN. Try again.</string>
+  <string name="sign_in">Sign in</string>
+  <string name="signing_in">Signing in…</string>
+  <string name="identifier">Mobile number or email address</string>
+  <string name="password">Password</string>
+  <string name="login_failure">Sign-in unsuccessful. Check your connection and details.</string>
+  <string name="offline_access">Offline access</string>
+  <string name="unlock_offline">Unlock offline</string>
+  <string name="invite_only">Registration is by school invitation only.</string>
+</resources>

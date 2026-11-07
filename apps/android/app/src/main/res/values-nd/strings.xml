@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">ZimSchool LMS</string>
+  <string name="tagline">Isikolo sakho, lanxa kungela inthanethi.</string>
+  <string name="welcome">Siyakwamukela, %1$s</string>
+  <string name="role">Umsebenzi wakho: %1$s</string>
+  <string name="offline_note">Ulwazi olugciniweyo luyatholakala ngaphandle kwe-inthanethi. Eminye imisebenzi idinga inthanethi.</string>
+  <string name="sign_out">Phuma njalo ususe ukufinyelela ngaphandle kwe-inthanethi</string>
+  <string name="set_pin">Hlela i-PIN yakho</string>
+  <string name="set_pin_help">Khetha izinombolo ezi-4 kusiya kwezi-8. I-PIN yakho ivikelwe kule idivayisi.</string>
+  <string name="offline_pin">I-PIN yokungena ungekho ku-inthanethi</string>
+  <string name="save_pin">Gcina i-PIN uqhubeke</string>
+  <string name="pin_save_error">I-PIN ayigcinwanga. Zama futhi.</string>
+  <string name="sign_in">Ngena</string>
+  <string name="signing_in">Siyakungenisa…</string>
+  <string name="identifier">Inombolo yocingo kumbe i-imeyili</string>
+  <string name="password">Iphasiwedi</string>
+  <string name="login_failure">Ukungena akuphumelelanga. Hlola inthanethi lemininingwane yakho.</string>
+  <string name="offline_access">Ukungena ungela inthanethi</string>
+  <string name="unlock_offline">Ngena ungela inthanethi</string>
+  <string name="invite_only">Ukubhalisa kwenziwa ngesimemo esivela esikoleni kuphela.</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">ZimSchool LMS</string>
+  <string name="tagline">Chikoro chako, kunyange pasina Indaneti.</string>
+  <string name="welcome">Titambire, %1$s</string>
+  <string name="role">Basa rako: %1$s</string>
+  <string name="offline_note">Mashoko akachengetwa anowanikwa pasina Indaneti. Mamwe mabasa anoda Indaneti.</string>
+  <string name="sign_out">Buda uye bvisa mukana wekupinda pasina Indaneti</string>
+  <string name="set_pin">Gadzira PIN yako</string>
+  <string name="set_pin_help">Sarudza manhamba 4 kusvika 8. PIN yako inochengetedzwa pafoni iyi.</string>
+  <string name="offline_pin">PIN yekupinda pasina Indaneti</string>
+  <string name="save_pin">Chengeta PIN uenderere mberi</string>
+  <string name="pin_save_error">PIN haina kuchengetedzwa. Edza zvakare.</string>
+  <string name="sign_in">Pinda</string>
+  <string name="signing_in">Tiri kukupinzai…</string>
+  <string name="identifier">Nhamba yefoni kana email</string>
+  <string name="password">Pasiwedhi</string>
+  <string name="login_failure">Kupinda kwaramba. Ongorora Indaneti nemashoko ako.</string>
+  <string name="offline_access">Kupinda pasina Indaneti</string>
+  <string name="unlock_offline">Pinda pasina Indaneti</string>
+  <string name="invite_only">Kunyoresa kunoitwa nekukokwa nechikoro chete.</string>
+</resources>
