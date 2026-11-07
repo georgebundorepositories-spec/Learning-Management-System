@@ -18,11 +18,14 @@ data class CachedProfile(
   val schoolId: String
 )
 
-class AuthRepository(private val baseUrl: String, private val publishableKey: String) {
-  private val http = OkHttpClient.Builder()
+class AuthRepository(
+  private val baseUrl: String,
+  private val publishableKey: String,
+  private val http: OkHttpClient = OkHttpClient.Builder()
     .connectTimeout(10, TimeUnit.SECONDS)
     .readTimeout(15, TimeUnit.SECONDS)
     .build()
+) {
 
   suspend fun login(identifier: String, password: String): CachedProfile = withContext(Dispatchers.IO) {
     require(baseUrl.startsWith("https://") && publishableKey.startsWith("sb_publishable_")) {
