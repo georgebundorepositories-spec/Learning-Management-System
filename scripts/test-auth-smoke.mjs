@@ -15,9 +15,9 @@ const createdUsers = [];
 const createdSchools = [];
 
 const users = [
-  { school:"A", name:"Admin A", role:"admin", phone:"+263771000101", password:"CI-SchoolA-Admin!9292" },
-  { school:"A", name:"Teacher A", role:"teacher", phone:"+263771000102", password:"CI-SchoolA-Teacher!9292" },
-  { school:"B", name:"Admin B", role:"admin", phone:"+263771000103", password:"CI-SchoolB-Admin!9292" }
+  { school:"A", name:"Admin A", role:"admin", email:"admin-a@example.invalid", phone:"+263771000101", password:"CI-SchoolA-Admin!9292" },
+  { school:"A", name:"Teacher A", role:"teacher", email:"teacher-a@example.invalid", phone:"+263771000102", password:"CI-SchoolA-Teacher!9292" },
+  { school:"B", name:"Admin B", role:"admin", email:"admin-b@example.invalid", phone:"+263771000103", password:"CI-SchoolB-Admin!9292" }
 ];
 const ids = {};
 async function check(result, context) {
@@ -34,12 +34,12 @@ try {
 
   for (const u of users) {
     const response = await check(await admin.auth.admin.createUser({
-      phone:u.phone, password:u.password, phone_confirm:true
+      phone:u.phone, email:u.email, password:u.password, phone_confirm:true, email_confirm:true
     }), "Create test identity");
     assert.ok(response.user?.id, "Auth returns an id");
     createdUsers.push(response.user.id);
     await check(await admin.from("users").insert({
-      id:response.user.id, school_id:ids[u.school], phone:u.phone,
+      id:response.user.id, school_id:ids[u.school], phone:u.phone, email:u.email,
       full_name:u.name, role:u.role, preferred_lang:"en"
     }), "Provision role");
     u.id = response.user.id;
@@ -50,8 +50,8 @@ try {
       auth:{autoRefreshToken:false,persistSession:false}
     });
     const session = await check(await client.auth.signInWithPassword({
-      phone:u.phone,password:u.password
-    }), "Sign in via phone + password");
+      email:u.email,password:u.password
+    }), "Sign in via email + password");
     assert.equal(session.user?.id, u.id, "Correct authenticated account");
     const schoolResult = await check(await client.from("schools").select("id,name"),
       "Tenant-scoped school read");
@@ -71,7 +71,9 @@ try {
     }
     await client.auth.signOut();
   }
-  console.log("PASS: 3 real Auth logins; school isolation; self-promotion denied");
+  console.log("PASS: 3 real email Auth logins; school isolation; self-promotion denied");
+  // Phone/password is intentionally a separate test once the SMS/phone provider is enabled.
+  // Never silently substitute passing email auth for a phone-auth acceptance test.
 } finally {
   // Cleanup takes place even when assertions fail.
   for (const id of createdUsers.reverse()) {
