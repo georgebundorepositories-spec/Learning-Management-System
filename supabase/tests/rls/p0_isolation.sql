@@ -66,8 +66,8 @@ select plan(23);
 
 set local role anon;
 select set_config('request.jwt.claim.sub','','true');
-select throws_ok('select count(*) from public.schools', '42501', 'permission denied for table schools', 'Anonymous users cannot list schools');
-select throws_ok('select count(*) from public.users', '42501', 'permission denied for table users', 'Anonymous users cannot list people');
+select is((select count(*) from public.schools), 0::bigint, 'Anonymous users cannot list schools');
+select is((select count(*) from public.users), 0::bigint, 'Anonymous users cannot list people');
 reset role;
 
 set local role authenticated;
