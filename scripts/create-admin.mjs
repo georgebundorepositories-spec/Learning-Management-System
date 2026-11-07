@@ -15,9 +15,11 @@ if (!secret.startsWith("sb_secret_") && !secret.startsWith("eyJ")) {
 const schoolName = env("ZIMLMS_SCHOOL_NAME");
 const fullName = env("ZIMLMS_ADMIN_FULL_NAME");
 const phone = env("ZIMLMS_ADMIN_PHONE");
+const email = process.env.ZIMLMS_ADMIN_EMAIL?.trim() || undefined;
 const password = env("ZIMLMS_ADMIN_PASSWORD");
 const emisNumber = process.env.ZIMLMS_EMIS_NUMBER?.trim() || undefined;
 if (!/^\+2637[1-8]\d{7}$/.test(phone)) throw new Error("Admin phone must use +2637... E.164 format");
+if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Invalid admin email");
 if (password.length < 12) throw new Error("Use an administrator password of at least 12 characters");
 if (schoolName.length < 3 || fullName.length < 3) throw new Error("School and admin names are required");
 
@@ -41,13 +43,13 @@ try {
   createdSchoolId = school.id;
 
   const { data: account, error: userError } = await supabase.auth.admin.createUser({
-    phone, password, phone_confirm: true, user_metadata: { display_name: fullName }
+    phone, email, password, phone_confirm: true, email_confirm: Boolean(email), user_metadata: { display_name: fullName }
   });
   if (userError || !account.user) throw userError || new Error("Auth creation failed");
   createdAuthId = account.user.id;
 
   const { error: profileError } = await supabase.from("users").insert({
-    id: createdAuthId, school_id: createdSchoolId, phone, full_name: fullName,
+    id: createdAuthId, school_id: createdSchoolId, phone, email: email ?? null, full_name: fullName,
     role: "admin", preferred_lang: "en", is_active: true
   });
   if (profileError) throw profileError;
