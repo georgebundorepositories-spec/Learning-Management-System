@@ -1,0 +1,14 @@
+{
+  "id": "/demo",
+  "name": "ZimSchool LMS",
+  "short_name": "ZimSchool",
+  "description": "Offline-first school calendar and Zimbabwean school management",
+  "start_url": "/demo",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#0B6E4F",
+  "background_color": "#F5F7F5",
+  "icons": [
+    {"src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
+  ]
+}

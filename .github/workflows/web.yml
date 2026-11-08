@@ -25,3 +25,28 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_CI_only
         run: npm run build --workspace=@zimschool/web
+
+      - name: Smoke public demo routes and PWA assets
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_CI_only
+        run: |
+          set -euo pipefail
+          npm run start --workspace=@zimschool/web -- -p 3000 > /tmp/zimschool-next.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 35); do
+            if curl --silent --fail http://localhost:3000/demo > /tmp/zimschool-demo.html; then
+              break
+            fi
+            sleep 1
+          done
+          test -s /tmp/zimschool-demo.html || { cat /tmp/zimschool-next.log; exit 1; }
+          grep -q 'Mkoba Learning Primary' /tmp/zimschool-demo.html
+          grep -q 'Gweru Learning Secondary' /tmp/zimschool-demo.html
+          grep -q 'fictional demonstration' /tmp/zimschool-demo.html
+          curl --fail --silent --show-error http://localhost:3000/manifest.webmanifest | grep -q 'ZimSchool'
+          curl --fail --silent --show-error http://localhost:3000/sw.js | grep -q 'zimschool-shell-v1'
+          curl --fail --silent --show-error http://localhost:3000/calendar > /tmp/zimschool-calendar.html
+          grep -q 'School events' /tmp/zimschool-calendar.html
+          echo 'PASS: demo, calendar and PWA shell routes are served'
