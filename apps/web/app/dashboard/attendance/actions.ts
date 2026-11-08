@@ -24,7 +24,7 @@ export async function markAttendance(formData: FormData) {
    const {data:assignment}=await supabase.from("class_subject_teacher").select("id").eq("class_id",classId).eq("teacher_id",user.id).limit(1).maybeSingle();
    if(!assignment) throw new Error("Teacher not assigned to this class");
  }
- const {data:existing}=await supabase.from("attendance").select("id").eq("school_id",profile.school_id).eq("student_user_id",studentId).eq("date",date).is("deleted_at",null).maybeSingle();
+ const {data:existing}=await supabase.from("attendance").select("id").eq("school_id",profile.school_id).eq("student_user_id",studentId).eq("class_id",classId).eq("date",date).is("deleted_at",null).maybeSingle();
  const payload={school_id:profile.school_id,class_id:classId,student_user_id:studentId,date,status,marked_by:user.id};
  const result=existing ? await supabase.from("attendance").update(payload).eq("id",existing.id).eq("school_id",profile.school_id) : await supabase.from("attendance").insert(payload);
  if(result.error) throw new Error("Unable to save attendance: "+result.error.message);
