@@ -179,24 +179,28 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           }
         }
         HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
-        Text("WORKSPACE",modifier=Modifier.padding(start=24.dp,top=22.dp,bottom=9.dp),
-          style=MaterialTheme.typography.labelSmall,
-          color=MaterialTheme.colorScheme.onSurfaceVariant)
-        tabs.forEach { tab ->
-          NavigationDrawerItem(
-            label={ Text(tab.label,style=MaterialTheme.typography.labelLarge) },
-            selected=tab==selected,
-            onClick={
-              navigate(tab)
-              scope.launch { drawer.close() }
-            },
-            icon={ WorkspaceIcon(tab,color=if(tab==selected) MaterialTheme.colorScheme.primary
-              else MaterialTheme.colorScheme.onSurfaceVariant) },
-            modifier=Modifier.padding(horizontal=12.dp,vertical=2.dp),
-            shape=RoundedCornerShape(14.dp)
-          )
+        // Keep the account controls pinned at the bottom on small phones.
+        // The module list alone scrolls; otherwise nine administrator modules
+        // push Sign out below the visible screen on Android 8 handsets.
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+          Text("WORKSPACE",modifier=Modifier.padding(start=24.dp,top=22.dp,bottom=9.dp),
+            style=MaterialTheme.typography.labelSmall,
+            color=MaterialTheme.colorScheme.onSurfaceVariant)
+          tabs.forEach { tab ->
+            NavigationDrawerItem(
+              label={ Text(tab.label,style=MaterialTheme.typography.labelLarge) },
+              selected=tab==selected,
+              onClick={
+                navigate(tab)
+                scope.launch { drawer.close() }
+              },
+              icon={ WorkspaceIcon(tab,color=if(tab==selected) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onSurfaceVariant) },
+              modifier=Modifier.padding(horizontal=12.dp,vertical=2.dp),
+              shape=RoundedCornerShape(14.dp)
+            )
+          }
         }
-        Spacer(Modifier.weight(1f))
         HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
         Text(profile.fullName,modifier=Modifier.padding(start=22.dp,top=16.dp),
           maxLines=1,overflow=TextOverflow.Ellipsis,
