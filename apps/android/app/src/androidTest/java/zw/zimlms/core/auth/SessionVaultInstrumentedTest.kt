@@ -64,18 +64,26 @@ class SessionVaultInstrumentedTest {
   @Test fun signOutRevokesOnlyCurrentRemoteSessionAndClearsTokens() = runBlocking {
     vault.save(session())
     val calls=AtomicInteger(0)
+    var sentPath: String? = null
+    var sentQuery: String? = null
+    var sentAuthorization: String? = null
     val http=OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
       val req=chain.request()
-      assertEquals("/auth/v1/logout",req.url.encodedPath)
-      assertEquals("scope=local",req.url.encodedQuery)
-      assertEquals("Bearer sample-jwt-not-real",req.header("Authorization"))
+      sentPath = req.url.encodedPath
+      sentQuery = req.url.encodedQuery
+      sentAuthorization = req.header("Authorization")
       calls.incrementAndGet()
       Response.Builder().request(req).protocol(Protocol.HTTP_1_1)
-        .code(204).message("No Content").build()
+        .code(200).message("OK")
+        .body("{}".toResponseBody("application/json".toMediaType())).build()
     }).build()
     val broker=SessionBroker(context,"https://test.invalid","sb_publishable_ci",http)
-    assertTrue(broker.signOut())
-    assertEquals(1,calls.get())
+    val serverRevoked = broker.signOut()
+    assertEquals("HTTP logout must be called exactly once", 1, calls.get())
+    assertEquals("/auth/v1/logout", sentPath)
+    assertEquals("scope=local", sentQuery)
+    assertEquals("Bearer sample-jwt-not-real", sentAuthorization)
+    assertTrue("HTTP 200 should report local-scope revocation", serverRevoked)
     assertNull(SessionVault(context).load())
   }
 
