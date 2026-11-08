@@ -25,3 +25,21 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_CI_only
         run: npm run build --workspace=@zimschool/web
+
+      - name: Smoke fictional demo route in a real Next.js server
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_CI_only
+        run: |
+          set -euo pipefail
+          npm run start --workspace=@zimschool/web -- -p 3000 >/tmp/zimschool-web.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 35); do
+            if curl --fail --silent http://localhost:3000/demo > /tmp/demo.html; then break; fi
+            sleep 1
+          done
+          grep -q 'Mkoba Learning Primary' /tmp/demo.html
+          grep -q 'Gweru Learning Secondary' /tmp/demo.html
+          grep -q 'fictional demonstration' /tmp/demo.html
+          echo 'PASS: fictional school preview served'
