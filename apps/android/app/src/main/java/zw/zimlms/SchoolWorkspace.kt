@@ -1,33 +1,70 @@
 package zw.zimlms
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
 import zw.zimlms.learning.StarterLesson
@@ -37,391 +74,792 @@ import zw.zimlms.portals.SchoolDirectory
 import zw.zimlms.portals.SchoolDirectoryRepository
 import zw.zimlms.portals.WorkspaceNavigation
 import zw.zimlms.portals.WorkspaceTab
+import zw.zimlms.ui.AppPanel
+import zw.zimlms.ui.BrandMark
+import zw.zimlms.ui.Eyebrow
+import zw.zimlms.ui.MiniStat
+import zw.zimlms.ui.SectionTitle
+import zw.zimlms.ui.StateNotice
+import zw.zimlms.ui.WorkspaceIcon
+import zw.zimlms.ui.ZimColors
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
- * First functional role-aware app shell.
- *
- * The administrator sees authorised school directory records from Supabase,
- * while staff, parents and learners see ONLY their own RLS-scoped information.
- * Learning lessons are original, bundled and fully accessible offline.
- * An admin viewing parent/learner directories is NOT impersonating those users.
+ * Tablet-friendly app shell: one scroll container per screen, predictable
+ * bottom destinations, and a full navigation drawer for secondary modules.
+ * All school directory requests are server-JWT + row-level-security scoped.
  */
 @Composable
-fun SchoolWorkspace(profile: CachedProfile) {
+fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
   val context = LocalContext.current.applicationContext
+  val scope = rememberCoroutineScope()
+  val drawer = rememberDrawerState(DrawerValue.Closed)
   val tabs = remember(profile.role) { WorkspaceNavigation.tabs(profile.role) }
-  var selected by remember(profile.userId, profile.role) { mutableStateOf(WorkspaceTab.HOME) }
-  var reloadId by remember(profile.userId) { mutableIntStateOf(0) }
-  var directory by remember(profile.userId, profile.schoolId) { mutableStateOf<SchoolDirectory?>(null) }
+  val mainTabs = remember(profile.role) {
+    when (profile.role) {
+      "admin", "head" -> listOf(WorkspaceTab.HOME, WorkspaceTab.LEARNERS,
+        WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
+      "teacher" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,
+        WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
+      "parent" -> listOf(WorkspaceTab.HOME, WorkspaceTab.CHILDREN,WorkspaceTab.LEARNING)
+      "student" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,WorkspaceTab.LEARNING)
+      else -> listOf(WorkspaceTab.HOME, WorkspaceTab.LEARNING)
+    }.filter { it in tabs }
+  }
+  var selectedKey by rememberSaveable(profile.userId,profile.role) {
+    mutableStateOf(WorkspaceTab.HOME.name)
+  }
+  val selected = tabs.find { it.name == selectedKey } ?: WorkspaceTab.HOME
+  var retryNumber by remember(profile.userId) { mutableIntStateOf(0) }
+  var directory by remember(profile.userId,profile.schoolId) {
+    mutableStateOf<SchoolDirectory?>(null)
+  }
   var loading by remember(profile.userId) { mutableStateOf(false) }
-  var directoryNotice by remember(profile.userId) {
-    mutableStateOf("School records require a connection. Bundled learning materials work offline.")
+  var status by remember(profile.userId) {
+    mutableStateOf("Connecting to your school…")
   }
 
-  LaunchedEffect(profile.userId, profile.schoolId, reloadId) {
+  LaunchedEffect(profile.userId,profile.schoolId,retryNumber) {
     loading = true
     val result = runCatching {
-      val broker = SessionBroker(context, BuildConfig.SUPABASE_URL,
-        BuildConfig.SUPABASE_PUBLISHABLE_KEY)
-      val repository = SchoolDirectoryRepository(
-        BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY, broker)
-      repository.load(profile)
+      withContext(Dispatchers.IO) {
+        val broker = SessionBroker(context, BuildConfig.SUPABASE_URL,
+          BuildConfig.SUPABASE_PUBLISHABLE_KEY)
+        SchoolDirectoryRepository(BuildConfig.SUPABASE_URL,
+          BuildConfig.SUPABASE_PUBLISHABLE_KEY,broker).load(profile)
+      }
     }
     result.fold(
       onSuccess = {
         directory = it
-        directoryNotice = if (it.partial)
-          "Showing the first 500 authorised records in a large school."
-        else if (it.isDemo)
-          "Fictional demonstration data. Synthetic learner, parent and teacher accounts are locked."
-        else
-          "School information loaded securely. Personal records are not stored for offline browsing."
+        status = if (it.isDemo)
+          "Demo school • fictional records, protected by school permissions"
+        else if (it.partial)
+          "Showing the first 500 permitted records"
+        else "School records are current"
       },
       onFailure = {
-        directoryNotice = "Could not load live directories: ${it.message ?: "Network unavailable"}. " +
-          "The offline learning library remains accessible."
+        // Do not keep an old account's records on screen after an auth/network failure.
+        directory = null
+        status = "School directory unavailable; offline lessons still work"
       }
     )
     loading = false
   }
 
-  Column(verticalArrangement = Arrangement.spacedBy(14.dp),
-    modifier = Modifier.fillMaxWidth()) {
-    HorizontalDivider()
-    Text(WorkspaceNavigation.heading(profile.role),
-      style = MaterialTheme.typography.headlineSmall)
-    Text(directory?.schoolName ?: "Your verified school account",
-      style = MaterialTheme.typography.titleMedium,
-      color = MaterialTheme.colorScheme.primary)
-    if (directory?.isDemo == true) {
-      Text("DEMO SCHOOL • Fictional learner, staff and guardian records",
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.tertiary)
-    }
-    Text(directoryNotice, style = MaterialTheme.typography.bodySmall)
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp),
-      modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState())) {
-      tabs.forEach { tab ->
-        FilterChip(
-          selected = selected == tab,
-          onClick = { selected = tab },
-          label = { Text(tab.label) }
-        )
-      }
-    }
+  fun navigate(target: WorkspaceTab) {
+    if (target in tabs) selectedKey = target.name
+  }
+  BackHandler(enabled=selected!=WorkspaceTab.HOME || drawer.isOpen) {
+    if (drawer.isOpen) scope.launch { drawer.close() }
+    else selectedKey=WorkspaceTab.HOME.name
+  }
 
-    when (selected) {
-      WorkspaceTab.HOME -> {
-        PortalHome(profile, directory,
-          onSelect = { target -> if (target in tabs) selected = target })
-        OutlinedButton(enabled = !loading, onClick = { reloadId++ }) {
-          Text(if (loading) "Refreshing…" else "Refresh school records")
+  ModalNavigationDrawer(
+    drawerState=drawer,
+    drawerContent={
+      ModalDrawerSheet(
+        drawerContainerColor=MaterialTheme.colorScheme.surface,
+        modifier=Modifier.width(300.dp)
+      ) {
+        Row(Modifier.fillMaxWidth().padding(horizontal=22.dp,vertical=24.dp),
+          verticalAlignment=Alignment.Center,
+          horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+          BrandMark()
+          Column {
+            Text("ZimSchool",style=MaterialTheme.typography.titleLarge)
+            Text("LEARNING MANAGEMENT",style=MaterialTheme.typography.labelSmall,
+              color=MaterialTheme.colorScheme.onSurfaceVariant)
+          }
+        }
+        HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
+        Text("WORKSPACE",modifier=Modifier.padding(start=24.dp,top=22.dp,bottom=9.dp),
+          style=MaterialTheme.typography.labelSmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
+        tabs.forEach { tab ->
+          NavigationDrawerItem(
+            label={ Text(tab.label,style=MaterialTheme.typography.labelLarge) },
+            selected=tab==selected,
+            onClick={
+              navigate(tab)
+              scope.launch { drawer.close() }
+            },
+            icon={ WorkspaceIcon(tab,color=if(tab==selected) MaterialTheme.colorScheme.primary
+              else MaterialTheme.colorScheme.onSurfaceVariant) },
+            modifier=Modifier.padding(horizontal=12.dp,vertical=2.dp),
+            shape=RoundedCornerShape(14.dp)
+          )
+        }
+        Spacer(Modifier.weight(1f))
+        HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
+        Text(profile.fullName,modifier=Modifier.padding(start=22.dp,top=16.dp),
+          maxLines=1,overflow=TextOverflow.Ellipsis,
+          style=MaterialTheme.typography.titleMedium)
+        Text(WorkspaceNavigation.heading(profile.role),
+          modifier=Modifier.padding(start=22.dp,top=3.dp),
+          style=MaterialTheme.typography.bodySmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
+        TextButton(onClick={
+          scope.launch { drawer.close() }
+          onSignOut()
+        },modifier=Modifier.padding(start=12.dp,bottom=14.dp)) {
+          Text("Sign out of this device")
         }
       }
-      WorkspaceTab.LEARNERS ->
-        AdminPeoplePortal("Learner register", "student", directory)
-      WorkspaceTab.TEACHERS ->
-        AdminPeoplePortal("Teacher register", "teacher", directory)
-      WorkspaceTab.PARENTS ->
-        AdminPeoplePortal("Parent and guardian register", "parent", directory)
-      WorkspaceTab.CLASSES ->
-        ClassCatalog(directory)
-      WorkspaceTab.MY_CLASSES ->
-        MyClasses(profile, directory)
-      WorkspaceTab.CHILDREN ->
-        ParentLearners(directory)
-      WorkspaceTab.LEARNING ->
-        OfflineLearningLibrary(directory)
-      WorkspaceTab.CALENDAR -> {
-        if (profile.role in setOf("admin", "head", "teacher")) {
-          SchoolCalendarPanel(profile)
-        } else {
-          Text("The editable calendar is only available to authorised staff.")
+    }
+  ) {
+    Scaffold(
+      containerColor=MaterialTheme.colorScheme.background,
+      topBar={
+        Surface(
+          color=MaterialTheme.colorScheme.surface,
+          shadowElevation=2.dp
+        ) {
+          Row(
+            modifier=Modifier.fillMaxWidth().height(68.dp).padding(horizontal=12.dp),
+            verticalAlignment=Alignment.Center,
+            horizontalArrangement=Arrangement.spacedBy(9.dp)
+          ) {
+            IconButton(onClick={scope.launch { drawer.open() }}) {
+              Column(verticalArrangement=Arrangement.spacedBy(4.dp)) {
+                repeat(3) {
+                  Spacer(Modifier.width(21.dp).height(2.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(MaterialTheme.colorScheme.onSurface))
+                }
+              }
+            }
+            BrandMark(Modifier.size(36.dp))
+            Column(Modifier.weight(1f)) {
+              Text("ZimSchool",style=MaterialTheme.typography.titleMedium)
+              Text(if(directory?.isDemo==true) "DEMONSTRATION SCHOOL"
+              else "YOUR SCHOOL WORKSPACE",
+                style=MaterialTheme.typography.labelSmall,
+                color=MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Box(
+              modifier=Modifier.size(40.dp).clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+                .clickable { scope.launch { drawer.open() } },
+              contentAlignment=Alignment.Center
+            ) {
+              Text(profile.fullName.trim().take(1).uppercase().ifEmpty { "S" },
+                style=MaterialTheme.typography.titleMedium,
+                color=MaterialTheme.colorScheme.onPrimaryContainer)
+            }
+          }
+        }
+      },
+      bottomBar={
+        if (mainTabs.size>1) {
+          NavigationBar(
+            containerColor=MaterialTheme.colorScheme.surface,
+            tonalElevation=2.dp
+          ) {
+            mainTabs.forEach { tab ->
+              NavigationBarItem(
+                selected=selected==tab,
+                onClick={navigate(tab)},
+                icon={ WorkspaceIcon(tab,color=if(selected==tab)
+                  MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onSurfaceVariant) },
+                label={ Text(
+                  if(tab==WorkspaceTab.LEARNING) "Library"
+                  else if(tab==WorkspaceTab.MY_CLASSES) "Classes"
+                  else if(tab==WorkspaceTab.CHILDREN) "Family"
+                  else tab.label,
+                  maxLines=1,style=MaterialTheme.typography.labelSmall) },
+                alwaysShowLabel=true
+              )
+            }
+          }
         }
       }
-    }
-  }
-}
-
-@Composable
-private fun PortalHome(profile: CachedProfile, directory: SchoolDirectory?,
-  onSelect: (WorkspaceTab) -> Unit) {
-  val admin = profile.role in setOf("admin", "head")
-  Text("Your modules", style = MaterialTheme.typography.titleLarge)
-  Text(
-    if (admin)
-      "View school registers, classes, learning materials and the event calendar."
-    else when (profile.role) {
-      "teacher" -> "See your teaching assignments and offline starter lessons."
-      "student" -> "Read learning materials and check your own class."
-      "parent" -> "View linked learner classes and explore learning materials."
-      else -> "Your school information is protected by account permissions."
-    },
-    style = MaterialTheme.typography.bodyMedium
-  )
-  val options = when (profile.role) {
-    "admin", "head" -> listOf(
-      WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS, WorkspaceTab.PARENTS,
-      WorkspaceTab.CLASSES, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
-    "teacher" -> listOf(WorkspaceTab.MY_CLASSES,WorkspaceTab.LEARNING,WorkspaceTab.CALENDAR)
-    "student" -> listOf(WorkspaceTab.MY_CLASSES,WorkspaceTab.LEARNING)
-    "parent" -> listOf(WorkspaceTab.CHILDREN,WorkspaceTab.LEARNING)
-    else -> emptyList()
-  }
-  options.forEach { target ->
-    ElevatedCard(onClick = { onSelect(target) },
-      modifier = Modifier.fillMaxWidth()) {
-      Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(target.label, style = MaterialTheme.typography.titleMedium)
-        Text(
-          when (target) {
-            WorkspaceTab.LEARNERS -> "Authorised learner directory and account status"
-            WorkspaceTab.TEACHERS -> "School teachers and active/inactive profiles"
-            WorkspaceTab.PARENTS -> "Authorised guardians linked to this school"
-            WorkspaceTab.CLASSES -> "Class and subject catalogues"
-            WorkspaceTab.MY_CLASSES -> "Your assigned or enrolled class"
-            WorkspaceTab.CHILDREN -> "Linked learners and their class groups"
-            WorkspaceTab.LEARNING -> "12 complete offline starter lessons with self-check quizzes"
-            WorkspaceTab.CALENDAR -> "Staff events and offline-first calendar sync"
-            else -> "School module"
-          },
-          style = MaterialTheme.typography.bodySmall
+    ) { insets ->
+      when (selected) {
+        WorkspaceTab.HOME -> HomePage(
+          profile,directory,status,loading,
+          modifier=Modifier.padding(insets),
+          onNavigate={navigate(it)},
+          onRefresh={retryNumber++}
         )
+        WorkspaceTab.LEARNING -> LearningPage(Modifier.padding(insets))
+        WorkspaceTab.CALENDAR -> {
+          if (profile.role in setOf("admin","head","teacher")) {
+            Column(Modifier.fillMaxSize().padding(insets)
+              .verticalScroll(rememberScrollState()).padding(18.dp)) {
+              SchoolCalendarPanel(profile)
+              Spacer(Modifier.height(24.dp))
+            }
+          } else {
+            StateNotice("Staff access required",
+              "This calendar editor is available only to authorised school staff.")
+          }
+        }
+        WorkspaceTab.LEARNERS -> PeoplePage(directory,"student",
+          "Learner register","Enrolled learners",
+          Modifier.padding(insets))
+        WorkspaceTab.TEACHERS -> PeoplePage(directory,"teacher",
+          "Teacher directory","Teaching staff",
+          Modifier.padding(insets))
+        WorkspaceTab.PARENTS -> PeoplePage(directory,"parent",
+          "Parent & guardian directory","School families",
+          Modifier.padding(insets))
+        WorkspaceTab.CLASSES -> ClassPage(directory,Modifier.padding(insets))
+        WorkspaceTab.MY_CLASSES -> MyClassesPage(profile,directory,Modifier.padding(insets))
+        WorkspaceTab.CHILDREN -> FamilyPage(directory,Modifier.padding(insets))
       }
     }
   }
-  if (directory != null) {
-    HorizontalDivider()
-    Text("School overview", style = MaterialTheme.typography.titleMedium)
-    val summary = if (admin) {
-      val learners = directory.peopleByRole("student").size
-      val teachers = directory.peopleByRole("teacher").size
-      val parents = directory.peopleByRole("parent").size
-      "${directory.classes.size} classes • ${directory.subjects.size} subjects • " +
-        "$learners learners • $teachers teachers • $parents guardians"
-    } else {
-      "${directory.classes.size} school classes • ${directory.subjects.size} subjects"
-    }
-    Text(summary, style = MaterialTheme.typography.bodyMedium)
-    if (directory.isDemo) Text(
-      "These registers contain fictional demonstration identities. The content library is sample learning content, not an official syllabus.",
-      style = MaterialTheme.typography.bodySmall
-    )
-  }
 }
 
 @Composable
-private fun AdminPeoplePortal(title: String, role: String, directory: SchoolDirectory?) {
-  Text(title, style = MaterialTheme.typography.titleLarge)
-  Text("Read-only, school-scoped register. Staff account invitations and enrolment editing are not yet available from this screen.",
-    style = MaterialTheme.typography.bodySmall)
-  if (directory == null) {
-    OfflineDirectoryNotice()
-    return
-  }
-  val people = directory.peopleByRole(role)
-  Text("${people.size} records", style = MaterialTheme.typography.labelLarge)
-  if (people.isEmpty()) {
-    Text("No records are available to your account.")
-    return
-  }
-  people.forEach { person -> PersonTile(person, directory.isDemo) }
-}
-
-@Composable
-private fun PersonTile(person: PortalPerson, demo: Boolean) {
-  Card(modifier = Modifier.fillMaxWidth()) {
-    Column(modifier = Modifier.padding(14.dp),
-      verticalArrangement = Arrangement.spacedBy(3.dp)) {
-      Text(person.name, style = MaterialTheme.typography.titleSmall)
-      Text(if (person.active) "Active school profile" else "Inactive account — cannot sign in",
-        style = MaterialTheme.typography.bodySmall)
-      if (demo) Text("Fictional record", style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.tertiary)
-    }
-  }
-}
-
-@Composable
-private fun ClassCatalog(directory: SchoolDirectory?) {
-  Text("Classes and subjects", style = MaterialTheme.typography.titleLarge)
-  if (directory == null) { OfflineDirectoryNotice(); return }
-  Text("${directory.classes.size} classes", style = MaterialTheme.typography.labelMedium)
-  directory.classes.forEach { group ->
-    Card(modifier = Modifier.fillMaxWidth()) {
-      Column(modifier = Modifier.padding(14.dp)) {
-        Text(group.name, style = MaterialTheme.typography.titleMedium)
-        Text("Grade: ${group.grade}", style = MaterialTheme.typography.bodySmall)
+private fun HomePage(
+  profile: CachedProfile,
+  directory: SchoolDirectory?,
+  status: String,
+  loading: Boolean,
+  modifier: Modifier=Modifier,
+  onNavigate: (WorkspaceTab)->Unit,
+  onRefresh: ()->Unit
+) {
+  val admin=profile.role in setOf("admin","head")
+  val modules=WorkspaceNavigation.tabs(profile.role).filter { it!=WorkspaceTab.HOME }
+  val date=remember { LocalDate.now(ZoneId.of("Africa/Harare"))
+    .format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")) }
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(19.dp)
+  ) {
+    item(key="hello") {
+      Column(verticalArrangement=Arrangement.spacedBy(5.dp)) {
+        Eyebrow(date)
+        Text("Welcome back, ${profile.fullName.trim().substringBefore(' ')}",
+          style=MaterialTheme.typography.headlineMedium)
+        Text(WorkspaceNavigation.heading(profile.role),
+          style=MaterialTheme.typography.bodyMedium,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
       }
     }
-  }
-  HorizontalDivider()
-  Text("${directory.subjects.size} subjects", style = MaterialTheme.typography.titleMedium)
-  directory.subjects.forEach { subject ->
-    Card(modifier = Modifier.fillMaxWidth()) {
-      Text(subject.name, modifier = Modifier.padding(12.dp),
-        style = MaterialTheme.typography.bodyMedium)
+    item(key="hero") { HomeHero(profile,directory) }
+    item(key="online-status") {
+      StateNotice(if(loading) "Connecting to school…" else
+        if(directory!=null) "School connection ready" else "Offline mode",
+        status,if(directory!=null) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.tertiary)
     }
-  }
-}
-
-@Composable
-private fun MyClasses(profile: CachedProfile, directory: SchoolDirectory?) {
-  Text("My classes", style = MaterialTheme.typography.titleLarge)
-  if (directory == null) { OfflineDirectoryNotice(); return }
-  when (profile.role) {
-    "teacher" -> {
-      if (directory.assignments.isEmpty()) {
-        Text("No teaching assignments have been linked to your active profile.")
-      }
-      directory.assignments.distinct().forEach { assignment ->
-        Card(modifier = Modifier.fillMaxWidth()) {
-          Column(modifier = Modifier.padding(14.dp)) {
-            Text(directory.className(assignment.classId),
-              style = MaterialTheme.typography.titleMedium)
-            Text(directory.subjectName(assignment.subjectId),
-              style = MaterialTheme.typography.bodyMedium)
+    if (directory!=null) {
+      item(key="metrics") {
+        Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
+          SectionTitle("School at a glance","Authorised records in your school")
+          Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
+            MiniStat("Classes",directory.classes.size.toString(),"Academic groups",
+              Modifier.weight(1f))
+            MiniStat("Subjects",directory.subjects.size.toString(),"Available subjects",
+              Modifier.weight(1f))
+          }
+          if (admin) {
+            Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
+              MiniStat("Learners",directory.peopleByRole("student").size.toString(),
+                "Registered profiles",Modifier.weight(1f))
+              MiniStat("Teachers",directory.peopleByRole("teacher").size.toString(),
+                "Teaching profiles",Modifier.weight(1f))
+            }
           }
         }
       }
     }
-    "student" -> {
-      if (directory.linkedLearners.isEmpty()) Text("Your class has not been assigned.")
-      directory.linkedLearners.forEach {
-        Text("Enrolled class: ${directory.className(it.classId)}")
+    item(key="modules-header") {
+      SectionTitle("Explore your workspace",
+        "Choose a tool to open a full-screen module")
+    }
+    items(modules.chunked(2),key={row->row.joinToString("-"){it.name}}) { row ->
+      Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+        row.forEach { tab ->
+          DashboardModule(
+            tab=tab,
+            modifier=Modifier.weight(1f),
+            onClick={onNavigate}
+          )
+        }
+        if(row.size==1) Spacer(Modifier.weight(1f))
       }
     }
-    else -> ClassCatalog(directory)
-  }
-}
-
-@Composable
-private fun ParentLearners(directory: SchoolDirectory?) {
-  Text("My learners", style = MaterialTheme.typography.titleLarge)
-  Text("For privacy, this preview shows linked class groups but does not expose the private records of unrelated learners.",
-    style = MaterialTheme.typography.bodySmall)
-  if (directory == null) { OfflineDirectoryNotice(); return }
-  if (directory.linkedLearners.isEmpty()) {
-    Text("No learners are linked to your parent account yet.")
-  }
-  directory.linkedLearners.forEachIndexed { index, child ->
-    Card(modifier = Modifier.fillMaxWidth()) {
-      Column(modifier = Modifier.padding(14.dp)) {
-        Text("Linked learner ${index + 1}", style = MaterialTheme.typography.titleMedium)
-        Text("Class: ${directory.className(child.classId)}")
+    item(key="refresh") {
+      OutlinedButton(enabled=!loading,onClick=onRefresh,
+        modifier=Modifier.fillMaxWidth()) {
+        Text(if(loading) "Checking school connection…" else "Refresh school information")
       }
     }
-  }
-}
-
-@Composable
-private fun OfflineDirectoryNotice() {
-  Text("This directory needs a verified online session. It is never saved as unencrypted offline personal data. The learning library is available without internet.",
-    style = MaterialTheme.typography.bodyMedium)
-}
-
-@Composable
-private fun OfflineLearningLibrary(directory: SchoolDirectory?) {
-  var search by rememberSaveable { mutableStateOf("") }
-  var level by rememberSaveable { mutableStateOf("All levels") }
-  var openedId by rememberSaveable { mutableStateOf<String?>(null) }
-  val levels = remember { listOf("All levels") + StarterLessons.lessons.map { it.level }.distinct() }
-  val lesson = StarterLessons.lessons.firstOrNull { it.id == openedId }
-  Text("Learning-material library", style = MaterialTheme.typography.titleLarge)
-  Text("12 original starter lessons, examples and practice quizzes. Entirely available offline.",
-    style = MaterialTheme.typography.bodySmall)
-  Text("Sample content only — school-approved syllabus mapping and uploaded materials will follow.",
-    style = MaterialTheme.typography.labelSmall,
-    color = MaterialTheme.colorScheme.tertiary)
-
-  if (lesson != null) {
-    OutlinedButton(onClick = { openedId = null }) { Text("Back to library") }
-    LessonReader(lesson)
-    return
-  }
-
-  OutlinedTextField(
-    value = search,
-    onValueChange = { search = it.take(100) },
-    label = { Text("Search subject or topic") },
-    singleLine = true,
-    modifier = Modifier.fillMaxWidth()
-  )
-  Row(
-    modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-    horizontalArrangement = Arrangement.spacedBy(8.dp)
-  ) {
-    levels.forEach { item ->
-      FilterChip(
-        selected = level == item,
-        onClick = { level = item },
-        label = { Text(item) }
+    item(key="footer") {
+      Text(
+        "ZimSchool preview • Directories are read-only and require an online session. " +
+        "Bundled lessons are available offline. No learner data is stored in the app's directory cache.",
+        style=MaterialTheme.typography.bodySmall,
+        color=MaterialTheme.colorScheme.onSurfaceVariant
       )
     }
   }
-  val matching = StarterLessons.lessons.filter { candidate ->
-    (level == "All levels" || candidate.level == level) &&
-    (search.isBlank() || listOf(candidate.title,candidate.subject,candidate.level).any {
-      it.contains(search.trim(),ignoreCase=true)
-    })
-  }
-  Text("${matching.size} lessons", style = MaterialTheme.typography.labelMedium)
-  if (matching.isEmpty()) Text("No lessons match these filters.")
-  matching.forEach { item ->
-    ElevatedCard(onClick = { openedId = item.id },
-      modifier = Modifier.fillMaxWidth()) {
-      Column(modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        Text("${item.level} • ${item.subject}",
-          style = MaterialTheme.typography.labelMedium,
-          color = MaterialTheme.colorScheme.primary)
-        Text(item.title, style = MaterialTheme.typography.titleMedium)
-        Text(item.objective, style = MaterialTheme.typography.bodySmall)
-        Text("Read lesson and practise →",
-          style = MaterialTheme.typography.labelMedium)
+}
+
+@Composable
+private fun HomeHero(profile: CachedProfile,directory: SchoolDirectory?) {
+  Box(
+    modifier=Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp))
+      .background(Brush.linearGradient(listOf(
+        Color(0xFF063B31),Color(0xFF08745E),Color(0xFF13947B)
+      ))).padding(24.dp)
+  ) {
+    Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
+      Eyebrow("ZIMSCHOOL • SCHOOL HUB",Color(0xFFAEF5D9))
+      Text(directory?.schoolName ?: "Learning without limits",
+        color=Color.White,
+        style=MaterialTheme.typography.headlineMedium)
+      Text(
+        when(profile.role) {
+          "admin","head" -> "Your school, your people, and your learning resources in one place."
+          "teacher" -> "Your teaching assignments and learning resources, made accessible."
+          "student" -> "Keep learning and practising, even when internet access is unreliable."
+          "parent" -> "Stay connected to your learner's school and learning journey."
+          else -> "A simpler way to access your school."
+        },
+        color=Color(0xFFD5F6E9),
+        style=MaterialTheme.typography.bodyMedium
+      )
+      Surface(color=Color.White.copy(alpha=.16f),
+        shape=RoundedCornerShape(50.dp)) {
+        Text(if(directory?.isDemo==true) "DEMO • FICTIONAL RECORDS"
+        else "OFFLINE-FIRST PREVIEW",
+          modifier=Modifier.padding(horizontal=12.dp,vertical=7.dp),
+          color=Color.White,style=MaterialTheme.typography.labelSmall)
       }
     }
   }
 }
 
 @Composable
-private fun LessonReader(lesson: StarterLesson) {
-  var chosenIndex by remember(lesson.id) { mutableIntStateOf(-1) }
-  var checked by remember(lesson.id) { mutableStateOf(false) }
-  Text("${lesson.level} • ${lesson.subject}",
-    style = MaterialTheme.typography.labelMedium,
-    color = MaterialTheme.colorScheme.primary)
-  Text(lesson.title, style = MaterialTheme.typography.headlineSmall)
-  Text("Learning aim", style = MaterialTheme.typography.titleMedium)
-  Text(lesson.objective)
-  HorizontalDivider()
-  Text("Read and understand", style = MaterialTheme.typography.titleMedium)
-  lesson.explanation.forEach { Text(it, style = MaterialTheme.typography.bodyMedium) }
-  HorizontalDivider()
-  Text("Worked example", style = MaterialTheme.typography.titleMedium)
-  Text(lesson.workedExample)
-  HorizontalDivider()
-  Text("Try it yourself", style = MaterialTheme.typography.titleMedium)
-  Text(lesson.question, fontWeight = FontWeight.SemiBold)
-  lesson.choices.forEachIndexed { index, answer ->
-    FilterChip(
-      selected = chosenIndex == index,
-      onClick = { chosenIndex = index; checked = false },
-      label = { Text(answer) },
-      modifier = Modifier.fillMaxWidth()
-    )
+private fun DashboardModule(
+  tab: WorkspaceTab,modifier: Modifier=Modifier,onClick:(WorkspaceTab)->Unit
+) {
+  AppPanel(modifier=modifier.clip(RoundedCornerShape(20.dp))
+    .clickable { onClick(tab) }) {
+    Column(
+      modifier=Modifier.fillMaxWidth().height(119.dp),
+      verticalArrangement=Arrangement.SpaceBetween
+    ) {
+      Box(
+        modifier=Modifier.size(42.dp)
+          .clip(RoundedCornerShape(13.dp))
+          .background(MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment=Alignment.Center
+      ) {
+        WorkspaceIcon(tab,color=MaterialTheme.colorScheme.onPrimaryContainer)
+      }
+      Column(verticalArrangement=Arrangement.spacedBy(3.dp)) {
+        Text(tab.label,style=MaterialTheme.typography.titleSmall,
+          maxLines=1,overflow=TextOverflow.Ellipsis)
+        Text(when(tab) {
+          WorkspaceTab.LEARNERS -> "Learner register"
+          WorkspaceTab.TEACHERS -> "Staff directory"
+          WorkspaceTab.PARENTS -> "Family register"
+          WorkspaceTab.CLASSES -> "Class and subjects"
+          WorkspaceTab.MY_CLASSES -> "Your assigned groups"
+          WorkspaceTab.CHILDREN -> "Linked learners"
+          WorkspaceTab.LEARNING -> "12 lessons • offline"
+          WorkspaceTab.CALENDAR -> "School events"
+          WorkspaceTab.HOME -> "Overview"
+        },style=MaterialTheme.typography.bodySmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant,
+          maxLines=1,overflow=TextOverflow.Ellipsis)
+      }
+    }
   }
-  Button(enabled = chosenIndex >= 0, onClick = { checked = true }) {
-    Text("Check my answer")
+}
+
+@Composable
+private fun PeoplePage(
+  directory: SchoolDirectory?,
+  role: String,
+  heading: String,
+  label: String,
+  modifier: Modifier=Modifier
+) {
+  val people=remember(directory,role) { directory?.peopleByRole(role).orEmpty() }
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(12.dp)
+  ) {
+    item(key="heading") { Column(verticalArrangement=Arrangement.spacedBy(5.dp)) {
+      Eyebrow("SCHOOL DIRECTORY")
+      Text(heading,style=MaterialTheme.typography.headlineMedium)
+      Text(if(directory!=null) "${people.size} $label"
+        else "Available with a verified school connection",
+        style=MaterialTheme.typography.bodyMedium,
+        color=MaterialTheme.colorScheme.onSurfaceVariant)
+    }}
+    item(key="notice") {
+      StateNotice("Protected and read-only",
+        "This register shows only permitted school records. Enrolment and invitation management are not yet available in this version.")
+    }
+    if(directory==null) {
+      item(key="offline") { OfflineDirectory() }
+    } else if(people.isEmpty()) {
+      item(key="empty") { StateNotice("No records yet",
+        "No $label are available to your authorised account.") }
+    } else {
+      items(people,key={it.id},contentType={"person"}) { person ->
+        PersonRow(person,directory.isDemo)
+      }
+    }
   }
-  if (checked) {
-    Text(if (chosenIndex == lesson.correctIndex) "Correct answer!" else "Not quite — review the explanation.",
-      color = if (chosenIndex == lesson.correctIndex)
-        MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
-      style = MaterialTheme.typography.titleMedium)
-    Text(lesson.feedback)
-    OutlinedButton(onClick = { chosenIndex = -1; checked = false }) {
-      Text("Try again")
+}
+
+@Composable
+private fun PersonRow(person: PortalPerson, demo: Boolean) {
+  AppPanel(Modifier.fillMaxWidth()) {
+    Row(verticalAlignment=Alignment.Center,
+      horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+      Box(Modifier.size(43.dp).clip(CircleShape)
+        .background(MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment=Alignment.Center) {
+        Text(person.name.take(1),style=MaterialTheme.typography.titleMedium,
+          color=MaterialTheme.colorScheme.onPrimaryContainer)
+      }
+      Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(4.dp)) {
+        Text(person.name,style=MaterialTheme.typography.titleSmall)
+        Text(if(demo) "FICTIONAL PROFILE" else person.role.uppercase(),
+          style=MaterialTheme.typography.labelSmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
+      }
+      Surface(color=if(person.active) MaterialTheme.colorScheme.primaryContainer
+      else MaterialTheme.colorScheme.surfaceVariant,
+        shape=RoundedCornerShape(8.dp)) {
+        Text(if(person.active) "Active" else "Inactive",
+          modifier=Modifier.padding(horizontal=9.dp,vertical=5.dp),
+          style=MaterialTheme.typography.labelSmall,
+          color=if(person.active) MaterialTheme.colorScheme.onPrimaryContainer
+          else MaterialTheme.colorScheme.onSurfaceVariant)
+      }
+    }
+  }
+}
+
+@Composable
+private fun ClassPage(directory:SchoolDirectory?,modifier:Modifier=Modifier) {
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(12.dp)
+  ) {
+    item(key="head") { Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
+      Eyebrow("ACADEMIC STRUCTURE")
+      Text("Classes & subjects",style=MaterialTheme.typography.headlineMedium)
+      Text("Read-only school catalogue",style=MaterialTheme.typography.bodySmall,
+        color=MaterialTheme.colorScheme.onSurfaceVariant)
+    }}
+    if(directory==null) item(key="offline"){OfflineDirectory()}
+    else {
+      item(key="classes-title"){ SectionTitle("Classes",
+        "${directory.classes.size} academic groups")}
+      items(directory.classes,key={"class-${it.id}"},contentType={"class"}){group->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Row(verticalAlignment=Alignment.Center,
+            horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+            Box(Modifier.size(40.dp).clip(RoundedCornerShape(10.dp))
+              .background(MaterialTheme.colorScheme.primaryContainer),
+              contentAlignment=Alignment.Center) {
+              WorkspaceIcon(WorkspaceTab.CLASSES,
+                color=MaterialTheme.colorScheme.onPrimaryContainer)
+            }
+            Column {
+              Text(group.name,style=MaterialTheme.typography.titleMedium)
+              Text(group.grade,style=MaterialTheme.typography.bodySmall,
+                color=MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+          }
+        }
+      }
+      item(key="subjects-title"){ SectionTitle("Subjects",
+        "${directory.subjects.size} available subjects")}
+      items(directory.subjects,key={"subject-${it.id}"},contentType={"subject"}) {subject->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Text(subject.name,style=MaterialTheme.typography.titleSmall)
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun MyClassesPage(
+  profile:CachedProfile,directory:SchoolDirectory?,modifier:Modifier=Modifier
+) {
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(12.dp)
+  ) {
+    item(key="heading"){
+      Eyebrow("ACADEMIC LIFE")
+      Text("My classes",style=MaterialTheme.typography.headlineMedium)
+    }
+    if(directory==null) item(key="offline"){OfflineDirectory()}
+    else if(profile.role=="teacher") {
+      if(directory.assignments.isEmpty()) item(key="no-assignments"){
+        StateNotice("No teaching groups yet",
+          "Your school administrator needs to assign subjects and classes to your profile.")
+      }
+      items(directory.assignments.distinct(),key={"${it.classId}-${it.subjectId}"}) {assignment->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Column(verticalArrangement=Arrangement.spacedBy(7.dp)) {
+            Eyebrow("TEACHING GROUP")
+            Text(directory.className(assignment.classId),
+              style=MaterialTheme.typography.titleLarge)
+            Text(directory.subjectName(assignment.subjectId),
+              style=MaterialTheme.typography.bodyMedium)
+          }
+        }
+      }
+    } else if(profile.role=="student") {
+      if(directory.linkedLearners.isEmpty()) item(key="not-enrolled"){
+        StateNotice("No class assigned",
+          "Your learner profile is not yet linked to an academic group.")
+      }
+      items(directory.linkedLearners,key={it.studentId}) {learner->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
+            Eyebrow("MY ENROLMENT")
+            Text(directory.className(learner.classId),
+              style=MaterialTheme.typography.titleLarge)
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun FamilyPage(directory:SchoolDirectory?,modifier:Modifier=Modifier) {
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(12.dp)
+  ) {
+    item(key="heading") {
+      Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
+        Eyebrow("PARENT PORTAL")
+        Text("My learners",style=MaterialTheme.typography.headlineMedium)
+        Text("Only learners linked to your verified parent account are shown.",
+          style=MaterialTheme.typography.bodyMedium)
+      }
+    }
+    if(directory==null) item(key="offline"){OfflineDirectory()}
+    else if(directory.linkedLearners.isEmpty()) item(key="no-links"){
+      StateNotice("No learner links",
+        "Your school administrator has not linked a learner to this parent account.")
+    } else {
+      items(directory.linkedLearners,key={it.studentId}) { child->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Column(verticalArrangement=Arrangement.spacedBy(6.dp)) {
+            Eyebrow("LINKED LEARNER")
+            Text("Enrolled learner",style=MaterialTheme.typography.titleMedium)
+            Text("Class: ${directory.className(child.classId)}",
+              style=MaterialTheme.typography.bodyMedium)
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun OfflineDirectory() {
+  StateNotice("Connection required",
+    "School registers are not downloaded as unencrypted private data. " +
+      "Reconnect with a verified school session or use the offline learning library.")
+}
+
+@Composable
+private fun LearningPage(modifier:Modifier=Modifier) {
+  var query by rememberSaveable { mutableStateOf("") }
+  var grade by rememberSaveable { mutableStateOf("All") }
+  var opened by rememberSaveable { mutableStateOf<String?>(null) }
+  val levels=remember { listOf("All")+
+    StarterLessons.lessons.map { it.level }.distinct() }
+  val results=remember(query,grade) {
+    StarterLessons.lessons.filter { entry->
+      (grade=="All" || entry.level==grade) &&
+        (query.isBlank() || listOf(entry.title,entry.subject,entry.level).any {
+          it.contains(query.trim(),ignoreCase=true)
+        })
+    }
+  }
+  val lesson=remember(opened) { StarterLessons.lessons.find { it.id==opened } }
+  BackHandler(enabled=lesson!=null){opened=null}
+  LazyColumn(
+    modifier=modifier.fillMaxSize(),
+    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+    verticalArrangement=Arrangement.spacedBy(13.dp)
+  ) {
+    if(lesson!=null) {
+      item(key="return"){TextButton(onClick={opened=null}){Text("‹  All lessons")}}
+      item(key="lesson-title"){
+        Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
+          Eyebrow("${lesson.level} · ${lesson.subject}")
+          Text(lesson.title,style=MaterialTheme.typography.headlineMedium)
+          StateNotice("Learning goal",lesson.objective)
+        }
+      }
+      item(key="read-header"){SectionTitle("Read & understand")}
+      items(lesson.explanation.size,key={ "paragraph-$it" }){index->
+        AppPanel(Modifier.fillMaxWidth()) {
+          Text(lesson.explanation[index],style=MaterialTheme.typography.bodyLarge)
+        }
+      }
+      item(key="worked-example"){
+        AppPanel(Modifier.fillMaxWidth()) {
+          Column(verticalArrangement=Arrangement.spacedBy(9.dp)){
+            Eyebrow("WORKED EXAMPLE")
+            Text(lesson.workedExample,style=MaterialTheme.typography.bodyLarge)
+          }
+        }
+      }
+      item(key="quiz"){
+        QuizPanel(lesson)
+      }
+      item(key="disclaimer"){
+        Text("Original starter lesson · Not an official ZIMSEC textbook",
+          style=MaterialTheme.typography.bodySmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
+      }
+    } else {
+      item(key="library-heading") {
+        Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
+          Eyebrow("OFFLINE LEARNING")
+          Text("Learning library",style=MaterialTheme.typography.headlineMedium)
+          Text("Keep learning wherever you are.",
+            style=MaterialTheme.typography.bodyLarge,
+            color=MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+      }
+      item(key="library-feature") {
+        AppPanel(Modifier.fillMaxWidth()){
+          Row(horizontalArrangement=Arrangement.spacedBy(14.dp),
+            verticalAlignment=Alignment.CenterVertically) {
+            Box(Modifier.size(52.dp).clip(RoundedCornerShape(16.dp))
+              .background(MaterialTheme.colorScheme.tertiaryContainer),
+              contentAlignment=Alignment.Center) {
+              WorkspaceIcon(WorkspaceTab.LEARNING,
+                modifier=Modifier.size(27.dp),
+                color=MaterialTheme.colorScheme.onTertiaryContainer)
+            }
+            Column {
+              Text("12 ready-to-read lessons",
+                style=MaterialTheme.typography.titleMedium)
+              Text("Explanations, examples and practice questions. " +
+                "All available without internet.",
+                style=MaterialTheme.typography.bodySmall,
+                color=MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+          }
+        }
+      }
+      item(key="search") {
+        OutlinedTextField(
+          value=query,onValueChange={query=it.take(100)},
+          modifier=Modifier.fillMaxWidth(),
+          label={Text("Search lessons, subjects or topics")},
+          placeholder={Text("Try Mathematics or Biology")},
+          singleLine=true,
+          shape=RoundedCornerShape(15.dp)
+        )
+      }
+      item(key="filters") {
+        LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
+          items(levels,key={it}){level->
+            FilterChip(selected=grade==level,onClick={grade=level},
+              label={Text(if(level=="All") "All levels" else level)})
+          }
+        }
+      }
+      item(key="count") {
+        SectionTitle("Browse lessons","${results.size} learning resources")
+      }
+      if(results.isEmpty()) item(key="empty"){StateNotice("No matching lessons",
+        "Try a different grade or subject.")}
+      items(results,key={it.id},contentType={"lesson"}){item->
+        AppPanel(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp))
+          .clickable { opened=item.id }) {
+          Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
+            Eyebrow("${item.level} • ${item.subject}")
+            Text(item.title,style=MaterialTheme.typography.titleMedium)
+            Text(item.objective,style=MaterialTheme.typography.bodyMedium,
+              color=MaterialTheme.colorScheme.onSurfaceVariant,
+              maxLines=2,overflow=TextOverflow.Ellipsis)
+            Text("Start lesson  ›",style=MaterialTheme.typography.labelLarge,
+              color=MaterialTheme.colorScheme.primary)
+          }
+        }
+      }
+      item(key="copyright"){
+        Text("Starter content is original demonstration material. Uploadable school-approved resources and progress reporting are separate development features.",
+          style=MaterialTheme.typography.bodySmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant)
+      }
+    }
+  }
+}
+
+@Composable
+private fun QuizPanel(lesson: StarterLesson) {
+  var answer by rememberSaveable(lesson.id) { mutableIntStateOf(-1) }
+  var revealed by rememberSaveable(lesson.id) { mutableStateOf(false) }
+  AppPanel(Modifier.fillMaxWidth()) {
+    Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
+      Eyebrow("CHECK YOUR UNDERSTANDING")
+      Text(lesson.question,style=MaterialTheme.typography.titleMedium)
+      lesson.choices.forEachIndexed { index,choice->
+        Surface(
+          modifier=Modifier.fillMaxWidth().clip(RoundedCornerShape(13.dp))
+            .clickable { answer=index; revealed=false },
+          shape=RoundedCornerShape(13.dp),
+          color=if(answer==index) MaterialTheme.colorScheme.primaryContainer
+          else MaterialTheme.colorScheme.surfaceVariant.copy(alpha=.55f)
+        ) {
+          Row(Modifier.padding(14.dp),verticalAlignment=Alignment.CenterVertically,
+            horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+            Box(Modifier.size(25.dp).clip(CircleShape)
+              .background(if(answer==index) MaterialTheme.colorScheme.primary
+              else MaterialTheme.colorScheme.outlineVariant),
+              contentAlignment=Alignment.Center) {
+              Text(('A'+index).toString(),
+                color=if(answer==index) MaterialTheme.colorScheme.onPrimary
+                else MaterialTheme.colorScheme.onSurfaceVariant,
+                style=MaterialTheme.typography.labelSmall)
+            }
+            Text(choice,style=MaterialTheme.typography.bodyMedium)
+          }
+        }
+      }
+      Button(onClick={revealed=true},enabled=answer>=0,
+        modifier=Modifier.fillMaxWidth(),
+        shape=RoundedCornerShape(13.dp)) {
+        Text("Check answer")
+      }
+      if(revealed) {
+        StateNotice(
+          if(answer==lesson.correctIndex) "Correct! Well done." else "Keep practising",
+          lesson.feedback,
+          if(answer==lesson.correctIndex) MaterialTheme.colorScheme.primary
+          else MaterialTheme.colorScheme.tertiary
+        )
+        OutlinedButton(onClick={answer=-1;revealed=false},
+          modifier=Modifier.fillMaxWidth()) { Text("Try another time") }
+      }
     }
   }
 }
