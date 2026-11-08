@@ -172,9 +172,6 @@ assert.ok(viewOne.changes.calendar_events.length>=103,"Pull preserves all change
 assert.equal(viewOne.has_more,false);
 
 // Verify idempotency did not create an extra change (insert + update + delete + 100).
-const log = await checked(admin.from("sync_change_log")
-  .select("seq",{count:"exact",head:true})
-  .eq("school_id",schoolA), "Count server changes");
 const { count, error: countError }=await admin.from("sync_change_log")
   .select("seq",{count:"exact",head:true}).eq("school_id",schoolA);
 if(countError)throw countError;
