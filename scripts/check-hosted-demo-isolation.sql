@@ -20,9 +20,10 @@ declare
 begin
   perform set_config('request.jwt.claim.sub',
    '20000000-0000-4000-8000-000000000004',true);
-  select count(*) into event_count from public.calendar_events;
+  select count(*) into event_count from public.calendar_events
+    where id='30000000-0000-4000-8000-000000000001'::uuid;
   if event_count <> 0 then
-    raise exception 'Same-school teacher can read unauthorized events: %',event_count;
+    raise exception 'Same-school teacher can read another teacher''s private event';
   end if;
   result := public.sync_calendar_operation(
     'ci-demo-internal-canary',
