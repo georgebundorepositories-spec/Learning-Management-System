@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {randomUUID} from "node:crypto";
 import {notFound,redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import {issueInvoice} from "./actions";
@@ -23,7 +24,7 @@ export default async function FeesPage(){
  <div className="dash-wrap"><p className="eyebrow">SCHOOL FINANCE</p><h1>Fee invoices</h1>
  <p className="subhead">School-issued charges only. Online payment, USSD, transaction confirmation and receipts are not enabled.</p>
  {canIssue?<section className="summary-card"><h2>Issue an invoice</h2>
- <form action={issueInvoice} className="resource-form">
+ <form action={issueInvoice} className="resource-form"><input type="hidden" name="request_key" value={randomUUID()}/>
  <label>Learner<select name="student_user_id" required>{(learnerOptions??[]).map(s=><option key={s.id} value={s.id}>{s.full_name}</option>)}</select></label>
  <label>Description<input name="description" required minLength={3} maxLength={300} placeholder="School fees — Term 1"/></label>
  <label>Amount<input name="amount" type="number" min="0.01" max="100000000" step="0.01" required/></label>
