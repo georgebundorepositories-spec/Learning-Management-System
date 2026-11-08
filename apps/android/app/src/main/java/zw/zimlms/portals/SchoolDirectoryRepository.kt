@@ -179,6 +179,7 @@ class SchoolDirectoryRepository(
       classes, subjects, people, assignments, terms, linkedLearners,
       partial = classes.size == 500 || subjects.size == 500 || people.size == 500
     )
+  }
 
   /**
    * School administrators can assign an existing teacher to an existing class,
@@ -246,5 +247,4 @@ class SchoolDirectoryRepository(
         if(removed.length()!=1) throw IOException("Assignment removal not confirmed")
       }
     }
-  }
 }
