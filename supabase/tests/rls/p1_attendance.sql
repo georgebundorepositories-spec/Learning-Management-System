@@ -63,7 +63,8 @@ select throws_ok($test$
  'cccccccc-cccc-4ccc-8ccc-ccccccccccc3',
  '00000000-0000-4000-8000-000000000032',
  '2026-11-09','absent','00000000-0000-4000-8000-000000000033')
-$test$,'42501',null,'Foreign administrator cannot mark another school');
+$test$,'P0001','Attendance marker is not authorised school staff',
+  'Foreign administrator cannot mark another school');
 
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000035',true);
 select is((select count(*) from public.attendance),0::bigint,
