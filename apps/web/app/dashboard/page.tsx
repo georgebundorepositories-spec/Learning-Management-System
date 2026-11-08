@@ -6,6 +6,10 @@ import { signOut } from "./actions";
 export const dynamic = "force-dynamic";
 
 const modules = [
+  { href: "/dashboard/admin", title: "Administration", description: "School information, permissions and audit overview", roles: ["admin","head"] },
+  { href: "/dashboard/reports", title: "Reports", description: "School metrics and attendance summaries", roles: ["admin","head"] },
+  { href: "/dashboard/notices", title: "Messages & Notices", description: "In-app school announcements", roles: ["admin","head","teacher","student","parent","bursar"] },
+  { href: "/dashboard/fees", title: "Fees & Invoices", description: "Issued school invoices — payments not yet enabled", roles: ["admin","head","bursar","student","parent"] },
   { href: "/dashboard/assessments", title: "Assessments & Results", description: "Record marks and view learner performance", roles: ["admin","head","teacher","student","parent"] },
   { href: "/dashboard/my-learning", title: "My Learning / My Children", description: "Private learner and guardian attendance view", roles: ["student","parent"] },
   { href: "/dashboard/calendar", title: "Calendar & Sports", description: "Published events, sports and school programme", roles: ["admin","head","teacher","student","parent","bursar"] },
