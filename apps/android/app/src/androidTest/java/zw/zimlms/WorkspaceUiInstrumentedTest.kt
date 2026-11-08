@@ -4,6 +4,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
@@ -44,7 +47,10 @@ class WorkspaceUiInstrumentedTest {
       .assertExists().performClick()
     compose.onNodeWithText("WORKSPACE").assertExists()
     compose.waitForIdle()
-    compose.onNodeWithTag("drawer-sign-out").assertExists().performClick()
+    // Verify the drawer action is actually visible and physically tappable
+    // rather than invoking semantics on an off-screen drawer item.
+    compose.onNodeWithTag("drawer-sign-out")
+      .assertIsDisplayed().performTouchInput { click() }
     compose.waitUntil(5_000L) { requested.get() }
     assertTrue("Signout callback must fire",requested.get())
   }
