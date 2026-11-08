@@ -150,7 +150,7 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         line(15f,14f,18.5f,16f);line(18.5f,16f,19.3f,20f)
         line(4.7f,20f,19.3f,20f)
       }
-      WorkspaceTab.CLASSES,WorkspaceTab.MY_CLASSES -> {
+      WorkspaceTab.CLASSES,WorkspaceTab.ASSIGNMENTS,WorkspaceTab.MY_CLASSES -> {
         rect(3f,4f,18f,16f)
         line(3f,10f,21f,10f);line(9f,10f,9f,20f);line(15f,10f,15f,20f)
       }
