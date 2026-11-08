@@ -103,9 +103,9 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
   val tabs = remember(profile.role) { WorkspaceNavigation.tabs(profile.role) }
   val mainTabs = remember(profile.role) {
     when (profile.role) {
-      "admin", "head" -> listOf(WorkspaceTab.HOME, WorkspaceTab.LEARNERS,
+      "admin", "head" -> listOf(WorkspaceTab.HOME, WorkspaceTab.ATTENDANCE,
         WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
-      "teacher" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,
+      "teacher" -> listOf(WorkspaceTab.HOME, WorkspaceTab.ATTENDANCE,
         WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
       "parent" -> listOf(WorkspaceTab.HOME, WorkspaceTab.CHILDREN,WorkspaceTab.LEARNING)
       "student" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,WorkspaceTab.LEARNING)
@@ -301,6 +301,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           onRefresh={retryNumber++},
           onSignOut=onSignOut
         )
+        WorkspaceTab.ATTENDANCE -> AttendancePage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.LEARNING -> LearningPage(profile,Modifier.padding(insets))
         WorkspaceTab.CALENDAR -> {
           if (profile.role in setOf("admin","head","teacher")) {
@@ -498,6 +499,7 @@ private fun DashboardModule(
           WorkspaceTab.MY_CLASSES -> "Your assigned groups"
           WorkspaceTab.CHILDREN -> "Linked learners"
           WorkspaceTab.LEARNING -> "12 lessons • offline"
+          WorkspaceTab.ATTENDANCE -> "Class roll call"
           WorkspaceTab.CALENDAR -> "School events"
           WorkspaceTab.HOME -> "Overview"
         },style=MaterialTheme.typography.bodySmall,

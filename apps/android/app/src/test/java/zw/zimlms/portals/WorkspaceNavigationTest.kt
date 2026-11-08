@@ -11,12 +11,14 @@ class WorkspaceNavigationTest {
     assertTrue(tabs.contains(WorkspaceTab.PARENTS))
     assertTrue(tabs.contains(WorkspaceTab.LEARNING))
     assertTrue(tabs.contains(WorkspaceTab.CALENDAR))
+    assertTrue(tabs.contains(WorkspaceTab.ATTENDANCE))
     assertTrue(tabs.contains(WorkspaceTab.ASSIGNMENTS))
   }
 
   @Test fun teachersCannotBrowseAdministratorRegisters() {
     val tabs = WorkspaceNavigation.tabs("teacher")
     assertTrue(tabs.contains(WorkspaceTab.MY_CLASSES))
+    assertTrue(tabs.contains(WorkspaceTab.ATTENDANCE))
     assertTrue(tabs.contains(WorkspaceTab.LEARNING))
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
     assertFalse(tabs.contains(WorkspaceTab.PARENTS))
@@ -26,6 +28,7 @@ class WorkspaceNavigationTest {
   @Test fun learnersAndParentsCannotOpenStaffCalendarEditor() {
     for (role in listOf("student", "parent")) {
       assertFalse(WorkspaceNavigation.tabs(role).contains(WorkspaceTab.CALENDAR))
+      assertFalse(WorkspaceNavigation.tabs(role).contains(WorkspaceTab.ATTENDANCE))
       assertTrue(WorkspaceNavigation.tabs(role).contains(WorkspaceTab.LEARNING))
       assertFalse(WorkspaceNavigation.tabs(role).contains(WorkspaceTab.TEACHERS))
     }

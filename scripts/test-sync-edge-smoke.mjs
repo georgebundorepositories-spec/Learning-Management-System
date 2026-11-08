@@ -43,9 +43,34 @@ async function enroll(schoolId, role, name, n) {
   return { id: created.user.id, client, token: session.session.access_token };
 }
 
+/**
+ * Supabase CLI's local gateway may return a transient 502 while its Edge
+ * container starts, even though /functions/v1 has already returned 401 once.
+ * Retry only transport/startup failures for a short bounded period. A real
+ * 401/403, bad payload, or persistent 502 must still fail the test.
+ * This helper is used ONLY against the localhost URL validated above.
+ */
+async function fetchReady(url, options) {
+  let last;
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try {
+      const response = await fetch(url, options);
+      if (![502,503,504].includes(response.status)) return response;
+      last = new Error("Local Edge gateway HTTP " + response.status);
+      await response.body?.cancel();
+    } catch (error) {
+      last = error;
+    }
+    if (attempt < 7) {
+      await new Promise(resolve => setTimeout(resolve, 300 * (attempt + 1)));
+    }
+  }
+  throw new Error("Local Edge runtime did not become ready: " + String(last));
+}
+
 async function edge(user, fn, method, payload = null, params = "") {
   const url = `${base.replace(/\/$/,"")}/functions/v1/${fn}${params}`;
-  const response = await fetch(url, {
+  const response = await fetchReady(url, {
     method, headers: {
       "apikey": anon, "Authorization": `Bearer ${user.token}`,
       ...(payload ? { "content-type": "application/json" } : {})
@@ -102,7 +127,7 @@ async function pull(user, cursor = "0") {
 
 // With no token, both endpoints must be rejected in the actual Edge runtime.
 for (const [fn, method] of [["sync-push", "POST"], ["sync-pull", "GET"]]) {
-  const response = await fetch(`${base}/functions/v1/${fn}`, {
+  const response = await fetchReady(`${base}/functions/v1/${fn}`, {
     method,
     ...(method === "POST" ? {
       headers: { "content-type": "application/json" },
