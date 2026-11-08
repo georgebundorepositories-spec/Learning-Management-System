@@ -69,6 +69,7 @@ import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
 import zw.zimlms.learning.StarterLesson
 import zw.zimlms.learning.StarterLessons
+import zw.zimlms.learning.LessonProgressVault
 import zw.zimlms.portals.PortalPerson
 import zw.zimlms.portals.SchoolDirectory
 import zw.zimlms.portals.SchoolDirectoryRepository
@@ -285,7 +286,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           onNavigate={navigate(it)},
           onRefresh={retryNumber++}
         )
-        WorkspaceTab.LEARNING -> LearningPage(Modifier.padding(insets))
+        WorkspaceTab.LEARNING -> LearningPage(profile,Modifier.padding(insets))
         WorkspaceTab.CALENDAR -> {
           if (profile.role in setOf("admin","head","teacher")) {
             Column(Modifier.fillMaxSize().padding(insets)
@@ -684,7 +685,34 @@ private fun OfflineDirectory() {
 }
 
 @Composable
-private fun LearningPage(modifier:Modifier=Modifier) {
+private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
+  val context=LocalContext.current.applicationContext
+  val scope=rememberCoroutineScope()
+  val vault=remember { LessonProgressVault(context) }
+  var completed by remember(profile.userId,profile.schoolId) {
+    mutableStateOf<Set<String>>(emptySet())
+  }
+  var progressError by remember(profile.userId) { mutableStateOf<String?>(null) }
+  LaunchedEffect(profile.userId,profile.schoolId) {
+    runCatching {
+      withContext(Dispatchers.IO) {vault.completed(profile.userId,profile.schoolId)}
+    }.fold(
+      onSuccess={completed=it},
+      onFailure={progressError="Saved progress could not be read securely."}
+    )
+  }
+  fun recordLesson(id:String) {
+    scope.launch {
+      runCatching {
+        withContext(Dispatchers.IO) {
+          vault.markCompleted(profile.userId,profile.schoolId,id)
+        }
+      }.fold(
+        onSuccess={completed=it;progressError=null},
+        onFailure={progressError="Could not save progress on this device."}
+      )
+    }
+  }
   var query by rememberSaveable { mutableStateOf("") }
   var grade by rememberSaveable { mutableStateOf("All") }
   var opened by rememberSaveable { mutableStateOf<String?>(null) }
@@ -714,7 +742,13 @@ private fun LearningPage(modifier:Modifier=Modifier) {
           StateNotice("Learning goal",lesson.objective)
         }
       }
-      item(key="read-header"){SectionTitle("Read & understand")}
+      item(key="read-header"){
+        if(lesson.id in completed) {
+          StateNotice("Lesson completed",
+            "You answered this lesson's question correctly on this device.")
+        }
+        SectionTitle("Read & understand")
+      }
       items(lesson.explanation.size,key={ "paragraph-$it" }){index->
         AppPanel(Modifier.fillMaxWidth()) {
           Text(lesson.explanation[index],style=MaterialTheme.typography.bodyLarge)
@@ -729,7 +763,7 @@ private fun LearningPage(modifier:Modifier=Modifier) {
         }
       }
       item(key="quiz"){
-        QuizPanel(lesson)
+        QuizPanel(lesson,onCorrect={recordLesson(it)})
       }
       item(key="disclaimer"){
         Text("Original starter lesson · Not an official ZIMSEC textbook",
@@ -787,7 +821,12 @@ private fun LearningPage(modifier:Modifier=Modifier) {
         }
       }
       item(key="count") {
-        SectionTitle("Browse lessons","${results.size} learning resources")
+        Column(verticalArrangement=Arrangement.spacedBy(9.dp)) {
+          SectionTitle("Browse lessons",
+            "${results.size} resources • ${completed.size} of ${StarterLessons.lessons.size} completed")
+          progressError?.let {StateNotice("Progress status",it,
+            MaterialTheme.colorScheme.error)}
+        }
       }
       if(results.isEmpty()) item(key="empty"){StateNotice("No matching lessons",
         "Try a different grade or subject.")}
@@ -800,7 +839,8 @@ private fun LearningPage(modifier:Modifier=Modifier) {
             Text(item.objective,style=MaterialTheme.typography.bodyMedium,
               color=MaterialTheme.colorScheme.onSurfaceVariant,
               maxLines=2,overflow=TextOverflow.Ellipsis)
-            Text("Start lesson  ›",style=MaterialTheme.typography.labelLarge,
+            Text(if(item.id in completed) "✓ Completed · Read again  ›"
+            else "Start lesson  ›",style=MaterialTheme.typography.labelLarge,
               color=MaterialTheme.colorScheme.primary)
           }
         }
@@ -815,7 +855,7 @@ private fun LearningPage(modifier:Modifier=Modifier) {
 }
 
 @Composable
-private fun QuizPanel(lesson: StarterLesson) {
+private fun QuizPanel(lesson: StarterLesson,onCorrect:(String)->Unit) {
   var answer by rememberSaveable(lesson.id) { mutableIntStateOf(-1) }
   var revealed by rememberSaveable(lesson.id) { mutableStateOf(false) }
   AppPanel(Modifier.fillMaxWidth()) {
@@ -845,7 +885,10 @@ private fun QuizPanel(lesson: StarterLesson) {
           }
         }
       }
-      Button(onClick={revealed=true},enabled=answer>=0,
+      Button(onClick={
+        revealed=true
+        if(answer==lesson.correctIndex) onCorrect(lesson.id)
+      },enabled=answer>=0,
         modifier=Modifier.fillMaxWidth(),
         shape=RoundedCornerShape(13.dp)) {
         Text("Check answer")
