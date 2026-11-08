@@ -10,7 +10,8 @@ enum class WorkspaceTab(val label: String) {
   CHILDREN("My learners"),
   MY_CLASSES("My classes"),
   LEARNING("Learning library"),
-  CALENDAR("Calendar")
+  CALENDAR("Calendar"),
+  ATTENDANCE("Attendance")
 }
 
 /**
@@ -23,10 +24,10 @@ object WorkspaceNavigation {
     "admin", "head" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS,
       WorkspaceTab.PARENTS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
-      WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR
+      WorkspaceTab.ATTENDANCE, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR
     )
     "teacher" -> listOf(
-      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,
+      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR
     )
     "student" -> listOf(
