@@ -1,17 +1,17 @@
-# Phase 1 — Offline Sync Engine (DRAFT, NOT DEPLOYED)
+# Phase 1 — Calendar sync backend DEPLOYED; client release DRAFT
 
 Authoritative basis: `MASTER PROMPT v2.0 — ZimSchool LMS.txt`, Parts E, H.3, P (Phase 1), Q.2.
 
 ## Deployment safety
 
-All Phase 1 changes live on the draft branch `feature/phase1-offline-sync` (PR #1), **not on main**. Do not apply the Phase 1 migration or deploy the Edge Functions to LMS Omni until the Phase 0 hosted login gate is closed and the Phase 1 security review is complete.
+The calendar schema and allowlisted Edge sync APIs are **already deployed** to LMS Omni, including a security hotfix. The web and Android offline clients remain in draft PR #1 and must not be merged or released as an operational school LMS until hosted login and full Phase 1 acceptance are complete.
 
 ## Implemented code
 
 - `supabase/migrations/20261107200601_p1_calendar_sync_slice.sql`: calendar events, device registry, operation log, audit log, feature flags, append-only change log; all public tables have RLS. Calendar writes use an allowlisted private, authorisation-checked function wrapped in an invoker RPC. The actor's school comes from the verified user profile, not the client.
 - `supabase/functions/sync-push` and `sync-pull`: user-JWT-authenticated Edge endpoints with a fixed `calendar_events` allowlist. Retryable server errors do not acknowledge the queue.
 - `apps/web/lib/sync`: user/school-scoped IndexedDB queue, optimistic projections, transactional server-row acknowledgement and cursor commits, and an Edge transport.
-- `apps/android/app/src/main/java/zw/zimlms/core/sync`: Room queue and calendar snapshot schema, transactional sync engine, and JWT-based transport (requires session-broker integration).
+- `apps/android/app/src/main/java/zw/zimlms/core/sync`: Room queue, calendar snapshot schema, transactional sync engine, and JWT-based transport. Android now contains an encrypted Keystore session vault, serialized GoTrue token refresh, a staff calendar form and network-constrained WorkManager scheduling; new emulator tests are being verified. See `docs/phase1-android-session.md`.
 - Web unit tests: two logical devices, 50 edits each with client timestamps 73 hours old; idempotency, conflict preservation, cursor monotonicity.
 - pgTAP integration tests: tenant forgery denied, replay does not duplicate, version mismatch yields conflict, soft-delete tombstone retained, cross-school pull/write blocked.
 - Android instrumentation tests: queue durability across DB re-open, two in-memory caches converging after 50 edits each, conflict retention.
@@ -25,7 +25,7 @@ All Phase 1 changes live on the draft branch `feature/phase1-offline-sync` (PR #
 5. **Room 2.8.5 rather than 2.6.1.** Uses a maintained 2026 stable version, verified with Android 8 compatibility builds. Local calendar cache is currently unencrypted. Do not store student PII until at-rest encryption and data-retention controls are implemented.
 6. **Staff-only calendar sync initially.** Teacher pulls expose authored events only; admin/head pulls cover the school. Student/parent visibility and approval-state transitions remain Phase 2 obligations.
 7. **No automated tombstone purge yet.** Hard delete is prohibited. A retention window needs an expiration-aware full-refresh protocol before implementing the specification's 90-day tombstone purge.
-8. **WorkManager sync schedule not active.** JWT refresh and secure session persistence are not ready. No background worker should attempt sync with stale/unavailable credentials.
+8. **WorkManager scheduled but not field-accepted.** The Android client now queues a connected-only periodic worker at the OS minimum 15-minute interval and uses a Keystore-encrypted refresh-token store. Android can defer execution, and reliability on a real device and hosted identity remains unverified.
 
 ## Acceptance gates not yet satisfied
 
