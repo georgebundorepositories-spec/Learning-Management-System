@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
@@ -259,8 +258,10 @@ private fun ClassCatalog(directory: SchoolDirectory?) {
   HorizontalDivider()
   Text("${directory.subjects.size} subjects", style = MaterialTheme.typography.titleMedium)
   directory.subjects.forEach { subject ->
-    AssistChip(onClick = {}, label = { Text(subject.name) },
-      enabled = false)
+    Card(modifier = Modifier.fillMaxWidth()) {
+      Text(subject.name, modifier = Modifier.padding(12.dp),
+        style = MaterialTheme.typography.bodyMedium)
+    }
   }
 }
 
