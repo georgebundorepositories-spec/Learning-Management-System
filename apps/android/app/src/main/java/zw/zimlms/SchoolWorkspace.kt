@@ -294,7 +294,8 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           profile,directory,status,loading,
           modifier=Modifier.padding(insets),
           onNavigate={navigate(it)},
-          onRefresh={retryNumber++}
+          onRefresh={retryNumber++},
+          onSignOut=onSignOut
         )
         WorkspaceTab.LEARNING -> LearningPage(profile,Modifier.padding(insets))
         WorkspaceTab.CALENDAR -> {
@@ -336,7 +337,8 @@ private fun HomePage(
   loading: Boolean,
   modifier: Modifier=Modifier,
   onNavigate: (WorkspaceTab)->Unit,
-  onRefresh: ()->Unit
+  onRefresh: ()->Unit,
+  onSignOut: ()->Unit
 ) {
   val admin=profile.role in setOf("admin","head")
   val modules=WorkspaceNavigation.tabs(profile.role).filter { it!=WorkspaceTab.HOME }
@@ -405,6 +407,15 @@ private fun HomePage(
       OutlinedButton(enabled=!loading,onClick=onRefresh,
         modifier=Modifier.fillMaxWidth()) {
         Text(if(loading) "Checking school connection…" else "Refresh school information")
+      }
+    }
+    item(key="sign-out") {
+      OutlinedButton(
+        onClick=onSignOut,
+        modifier=Modifier.fillMaxWidth().testTag("home-sign-out"),
+        shape=RoundedCornerShape(14.dp)
+      ) {
+        Text("Sign out of this device")
       }
     }
     item(key="footer") {
