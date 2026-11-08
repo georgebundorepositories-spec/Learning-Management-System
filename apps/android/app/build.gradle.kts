@@ -13,8 +13,8 @@ android {
     applicationId = "zw.zimlms"
     minSdk = 26
     targetSdk = 35
-    versionCode = 3
-    versionName = "0.3.0-design-preview"
+    versionCode = 4
+    versionName = "0.4.0-attendance-preview"
     manifestPlaceholders["applicationLabel"] = "ZimSchool LMS"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
