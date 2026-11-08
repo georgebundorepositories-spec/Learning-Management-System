@@ -35,9 +35,9 @@ android {
     debug {
       // Side-by-side test install protects earlier offline queues when CI's
       // ephemeral debug signing certificate differs between workflow runs.
-      applicationIdSuffix = ".preview"
+      applicationIdSuffix = ".attendancepreview"
       versionNameSuffix = "-test"
-      manifestPlaceholders["applicationLabel"] = "ZimSchool Preview"
+      manifestPlaceholders["applicationLabel"] = "ZimSchool Attendance Preview"
     }
     release {
       isMinifyEnabled = true
