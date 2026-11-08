@@ -168,7 +168,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
         modifier=Modifier.width(300.dp)
       ) {
         Row(Modifier.fillMaxWidth().padding(horizontal=22.dp,vertical=24.dp),
-          verticalAlignment=Alignment.Center,
+          verticalAlignment=Alignment.CenterVertically,
           horizontalArrangement=Arrangement.spacedBy(12.dp)) {
           BrandMark()
           Column {
@@ -222,7 +222,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
         ) {
           Row(
             modifier=Modifier.fillMaxWidth().height(68.dp).padding(horizontal=12.dp),
-            verticalAlignment=Alignment.Center,
+            verticalAlignment=Alignment.CenterVertically,
             horizontalArrangement=Arrangement.spacedBy(9.dp)
           ) {
             IconButton(
@@ -528,7 +528,7 @@ private fun PeoplePage(
 @Composable
 private fun PersonRow(person: PortalPerson, demo: Boolean) {
   AppPanel(Modifier.fillMaxWidth()) {
-    Row(verticalAlignment=Alignment.Center,
+    Row(verticalAlignment=Alignment.CenterVertically,
       horizontalArrangement=Arrangement.spacedBy(12.dp)) {
       Box(Modifier.size(43.dp).clip(CircleShape)
         .background(MaterialTheme.colorScheme.primaryContainer),
@@ -574,7 +574,7 @@ private fun ClassPage(directory:SchoolDirectory?,modifier:Modifier=Modifier) {
         "${directory.classes.size} academic groups")}
       items(directory.classes,key={"class-${it.id}"},contentType={"class"}){group->
         AppPanel(Modifier.fillMaxWidth()) {
-          Row(verticalAlignment=Alignment.Center,
+          Row(verticalAlignment=Alignment.CenterVertically,
             horizontalArrangement=Arrangement.spacedBy(12.dp)) {
             Box(Modifier.size(40.dp).clip(RoundedCornerShape(10.dp))
               .background(MaterialTheme.colorScheme.primaryContainer),
