@@ -1,0 +1,18 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": [
+    "lhr1"
+  ],
+  "cleanUrls": true,
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://mezbtcdkmvtkjxdmmhbw.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_nlxCwwfA_MWEpI-3zX1hWg__PlUl91m"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "https://mezbtcdkmvtkjxdmmhbw.supabase.co",
+      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_nlxCwwfA_MWEpI-3zX1hWg__PlUl91m"
+    }
+  }
+}
