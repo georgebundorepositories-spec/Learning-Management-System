@@ -58,6 +58,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -223,7 +225,10 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
             verticalAlignment=Alignment.Center,
             horizontalArrangement=Arrangement.spacedBy(9.dp)
           ) {
-            IconButton(onClick={scope.launch { drawer.open() }}) {
+            IconButton(
+              onClick={scope.launch { drawer.open() }},
+              modifier=Modifier.semantics { contentDescription="Open navigation menu" }
+            ) {
               Column(verticalArrangement=Arrangement.spacedBy(4.dp)) {
                 repeat(3) {
                   Spacer(Modifier.width(21.dp).height(2.dp)
@@ -243,7 +248,8 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
             Box(
               modifier=Modifier.size(40.dp).clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primaryContainer)
-                .clickable { scope.launch { drawer.open() } },
+                .clickable { scope.launch { drawer.open() } }
+                .semantics { contentDescription="Open account menu" },
               contentAlignment=Alignment.Center
             ) {
               Text(profile.fullName.trim().take(1).uppercase().ifEmpty { "S" },
