@@ -2,6 +2,20 @@
 
 Last verified: 8 November 2026.
 
+## Phase 3–8 development update — 8 November 2026 (draft PR #9)
+
+**This branch is not a production release.** The latest hosted LMS Omni database contains **23 public tables, all with RLS enabled**. Canonical copies of the previously applied hosted Phase 3–8 migrations now live in GitHub using the exact hosted migration versions.
+
+Development branch features include role-specific school dashboards, attendance, subject resource links, assessments/marks, published calendar/sports viewing, private fee invoices (no payments), in-app notices, school reports, and a read-only administration/audit overview. Responsive layouts and dashboard loading/error/denial states are included.
+
+The hosted transaction-only finance/notice RLS canary verified school isolation and a learner's own fee invoice. All test rows were rolled back.
+
+Supabase Performance Advisor reported 10 unindexed foreign keys; the deployed `phase8_covering_foreign_key_indexes` migration addressed these and the follow-up scan no longer lists that finding. Other informational unused-index observations and four multiple-permissive-policy performance findings remain. Supabase Security Advisor reports **leaked-password protection disabled**; enable it before hosting real user accounts.
+
+**Outstanding:** Phase 1 offline 72-hour device convergence; real role-by-role hosted acceptance; Android release and 2G tests; payment provider verification, USSD and SMS integrations; complete learning/assessment offline sync; backup/restore drill; real Vercel URL verification; accessibility/localisation sign-off. Do not collect personal pupil data or process live school fees yet.
+
+See [Phase 8 release gates](docs/phase8-release-gates.md) and [draft PR #9](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/9).
+
 ## Supabase / LMS Omni — live backend
 
 Project: `mezbtcdkmvtkjxdmmhbw` (`eu-west-2`).
