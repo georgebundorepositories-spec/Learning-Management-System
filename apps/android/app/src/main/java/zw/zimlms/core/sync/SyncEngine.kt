@@ -1,6 +1,8 @@
 package zw.zimlms.core.sync
 
 import androidx.room.withTransaction
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.math.BigInteger
 import org.json.JSONObject
 
@@ -28,8 +30,9 @@ data class SyncSummary(
  * the server deduplicates retried op_id values.
  *
  * Call this only with a verified session and a queue bound to the authenticated
- * user's school. Persistent token refresh and scheduled WorkManager execution
- * remain gated until a secure session store exists.
+ * user's school. The WorkManager worker and the foreground workspace share
+ * a process-wide sync mutex. The database cursor is rechecked transactionally so
+ * a stale response cannot undo the latest persisted server state.
  */
 class SyncEngine(
   private val database: OfflineDatabase,
@@ -47,7 +50,17 @@ class SyncEngine(
     return number
   }
 
-  suspend fun syncNow(): SyncSummary {
+  companion object {
+    // Serialise manual and WorkManager sync in this app process.
+    // Cross-process safety is enforced again inside the Room transaction.
+    private val syncMutex = Mutex()
+  }
+
+  suspend fun syncNow(): SyncSummary = syncMutex.withLock {
+    syncOnce()
+  }
+
+  private suspend fun syncOnce(): SyncSummary {
     var pushed = 0
     var conflicts = 0
     var rejected = 0
@@ -105,6 +118,12 @@ class SyncEngine(
       val changes = page.rows.map(CalendarEventCache::fromServer)
       require(changes.all { it.schoolId == schoolId }) { "Cross-school pull refused" }
       database.withTransaction {
+        // Re-read under Room's write transaction. Otherwise a foreground sync
+        // and a worker can overwrite a newer cursor with an older snapshot.
+        val persisted = meta.get("calendar_cursor") ?: "0"
+        check(next >= cursorNumber(persisted)) {
+          "Stale concurrent pull page; retained newer durable cursor"
+        }
         changes.forEach { calendar.upsert(it) }
         meta.put(SyncMetaEntity("calendar_cursor",page.nextCursor))
       }
