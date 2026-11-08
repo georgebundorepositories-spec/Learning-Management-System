@@ -61,11 +61,32 @@ class SessionVaultInstrumentedTest {
     assertNull(vault.load())
   }
 
-  @Test fun signOutClearsBothStoredTokens() = runBlocking {
+  @Test fun signOutRevokesOnlyCurrentRemoteSessionAndClearsTokens() = runBlocking {
     vault.save(session())
-    val broker=SessionBroker(context,"https://test.invalid","sb_publishable_ci")
-    broker.signOut()
+    val calls=AtomicInteger(0)
+    val http=OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
+      val req=chain.request()
+      assertEquals("/auth/v1/logout",req.url.encodedPath)
+      assertEquals("scope=local",req.url.encodedQuery)
+      assertEquals("Bearer sample-jwt-not-real",req.header("Authorization"))
+      calls.incrementAndGet()
+      Response.Builder().request(req).protocol(Protocol.HTTP_1_1)
+        .code(204).message("No Content").build()
+    }).build()
+    val broker=SessionBroker(context,"https://test.invalid","sb_publishable_ci",http)
+    assertTrue(broker.signOut())
+    assertEquals(1,calls.get())
     assertNull(SessionVault(context).load())
+  }
+
+  @Test fun offlineSignOutStillClearsSessionWithoutRemoteAck() = runBlocking {
+    vault.save(session())
+    val http=OkHttpClient.Builder().addInterceptor { _ ->
+      throw IOException("No network at school")
+    }.build()
+    val broker=SessionBroker(context,"https://test.invalid","sb_publishable_ci",http)
+    assertFalse(broker.signOut())
+    assertNull(vault.load())
   }
 
   @Test fun refreshRotationIsSerializedForConcurrentWorkers() = runBlocking {
