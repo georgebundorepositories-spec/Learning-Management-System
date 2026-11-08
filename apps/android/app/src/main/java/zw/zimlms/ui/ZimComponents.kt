@@ -160,6 +160,11 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         line(12f,7f,16f,5f);line(16f,5f,21f,5f)
         line(21f,5f,21f,19f);line(21f,19f,16f,19f);line(16f,19f,12f,21f)
       }
+      WorkspaceTab.ATTENDANCE -> {
+        rect(4f,3f,16f,18f)
+        line(7f,9f,10f,12f);line(10f,12f,16f,6f)
+        line(7f,17f,17f,17f)
+      }
       WorkspaceTab.CALENDAR -> {
         rect(3f,5f,18f,16f);line(3f,10f,21f,10f)
         line(8f,3f,8f,7f);line(16f,3f,16f,7f)
