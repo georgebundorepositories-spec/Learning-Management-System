@@ -77,10 +77,10 @@ private val darkColors = darkColorScheme(
 )
 
 private val zimTypography = Typography(
-  headlineLarge = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=31.sp,lineHeight=37.sp,letterSpacing=(-0.7).sp),
-  headlineMedium = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=26.sp,lineHeight=32.sp,letterSpacing=(-0.5).sp),
-  headlineSmall = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.SemiBold,fontSize=22.sp,lineHeight=28.sp,letterSpacing=(-0.4).sp),
-  titleLarge = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=19.sp,lineHeight=25.sp,letterSpacing=(-0.3).sp),
+  headlineLarge = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=31.sp,lineHeight=37.sp,letterSpacing=(-0.7f).sp),
+  headlineMedium = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=26.sp,lineHeight=32.sp,letterSpacing=(-0.5f).sp),
+  headlineSmall = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.SemiBold,fontSize=22.sp,lineHeight=28.sp,letterSpacing=(-0.4f).sp),
+  titleLarge = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Bold,fontSize=19.sp,lineHeight=25.sp,letterSpacing=(-0.3f).sp),
   titleMedium = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.SemiBold,fontSize=16.sp,lineHeight=22.sp),
   titleSmall = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.SemiBold,fontSize=14.sp,lineHeight=20.sp),
   bodyLarge = TextStyle(fontFamily=FontFamily.SansSerif,fontWeight=FontWeight.Normal,fontSize=16.sp,lineHeight=24.sp),
