@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import zw.zimlms.core.auth.*
+import zw.zimlms.core.sync.CalendarSyncScheduler
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +50,7 @@ class MainActivity : ComponentActivity() {
   var error by remember { mutableStateOf<String?>(null) }
   var busy by remember { mutableStateOf(false) }
   var pendingProfile by remember { mutableStateOf<CachedProfile?>(null) }
+  var pendingSession by remember { mutableStateOf<AuthenticatedSchoolLogin?>(null) }
   var loggedInProfile by remember { mutableStateOf<CachedProfile?>(null) }
   val scroll = rememberScrollState()
 
@@ -66,9 +68,15 @@ class MainActivity : ComponentActivity() {
           style = MaterialTheme.typography.headlineSmall)
         Text(stringResource(R.string.role, current.role))
         Text(stringResource(R.string.offline_note))
+        SchoolCalendarPanel(current)
         Button(onClick = {
+          // Logout is local-first: never leave an offline-accessible token on a shared device.
+          CalendarSyncScheduler.cancel(context)
+          SessionVault(context).clear()
           vault.clear()
           loggedInProfile = null
+          pendingProfile = null
+          pendingSession = null
           password = ""; pin = ""; error = null
         }) { Text(stringResource(R.string.sign_out)) }
       }
@@ -90,14 +98,25 @@ class MainActivity : ComponentActivity() {
           error = null
           scope.launch {
             // PBKDF2 is deliberately expensive; never block the UI thread on slow tablets.
-            val saved = withContext(Dispatchers.Default) {
-              runCatching { vault.enroll(profileToEnroll, submittedPin) }
+            val saved = runCatching {
+              // Only retain a renewable server session after both online login
+              // and Android Keystore PIN enrollment have completed.
+              withContext(Dispatchers.Default) { vault.enroll(profileToEnroll, submittedPin) }
+              val login = pendingSession ?: error("No authenticated session")
+              SessionBroker(context, BuildConfig.SUPABASE_URL,
+                BuildConfig.SUPABASE_PUBLISHABLE_KEY).store(login)
+            }
+            if (saved.isFailure) {
+              vault.clear()
+              SessionVault(context).clear()
             }
             busy = false
             saved.fold(
               onSuccess = {
                 loggedInProfile = profileToEnroll
                 pendingProfile = null
+                pendingSession = null
+                CalendarSyncScheduler.schedule(context)
                 pin = ""; password = ""; error = null
               },
               onFailure = { error = context.getString(R.string.pin_save_error) }
@@ -126,11 +145,15 @@ class MainActivity : ComponentActivity() {
             busy = true; error = null
             scope.launch {
               val result = withContext(Dispatchers.IO) {
-                runCatching { repo.login(identifier, password) }
+                runCatching { repo.loginWithSession(identifier, password) }
               }
               busy = false
               result.fold(
-                onSuccess = { pendingProfile = it; password = "" },
+                onSuccess = {
+                  pendingProfile = it.profile
+                  pendingSession = it
+                  password = ""
+                },
                 onFailure = { error = context.getString(R.string.login_failure) }
               )
             }
@@ -156,7 +179,16 @@ class MainActivity : ComponentActivity() {
               val result = withContext(Dispatchers.Default) { vault.unlock(pin) }
               busy = false; pin = ""
               when(result) {
-                is OfflineLogin.Success -> loggedInProfile = result.profile
+                is OfflineLogin.Success -> {
+                  loggedInProfile = result.profile
+                  // A PIN alone unlocks local data. Network sync is scheduled
+                  // only when a matching encrypted server session exists.
+                  val current = SessionVault(context).load()
+                  if (current?.profile?.userId == result.profile.userId &&
+                      current.profile.schoolId == result.profile.schoolId) {
+                    CalendarSyncScheduler.schedule(context)
+                  }
+                }
                 is OfflineLogin.Rejected -> error = result.reason
               }
             }
