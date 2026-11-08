@@ -40,3 +40,16 @@ All Phase 1 changes live on the draft branch `feature/phase1-offline-sync` (PR #
 - [ ] No student PII exposed to other schools, unauthorized users, or unencrypted local caches.
 
 The CI tests are an initial engineering verification, **not** the final Q.2 acceptance test.
+
+
+## Verified on 8 November 2026 — staged integration and fictional fixtures
+
+- [PASS] A real GoTrue-issued JWT travelled through the **local** Edge `sync-push`/`sync-pull` HTTP endpoints, the authenticated SQL RPC and school-scoped RLS. The integration ran twice on logical devices with 50 records each, all client timestamps older than 72 hours. It confirmed idempotent retry, same-school teacher privacy, cross-school refusal, optimistic version conflict handling and tombstone retention:
+  [Successful CI run #42452783861](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42452783861).
+- [PASS] A same-school insert-ID collision had revealed another teacher's private event in a SECURITY DEFINER function. The deployed function now suppresses the protected row and returns a generic rejected response. The regression is in `supabase/tests/rls/p1_calendar_sync.sql`.
+- [PASS] Hosted SQL transaction-only isolation canary checked role-scoped visibility against fictional event fixtures, **rolled back** all temporary activations and writes; 0 demo profiles remain active and 0 test op logs persisted.
+- [PASS] Hosted demo data: two `is_demo=true` fictional schools, 4 academic years, 12 terms, 8 classes, 13 subjects, 12 staff, 20 learners, 8 guardians, 20 links, 8 teaching assignments and 16 calendar events. The 40 associated synthetic Auth rows are deliberately banned until 2099, unconfirmed, passwordless and have zero Auth identities; all associated school profiles are inactive. **They cannot be used to sign in.**
+- [WARN] The hosted Supabase security advisor now reports `auth_leaked_password_protection`: breached-password checking is disabled. It requires a change in Supabase Auth settings before production enrolment. This is separate from school-scoped RLS and does not expose test passwords (none were created).
+- [UNVERIFIED] Vercel's project-level deployment URL has not been observed through GitHub checks. A connected GitHub account alone does not prove the Vercel repository project is imported.
+
+No hosted real-email login, live approved account, two physical devices offline for 72 hours, 2G budget, full marks/attendance sync or background Android WorkManager acceptance is complete.
