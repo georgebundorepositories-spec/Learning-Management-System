@@ -9,14 +9,14 @@
 - `SessionBroker.accessToken` serializes refresh-token rotations with one per-process coroutine mutex and rotates the stored refresh token atomically. A rejected/invalid refresh fails closed to online sign-in. Temporary network failures preserve both the session and the queued edits.
 - `CalendarSyncWorker` uses Room and an authenticated user-JWT `SyncHttpApi`, never a service-role secret. WorkManager only schedules it when connected; periodic interval is **at least 15 minutes**, but Android may defer due to Doze/OS optimization. The one-time worker provides a reconnect request.
 - `SchoolCalendarPanel` queues staff calendar inserts into Room *before* scheduling network traffic. Staff can inspect the pending/failed queue and request an explicit sync. Calendar cache remains per authenticated user/school.
-- `MainActivity`: tokens are saved **only after** successful offline-PIN enrollment following a valid online login. Offline PIN unlock can show local data with no network; if a matching stored server session exists, it reactivates the WorkManager schedule. Sign-out cancels jobs and clears both Keystore-protected session and offline PIN.
+- `MainActivity`: tokens are saved **only after** successful offline-PIN enrollment following a valid online login. Offline PIN unlock can show local data with no network; if a matching stored server session exists, it reactivates the WorkManager schedule. Sign-out cancels jobs, serializes with refresh-token rotation, attempts a five-second local-scope GoTrue server revocation when online, and always clears both Keystore-protected session and offline PIN.
 - `SessionVaultInstrumentedTest`: emulator tests for encrypted storage, altered ciphertext, logout, cross-school token refusal and concurrent refresh requests.
 
 ## Security boundaries
 
 The PIN is a *local access gate*, not proof of current server authorization. Remote requests require a valid GoTrue JWT, school memberships and server-side RLS. We do **not** store student/guardian personal data in the current unencrypted Room calendar. Cached calendar content may still be sensitive in real deployments, so at-rest Room encryption and a cache-retention policy are required before storing confidential school records.
 
-An online sign-out currently clears local credentials and cancels scheduled workers, but does **not** promise immediate server-side JWT invalidation. Access tokens remain valid until expiry even after server session revocation; short JWT expiry, explicit GoTrue logout, device registration and server revocation should be integrated before general release.
+Sign-out attempts `POST /auth/v1/logout?scope=local` to revoke **this device's** refresh session when online, without disrupting other signed-in devices. If offline, the remote revocation cannot be completed; local tokens and PIN are still cleared. **Access JWTs remain valid until their expiry even if a session is revoked**, as specified by Supabase Auth. Before general release, verify hosted logout end-to-end, shorten JWT lifetime as appropriate, and integrate server-side device registration/revocation checks.
 
 When changing user accounts on shared tablets, explicit sign-out is mandatory. A single device session is active at once; the Room database name is scoped to the prior user and school.
 
@@ -27,3 +27,11 @@ When changing user accounts on shared tablets, explicit sign-out is mandatory. A
 - Measure real WorkManager execution/retry under unstable 2G connections and Android Doze conditions.
 - Fully encrypt protected locally cached information; add per-user account purge/retention policies and keep user-generated queued work until safely reconciled.
 - Full mixed-entity 72-hour / two-physical-device Q.2 acceptance test remains mandatory.
+
+## Additional regression coverage — 8 November 2026
+
+- `SyncEngine` now serializes manual and WorkManager calls with a process-wide mutex.
+- A pull transaction rechecks its most recent persisted `calendar_cursor`; a late response cannot roll the cursor or the cached event state backwards.
+- Emulator tests reproduce stale cursors during HTTP calls, simultaneous worker/foreground push attempts, and an interrupted network that must preserve Room queued edits.
+- Emulator tests verify successful `scope=local` session-revocation request and best-effort offline sign-out that clears local tokens.
+- **These added tests are not accepted until GitHub Actions run #42455502984 finishes successfully.**
