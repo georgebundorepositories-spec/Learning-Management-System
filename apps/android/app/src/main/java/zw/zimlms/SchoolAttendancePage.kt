@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -143,8 +144,8 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
             Text("Today: ${saved?.status?.uppercase() ?: "NOT MARKED"}",
               style=MaterialTheme.typography.bodySmall,
               color=MaterialTheme.colorScheme.onSurfaceVariant)
-            Row(horizontalArrangement=Arrangement.spacedBy(6.dp)) {
-              listOf("present","absent","late","excused").forEach { status ->
+            LazyRow(horizontalArrangement=Arrangement.spacedBy(6.dp)) {
+              items(listOf("present","absent","late","excused")) { status ->
                 FilterChip(
                   selected=saved?.status==status,
                   enabled=savingId==null && !loading,
