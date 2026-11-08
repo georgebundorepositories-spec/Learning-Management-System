@@ -5,6 +5,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import java.io.IOException
+import java.util.concurrent.atomic.AtomicInteger
 import org.json.JSONObject
 import org.junit.Assert.*
 import org.junit.Test
@@ -124,4 +129,94 @@ class OfflineSyncInstrumentedTest {
       assertEquals("stale_version",db.queue().all().single().conflictDetail)
     } finally { db.close() }
   }
+
+  @Test fun stalePullCannotRollBackCursorOrOverwriteNewerEvents() = runBlocking {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    val db = Room.inMemoryDatabaseBuilder(context, OfflineDatabase::class.java).build()
+    try {
+      val api = object : SyncApi {
+        override suspend fun push(op: SyncQueueEntity) = error("Unexpected push")
+        override suspend fun pull(cursor: String, limit: Int): PullPage {
+          assertEquals("0", cursor)
+          // Reproduce another sync committing a newer cursor while HTTP
+          // request for this stale page is in flight.
+          db.meta().put(SyncMetaEntity("calendar_cursor", "20"))
+          return PullPage(listOf(
+            JSONObject().put("id", UUID.randomUUID().toString())
+              .put("school_id", school).put("sync_version", 1)
+              .put("title", "Stale event").put("deleted_at", JSONObject.NULL)
+          ), "10", false)
+        }
+      }
+      try {
+        SyncEngine(db, api, school).syncNow()
+        fail("Stale response must not overwrite newer cursor")
+      } catch (expected: IllegalStateException) {
+        assertTrue(expected.message?.contains("Stale concurrent pull") == true)
+      }
+      assertEquals("20", db.meta().get("calendar_cursor"))
+      assertTrue(db.calendar().allForSchool(school).isEmpty())
+    } finally { db.close() }
+  }
+
+  @Test fun manualSyncAndWorkerSyncDoNotUploadTheSamePendingOpTwice() = runBlocking {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    val db = Room.inMemoryDatabaseBuilder(context, OfflineDatabase::class.java).build()
+    try {
+      val op = SyncQueueEntity(
+        opId = UUID.randomUUID().toString(), entityId = UUID.randomUUID().toString(),
+        opType = "insert", payloadJson = "{\"title\":\"CI concurrency\"}",
+        baseVersion = null, clientTs = "2026-11-04T08:00:00Z"
+      )
+      db.queue().enqueue(op)
+      val calls = AtomicInteger(0)
+      val api = object : SyncApi {
+        override suspend fun push(op: SyncQueueEntity): PushOutcome {
+          calls.incrementAndGet()
+          delay(40)
+          return PushOutcome("applied",
+            JSONObject().put("id", op.entityId).put("school_id", school)
+              .put("sync_version", 1).put("deleted_at", JSONObject.NULL))
+        }
+        override suspend fun pull(cursor: String, limit: Int) =
+          PullPage(emptyList(), "1", false)
+      }
+      coroutineScope {
+        val foreground = async { SyncEngine(db, api, school).syncNow() }
+        val background = async { SyncEngine(db, api, school).syncNow() }
+        foreground.await()
+        background.await()
+      }
+      assertEquals("Exactly one HTTP push", 1, calls.get())
+      assertTrue(db.queue().all().isEmpty())
+      assertEquals("1", db.meta().get("calendar_cursor"))
+    } finally { db.close() }
+  }
+
+  @Test fun networkFailureKeepsOfflineQueueForRetry() = runBlocking {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    val db = Room.inMemoryDatabaseBuilder(context, OfflineDatabase::class.java).build()
+    try {
+      db.queue().enqueue(SyncQueueEntity(
+        opId=UUID.randomUUID().toString(), entityId=UUID.randomUUID().toString(),
+        opType="insert", payloadJson="{\"title\":\"Queued event\"}",
+        baseVersion=null, clientTs="2026-11-04T08:00:00Z"
+      ))
+      val api = object : SyncApi {
+        override suspend fun push(op: SyncQueueEntity): PushOutcome =
+          throw IOException("Simulated 2G disconnection")
+        override suspend fun pull(cursor: String, limit: Int): PullPage =
+          error("Pull should not run when push fails")
+      }
+      try {
+        SyncEngine(db, api, school).syncNow()
+        fail("Network outage must propagate as a retryable error")
+      } catch (_: IOException) {
+        // Queue must remain intact after failed request.
+      }
+      assertEquals(1, db.queue().pending(10).size)
+      assertEquals("0", db.meta().get("calendar_cursor") ?: "0")
+    } finally { db.close() }
+  }
+
 }
