@@ -101,8 +101,14 @@ async function pull(user, cursor = "0") {
 }
 
 // With no token, both endpoints must be rejected in the actual Edge runtime.
-for (const fn of ["sync-push", "sync-pull"]) {
-  const response = await fetch(`${base}/functions/v1/${fn}`);
+for (const [fn, method] of [["sync-push", "POST"], ["sync-pull", "GET"]]) {
+  const response = await fetch(`${base}/functions/v1/${fn}`, {
+    method,
+    ...(method === "POST" ? {
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ device_id: randomUUID(), ops: [] })
+    } : {})
+  });
   assert.equal(response.status, 401, "Anonymous Edge API must reject access");
 }
 
