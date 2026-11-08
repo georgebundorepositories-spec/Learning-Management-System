@@ -13,8 +13,8 @@ android {
     applicationId = "zw.zimlms"
     minSdk = 26
     targetSdk = 35
-    versionCode = 1
-    versionName = "0.1.0-p0"
+    versionCode = 2
+    versionName = "0.2.0-portals-preview"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     // The key is publishable; never compile any service-role or secret key into an APK.
