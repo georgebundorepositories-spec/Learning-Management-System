@@ -58,6 +58,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -205,9 +206,12 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           style=MaterialTheme.typography.bodySmall,
           color=MaterialTheme.colorScheme.onSurfaceVariant)
         TextButton(onClick={
-          scope.launch { drawer.close() }
+          // Fire the session-close action synchronously. A drawer animation
+          // must never delay or suppress a user's explicit sign-out.
           onSignOut()
-        },modifier=Modifier.padding(start=12.dp,bottom=14.dp)) {
+          scope.launch { drawer.close() }
+        },modifier=Modifier.padding(start=12.dp,bottom=14.dp)
+            .testTag("drawer-sign-out")) {
           Text("Sign out of this device")
         }
       }
@@ -783,7 +787,9 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
       item(key="library-heading") {
         Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
           Eyebrow("OFFLINE LEARNING")
-          Text("Learning library",style=MaterialTheme.typography.headlineMedium)
+          Text("Learning library",
+            modifier=Modifier.testTag("learning-library-heading"),
+            style=MaterialTheme.typography.headlineMedium)
           Text("Keep learning wherever you are.",
             style=MaterialTheme.typography.bodyLarge,
             color=MaterialTheme.colorScheme.onSurfaceVariant)
