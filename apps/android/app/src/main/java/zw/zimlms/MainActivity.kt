@@ -69,16 +69,31 @@ class MainActivity : ComponentActivity() {
         Text(stringResource(R.string.role, current.role))
         Text(stringResource(R.string.offline_note))
         SchoolCalendarPanel(current)
-        Button(onClick = {
-          // Logout is local-first: never leave an offline-accessible token on a shared device.
+        Button(enabled = !busy, onClick = {
+          // A refresh and sign-out share the same mutex. Never clear the session
+          // outside the broker while a worker may be rotating its refresh token.
+          busy = true
           CalendarSyncScheduler.cancel(context)
-          SessionVault(context).clear()
-          vault.clear()
-          loggedInProfile = null
-          pendingProfile = null
-          pendingSession = null
-          password = ""; pin = ""; error = null
-        }) { Text(stringResource(R.string.sign_out)) }
+          scope.launch {
+            val removed = runCatching {
+              SessionBroker(context, BuildConfig.SUPABASE_URL,
+                BuildConfig.SUPABASE_PUBLISHABLE_KEY).signOut()
+            }.recoverCatching {
+              // Fail closed if the environment has no valid remote configuration.
+              SessionVault(context).clear()
+            }.isSuccess
+            if (removed) {
+              vault.clear()
+              loggedInProfile = null
+              pendingProfile = null
+              pendingSession = null
+              password = ""; pin = ""; error = null
+            } else {
+              error = "Could not securely clear the local session. Please try again."
+            }
+            busy = false
+          }
+        }) { Text(stringResource(if (busy) R.string.signing_in else R.string.sign_out)) }
       }
 
       pendingProfile != null -> {
