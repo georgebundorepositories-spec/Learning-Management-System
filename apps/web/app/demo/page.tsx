@@ -83,6 +83,11 @@ export default function DemoPage() {
             <div className="demo-profile-detail"><span>School type</span><strong>{school.type}</strong></div>
             <div className="demo-profile-detail"><span>Languages</span><strong>{school.language}</strong></div>
             <div className="demo-profile-detail"><span>Curriculum</span><strong>ZIMSEC</strong></div>
+            <div className="demo-roster">
+              <span className="demo-label">FICTIONAL ROSTER</span>
+              <div><span><strong>{school.demoRoster.staff}</strong><small>Staff</small></span><span><strong>{school.demoRoster.learners}</strong><small>Learners</small></span><span><strong>{school.demoRoster.guardians}</strong><small>Guardians</small></span></div>
+              <p>All accounts are disabled. The preview displays aggregates only.</p>
+            </div>
             <div className="demo-side-note"><span aria-hidden="true">◎</span><p>Built for varied schools and shared devices, with distinct school-level access rules.</p></div>
           </aside>
           <div className="demo-workspace-main">
