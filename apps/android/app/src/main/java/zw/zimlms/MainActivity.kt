@@ -81,6 +81,7 @@ class MainActivity : ComponentActivity() {
             }.recoverCatching {
               // Fail closed if the environment has no valid remote configuration.
               SessionVault(context).clear()
+              false
             }.isSuccess
             if (removed) {
               vault.clear()
