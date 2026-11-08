@@ -24,7 +24,7 @@ The 0.3 preview now has:
 - **Teacher portal** with assigned classes/subjects; **parent portal** with linked learner classes; **learner portal** with own enrolled class. These remain role-limited and do not offer impersonation.
 - **12 authored learning lessons**, including explanations, worked examples and interactive three-answer quizzes, bundled for offline use.
 - **Device-local completion tracking** of correct quiz answers, encrypted using Android Keystore AES-GCM, bound to the user+school identity. This is not synced across devices and is not report-card grading.
-- **Teacher assignment administrator screen**: creates, reassigns and removes links between existing teachers, classes, subjects and terms using the user's Supabase JWT. Writes are constrained by existing school RLS; no service role key is shipped. Changes require online server acknowledgement, and reassign/remove operations require confirmation.
+- **Teacher assignment administrator screen**: creates, reassigns and removes links between existing teachers, classes, subjects and terms using the user's Supabase JWT. Writes are constrained by existing school RLS; no service role key is shipped. Changes require online server acknowledgement, and reassign/remove operations require confirmation. A hosted admin transaction checked create/reassign/remove permissions and rolled back all changes.
 - Existing Phase 1 calendar module with Room queue and JWT-backed sync remains accessible for staff.
 
 ## Verification
@@ -39,4 +39,9 @@ This is NOT yet a full teacher/learner/parent LMS. Enrolment invitations, gradin
 
 The database directory is only loaded with a renewable JWT; it is not saved unencrypted for offline browsing. The full 72-hour physical two-device mixed-entity test and production APK signing are still open. UI texts in this preview are mainly English; complete Shona/Ndebele localisation remains a release gate.
 
-**Installation caution:** The CI debug APK may be signed with a different key than a previously installed APK. Never uninstall while the offline calendar queue contains unsynchronised operations; uninstalling can destroy them.
+**Safe preview installation:** This branch uses the separate debug application ID `zw.zimlms.preview` and launcher label `ZimSchool Preview`; your existing `zw.zimlms` application and its offline queue are not replaced. The preview uses its **own empty local store** and does not inherit the old app's offline events. Do not uninstall your original app while there are unsynchronised changes. Replacing *another older preview build* can still encounter a signing mismatch because GitHub's debug key may change.
+
+
+## Practical quality gate
+
+The previous release run was successful before the overhaul; the first new 0.3 UI run exposed four incorrect `Row` vertical alignment values, corrected in source. New Compose UI and lesson-progress instrumentation were added, and a clean **post-fix** workflow must pass before sharing a recommended install link.
