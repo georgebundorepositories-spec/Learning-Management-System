@@ -98,12 +98,37 @@ class SessionBroker(
       token
     }
 
-  suspend fun signOut() {
-    refreshGuard.withLock {
-      // Local logout is immediate and works offline; remote sessions expire or
-      // must be revoked explicitly from the trusted server administration flow.
+  /**
+   * Revoke this device's refresh session when online, always clearing local
+   * credentials even when offline. Access JWTs remain valid until expiry, as
+   * documented by Supabase; server-side RLS still enforces user activation.
+   */
+  suspend fun signOut(): Boolean = refreshGuard.withLock {
+    val session = vault.load()
+    var revoked = false
+    try {
+      if (session != null && session.accessToken.isNotBlank()) {
+        revoked = withContext(Dispatchers.IO) {
+          runCatching {
+            val request = Request.Builder()
+              .url("${baseUrl.trimEnd('/')}/auth/v1/logout?scope=local")
+              .header("apikey", publishableKey)
+              .header("Authorization", "Bearer ${session.accessToken}")
+              .post("".toRequestBody("application/json".toMediaType()))
+              .build()
+            // Do not hang a shared-device signout on an unreachable provider.
+            val bounded = http.newBuilder().callTimeout(5, TimeUnit.SECONDS).build()
+            bounded.newCall(request).execute().use { response ->
+              response.isSuccessful
+            }
+          }.getOrDefault(false)
+        }
+      }
+    } finally {
+      // Local logout is mandatory, irrespective of remote availability.
       vault.clear()
     }
+    revoked
   }
 
   companion object {
