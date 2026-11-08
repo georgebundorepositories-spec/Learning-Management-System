@@ -315,6 +315,8 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           "Parent & guardian directory","School families",
           Modifier.padding(insets))
         WorkspaceTab.CLASSES -> ClassPage(directory,Modifier.padding(insets))
+        WorkspaceTab.ASSIGNMENTS -> SchoolAssignmentPage(
+          profile,directory,Modifier.padding(insets),onSaved={retryNumber++})
         WorkspaceTab.MY_CLASSES -> MyClassesPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.CHILDREN -> FamilyPage(directory,Modifier.padding(insets))
       }
@@ -473,6 +475,7 @@ private fun DashboardModule(
           WorkspaceTab.TEACHERS -> "Staff directory"
           WorkspaceTab.PARENTS -> "Family register"
           WorkspaceTab.CLASSES -> "Class and subjects"
+          WorkspaceTab.ASSIGNMENTS -> "Manage teaching links"
           WorkspaceTab.MY_CLASSES -> "Your assigned groups"
           WorkspaceTab.CHILDREN -> "Linked learners"
           WorkspaceTab.LEARNING -> "12 lessons • offline"
