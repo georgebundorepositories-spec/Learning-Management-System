@@ -117,3 +117,11 @@
 @media(max-width:760px){.demo-header-content{padding:.85rem 1rem}.demo-header-links{gap:1rem}.demo-header-links>a:not(.demo-header-login){display:none}.demo-hero-inner{grid-template-columns:1fr;padding:3.5rem 1.2rem 2rem}.demo-hero-art{min-height:380px}.demo-hero h1{font-size:clamp(2.6rem,10vw,4rem)}.demo-data-banner{padding:1rem 1.2rem}.demo-section{padding:3rem 1.2rem}.demo-section-heading{align-items:flex-start}.demo-stage-pill{display:none}.demo-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.demo-school-picker{flex-direction:column}.demo-workspace{grid-template-columns:1fr}.demo-workspace-side{border-right:0;border-bottom:1px solid #e2ebe3}.demo-workspace-main{padding:1.35rem}.demo-feature-container{grid-template-columns:1fr}.demo-feature-section{padding:3rem 1.2rem}.demo-sync-section{padding:3rem 1.2rem}.demo-sync-flow{flex-direction:column}.demo-sync-flow>div{width:100%;min-height:auto}.demo-sync-flow>i{transform:rotate(90deg)}.demo-footer-inner{padding:1.6rem 1.2rem;flex-wrap:wrap}}
 @media(max-width:440px){.demo-hero-actions{flex-direction:column;align-items:stretch}.demo-class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.demo-class-tile{padding:.8rem}.demo-event-type{display:none}.demo-modules{grid-template-columns:1fr}.demo-stat{padding:1.1rem}}
 
+
+/* Clearly fictional roster aggregates; never show actual student identities on the public demo. */
+.demo-roster{border:1px solid #dbe8dd;background:#fff;border-radius:12px;margin-top:1.2rem;padding:1rem}
+.demo-roster>div{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.8rem}
+.demo-roster>div>span{display:flex;flex-direction:column;gap:.15rem}
+.demo-roster strong{font-size:1.4rem;color:#136445;letter-spacing:-.045em}
+.demo-roster small{font-size:.72rem;color:#6e8374}
+.demo-roster p{font-size:.72rem;line-height:1.5;color:#718678;margin:1rem 0 0}
