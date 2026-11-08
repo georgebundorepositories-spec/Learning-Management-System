@@ -53,3 +53,11 @@ The CI tests are an initial engineering verification, **not** the final Q.2 acce
 - [UNVERIFIED] Vercel's project-level deployment URL has not been observed through GitHub checks. A connected GitHub account alone does not prove the Vercel repository project is imported.
 
 No hosted real-email login, live approved account, two physical devices offline for 72 hours, 2G budget, full marks/attendance sync or background Android WorkManager acceptance is complete.
+
+## Release-size check — 8 November 2026
+
+- [PASS] Release-variant R8/resource-shrunk **unsigned** APK built with `gradle :app:assembleRelease`, measured **1,307,201 bytes** (approximately 1.31 MB), below the 25 MiB CI budget:
+  [GitHub Actions #42456216646](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42456216646).
+- [PASS] Extended Keystore/session and sync safety regressions passed on API 26 and API 29:
+  [GitHub Actions #42455881036](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/42455881036).
+- [PENDING] An **installable, signed** production release and physical Android 8 performance verification. An unsigned artifact is not a signed release.
