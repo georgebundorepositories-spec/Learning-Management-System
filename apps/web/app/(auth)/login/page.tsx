@@ -59,7 +59,7 @@ export default function LoginPage() {
         {errorMessage && <p className="form-error" role="alert">{errorMessage}</p>}
         <button type="submit" disabled={pending}>{pending ? words.signingIn : words.signIn}</button>
       </form>
-      <div className="auth-note"><p>{words.forgot}</p><p><Link href="/register">{words.register}</Link></p></div>
+      <div className="auth-note"><p>{words.forgot}</p><p><Link href="/register">{words.register}</Link></p><p><Link href="/demo">Explore the fictional school preview without signing in</Link></p></div>
       <p className="privacy-note">{words.privacy}</p>
     </section>
   </main>;
