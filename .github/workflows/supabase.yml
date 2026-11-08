@@ -7,15 +7,15 @@ on:
 
 # Local Supabase exposes fixed ports; avoid overlapping CI runs on shared runners.
 concurrency:
-  group: supabase-database-validation
-  cancel-in-progress: false
+  group: supabase-database-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   database:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: supabase/setup-cli@v1
         with:
           version: latest
@@ -45,7 +45,7 @@ jobs:
         run: supabase db reset
       - name: Run pgTAP database tests
         run: supabase test db
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
       - name: Install locked test dependencies
