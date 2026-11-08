@@ -17,6 +17,7 @@ create index if not exists fee_invoices_student_idx
 alter table public.fee_invoices enable row level security;
 grant select,insert on public.fee_invoices to authenticated;
 
+drop policy if exists fee_invoices_private_read on public.fee_invoices;
 create policy fee_invoices_private_read on public.fee_invoices
  for select to authenticated using (
  school_id=(select app_private.current_school_id())
@@ -31,6 +32,7 @@ create policy fee_invoices_private_read on public.fee_invoices
   )
  )
 );
+drop policy if exists fee_invoices_staff_insert on public.fee_invoices;
 create policy fee_invoices_staff_insert on public.fee_invoices
  for insert to authenticated with check (
  school_id=(select app_private.current_school_id())
@@ -57,6 +59,7 @@ create index if not exists school_notices_current_idx on public.school_notices(s
 alter table public.school_notices enable row level security;
 grant select,insert on public.school_notices to authenticated;
 
+drop policy if exists school_notices_audience_read on public.school_notices;
 create policy school_notices_audience_read on public.school_notices
  for select to authenticated using (
  school_id=(select app_private.current_school_id())
@@ -66,6 +69,7 @@ create policy school_notices_audience_read on public.school_notices
  and actor.is_active and actor.deleted_at is null
  and (audience_role='all' or audience_role=actor.role::text))
 );
+drop policy if exists school_notices_admin_insert on public.school_notices;
 create policy school_notices_admin_insert on public.school_notices
  for insert to authenticated with check (
  school_id=(select app_private.current_school_id())
