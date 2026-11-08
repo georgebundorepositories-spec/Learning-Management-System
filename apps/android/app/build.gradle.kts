@@ -15,6 +15,7 @@ android {
     targetSdk = 35
     versionCode = 3
     versionName = "0.3.0-design-preview"
+    manifestPlaceholders["applicationLabel"] = "ZimSchool LMS"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     // The key is publishable; never compile any service-role or secret key into an APK.
@@ -31,6 +32,13 @@ android {
   }
   kotlinOptions { jvmTarget = "17" }
   buildTypes {
+    debug {
+      // Side-by-side test install protects earlier offline queues when CI's
+      // ephemeral debug signing certificate differs between workflow runs.
+      applicationIdSuffix = ".preview"
+      versionNameSuffix = "-test"
+      manifestPlaceholders["applicationLabel"] = "ZimSchool Preview"
+    }
     release {
       isMinifyEnabled = true
       isShrinkResources = true
