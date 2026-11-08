@@ -1,7 +1,7 @@
 name: Supabase database checks
 on:
   push:
-    paths: ['supabase/**', 'scripts/test-auth-smoke.mjs', 'scripts/test-phone-auth-smoke.mjs', '.github/workflows/supabase.yml']
+    paths: ['supabase/**', 'scripts/test-auth-smoke.mjs', 'scripts/test-phone-auth-smoke.mjs', 'scripts/test-sync-edge-smoke.mjs', '.github/workflows/supabase.yml']
   pull_request:
     paths: ['supabase/**', '.github/workflows/supabase.yml']
 
@@ -64,6 +64,29 @@ jobs:
           SUPABASE_SECRET_KEY="${SECRET_KEY:-$SERVICE_ROLE_KEY}" \
           SUPABASE_PUBLISHABLE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}" \
           node scripts/test-phone-auth-smoke.mjs
+      - name: Real Auth JWT through local Edge API / 100 offline operations
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          supabase functions serve --no-verify-jwt > /tmp/zimschool-edge-runtime.log 2>&1 &
+          edge_pid=$!
+          trap 'kill "$edge_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 45); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              --max-time 4 "$API_URL/functions/v1/sync-pull" || true)
+            if [ "$code" = "401" ]; then ready=1; break; fi
+            sleep 2
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo "::error::Edge runtime did not accept requests"
+            tail -100 /tmp/zimschool-edge-runtime.log
+            exit 1
+          fi
+          SUPABASE_URL="$API_URL" \
+          SUPABASE_SECRET_KEY="${SECRET_KEY:-$SERVICE_ROLE_KEY}" \
+          SUPABASE_PUBLISHABLE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}" \
+          node scripts/test-sync-edge-smoke.mjs
       - name: Stop local Supabase
         if: always()
         run: supabase stop --no-backup
