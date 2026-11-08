@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
           style = MaterialTheme.typography.headlineSmall)
         Text(stringResource(R.string.role, current.role))
         Text(stringResource(R.string.offline_note))
-        SchoolCalendarPanel(current)
+        SchoolWorkspace(current)
         Button(enabled = !busy, onClick = {
           // A refresh and sign-out share the same mutex. Never clear the session
           // outside the broker while a worker may be rotating its refresh token.
