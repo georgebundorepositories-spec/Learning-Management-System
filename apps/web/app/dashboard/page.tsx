@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
 import { messages, languages, type Language } from "@/lib/i18n";
@@ -31,6 +32,7 @@ export default async function Dashboard() {
           <article className="summary-card"><span>{words.school}</span><strong>{school?.name ?? "—"}</strong></article>
           <article className="summary-card"><span>{words.role}</span><strong>{profile.role}</strong></article>
         </div>
+        <div className="dashboard-shortcuts"><Link href="/calendar" className="outline-button">Open offline calendar ↗</Link><Link href="/demo" className="outline-button">Fictional school preview ↗</Link></div>
         <p className="privacy-note">{words.privacy}</p>
       </> : <section role="status" className="notice-panel">{words.pending}</section>}
     </div>
