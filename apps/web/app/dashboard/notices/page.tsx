@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {randomUUID} from "node:crypto";
 import {notFound,redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import {publishNotice} from "./actions";
@@ -16,7 +17,7 @@ export default async function NoticesPage(){
  return <main className="dashboard-page">
  <header className="topbar"><div className="topbrand"><span className="brand-mark">Z</span><strong>ZimSchool LMS</strong></div><Link href="/dashboard" className="outline-button">← Dashboard</Link></header>
  <div className="dash-wrap"><p className="eyebrow">COMMUNICATIONS</p><h1>School notices</h1><p className="subhead">In-app announcements for your school. SMS and push delivery are not enabled.</p>
- {canPublish?<section className="summary-card"><h2>Publish a notice</h2><form action={publishNotice} className="resource-form">
+ {canPublish?<section className="summary-card"><h2>Publish a notice</h2><form action={publishNotice} className="resource-form"><input type="hidden" name="request_key" value={randomUUID()}/>
  <label>Title<input name="title" required minLength={3} maxLength={160}/></label>
  <label>Audience<select name="audience_role" defaultValue="all"><option value="all">Everyone at this school</option><option value="teacher">Teachers</option><option value="student">Learners</option><option value="parent">Parents</option><option value="bursar">Bursar</option><option value="admin">Administrators</option><option value="head">Head</option></select></label>
  <label className="form-full">Message<textarea name="body" required minLength={3} maxLength={4000} rows={5}/></label>
