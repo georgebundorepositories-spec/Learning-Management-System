@@ -533,6 +533,7 @@ export type Database = {
           district: string | null
           emis_number: string | null
           id: string
+          is_demo: boolean
           locale_default: string
           logo_url: string | null
           name: string
@@ -553,6 +554,7 @@ export type Database = {
           district?: string | null
           emis_number?: string | null
           id?: string
+          is_demo?: boolean
           locale_default?: string
           logo_url?: string | null
           name: string
@@ -573,6 +575,7 @@ export type Database = {
           district?: string | null
           emis_number?: string | null
           id?: string
+          is_demo?: boolean
           locale_default?: string
           logo_url?: string | null
           name?: string
