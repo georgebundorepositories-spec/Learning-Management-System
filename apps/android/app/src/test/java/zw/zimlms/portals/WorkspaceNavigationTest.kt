@@ -11,6 +11,7 @@ class WorkspaceNavigationTest {
     assertTrue(tabs.contains(WorkspaceTab.PARENTS))
     assertTrue(tabs.contains(WorkspaceTab.LEARNING))
     assertTrue(tabs.contains(WorkspaceTab.CALENDAR))
+    assertTrue(tabs.contains(WorkspaceTab.ASSIGNMENTS))
   }
 
   @Test fun teachersCannotBrowseAdministratorRegisters() {
@@ -19,6 +20,7 @@ class WorkspaceNavigationTest {
     assertTrue(tabs.contains(WorkspaceTab.LEARNING))
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
     assertFalse(tabs.contains(WorkspaceTab.PARENTS))
+    assertFalse(tabs.contains(WorkspaceTab.ASSIGNMENTS))
   }
 
   @Test fun learnersAndParentsCannotOpenStaffCalendarEditor() {
