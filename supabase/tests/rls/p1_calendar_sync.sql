@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(13);
+select plan(15);
 
 insert into public.schools(id,name) values
  ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1','P1 Synthetic School One'),
@@ -47,6 +47,25 @@ select is(
 );
 select is((select count(*) from public.sync_change_log),1::bigint,
  'Idempotent replay created exactly one change entry');
+-- A second teacher in the SAME school must not exfiltrate the owner's event
+-- by deliberately colliding an inserted UUID with a private calendar row.
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000014',true);
+select is(
+ (public.sync_calendar_operation(
+  'device-privacy','11111111-1111-4111-8111-111111111116'::uuid,
+  'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1'::uuid,'insert',
+  '{"title":"Guessing someone else''s UUID","start_at":"2026-12-04T09:00:00Z","end_at":"2026-12-04T11:00:00Z"}'::jsonb,
+  null,now())->>'result'),
+ 'rejected','Another teacher must not get private event contents via insert collision');
+select is(
+ (public.sync_calendar_operation(
+  'device-privacy','11111111-1111-4111-8111-111111111117'::uuid,
+  'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1'::uuid,'insert',
+  '{"title":"Private event probe","start_at":"2026-12-04T09:00:00Z","end_at":"2026-12-04T11:00:00Z"}'::jsonb,
+  null,now())->>'server_row'),
+ null::text,'No event row is leaked to another teacher');
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000011',true);
+
 
 select is(
  (public.sync_calendar_operation(
