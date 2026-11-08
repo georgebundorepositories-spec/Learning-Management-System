@@ -3,6 +3,7 @@ package zw.zimlms
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
@@ -28,7 +29,7 @@ class WorkspaceUiInstrumentedTest {
       ZimSchoolTheme { SchoolWorkspace(profile("admin"),onSignOut={}) }
     }
     compose.onNodeWithText("Library").assertExists().performClick()
-    compose.onNodeWithText("Learning library").assertExists()
+    compose.onNodeWithTag("learning-library-heading").assertExists()
     compose.onNodeWithText("12 ready-to-read lessons").assertExists()
     compose.onNodeWithText("Search lessons, subjects or topics").assertExists()
   }
@@ -42,8 +43,10 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithContentDescription("Open navigation menu")
       .assertExists().performClick()
     compose.onNodeWithText("WORKSPACE").assertExists()
-    compose.onNodeWithText("Sign out of this device").assertExists().performClick()
-    compose.runOnIdle { assertTrue("Signout callback must fire",requested.get()) }
+    compose.waitForIdle()
+    compose.onNodeWithTag("drawer-sign-out").assertExists().performClick()
+    compose.waitUntil(5_000L) { requested.get() }
+    assertTrue("Signout callback must fire",requested.get())
   }
 
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
