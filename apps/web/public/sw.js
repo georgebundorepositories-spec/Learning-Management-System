@@ -22,7 +22,10 @@ self.addEventListener("fetch", event => {
     if (url.pathname !== "/demo" && url.pathname !== "/calendar") return;
     event.respondWith(
       fetch(request).then(response => {
-        if (response.ok && response.type === "basic" && !response.redirected) {
+        const policy = response.headers.get("cache-control") || "";
+        const safeToCache = response.ok && response.type === "basic" && !response.redirected &&
+          !response.headers.has("set-cookie") && !/private|no-store/i.test(policy);
+        if (safeToCache) {
           const copy = response.clone();
           event.waitUntil(caches.open(CACHE).then(cache => cache.put(request, copy)));
         }
