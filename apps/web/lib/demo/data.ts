@@ -12,6 +12,7 @@ export type DemoSchool = {
   language: string;
   classes: string[];
   subjects: string[];
+  demoRoster: { staff: number; learners: number; guardians: number; events: number };
   events: Array<{ date: string; title: string; category: string; venue: string }>;
 };
 export const demoSchools: DemoSchool[] = [
@@ -22,6 +23,7 @@ export const demoSchools: DemoSchool[] = [
     province: "Midlands", district: "Gweru",
     language: "ChiShona / English",
     classes: ["ECD A", "Grade 3A", "Grade 5A", "Grade 7A"],
+    demoRoster: { staff: 6, learners: 10, guardians: 4, events: 8 },
     subjects: [
       "Mathematics", "English Language", "ChiShona",
       "Science and Technology", "Heritage Studies", "Physical Education and Arts"
@@ -40,6 +42,7 @@ export const demoSchools: DemoSchool[] = [
     province: "Midlands", district: "Gweru",
     language: "English / ChiShona",
     classes: ["Form 1A", "Form 2A", "Form 3A", "Form 4A"],
+    demoRoster: { staff: 6, learners: 10, guardians: 4, events: 8 },
     subjects: [
       "Mathematics", "English Language", "Integrated Science", "Biology",
       "Geography", "History", "Computer Science"
@@ -56,6 +59,9 @@ export const demoSchools: DemoSchool[] = [
 export const demoTotals = {
   schools: demoSchools.length,
   academicYears: 4,
+  staff: demoSchools.reduce((total, school) => total + school.demoRoster.staff, 0),
+  learners: demoSchools.reduce((total, school) => total + school.demoRoster.learners, 0),
+  guardians: demoSchools.reduce((total, school) => total + school.demoRoster.guardians, 0),
   terms: 12,
   classes: demoSchools.reduce((sum, school) => sum + school.classes.length, 0),
   subjects: demoSchools.reduce((sum, school) => sum + school.subjects.length, 0),
