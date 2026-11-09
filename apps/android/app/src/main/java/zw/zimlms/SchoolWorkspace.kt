@@ -330,6 +330,8 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           profile,directory,Modifier.padding(insets))
         WorkspaceTab.NOTICES -> SchoolNoticesPage(profile,Modifier.padding(insets))
         WorkspaceTab.FEES -> SchoolFeesPage(profile,Modifier.padding(insets))
+        WorkspaceTab.RESOURCES -> SchoolResourcesPage(profile,directory,Modifier.padding(insets))
+        WorkspaceTab.RESULTS -> SchoolPrivateResultsPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.MY_CLASSES -> MyClassesPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.CHILDREN -> FamilyPage(directory,Modifier.padding(insets))
       }
@@ -506,6 +508,8 @@ private fun DashboardModule(
           WorkspaceTab.CALENDAR -> "School events"
           WorkspaceTab.NOTICES -> "School announcements"
           WorkspaceTab.FEES -> "Private school charges"
+          WorkspaceTab.RESOURCES -> "Teacher-shared materials"
+          WorkspaceTab.RESULTS -> "Private assessment marks"
           WorkspaceTab.HOME -> "Overview"
         },style=MaterialTheme.typography.bodySmall,
           color=MaterialTheme.colorScheme.onSurfaceVariant,
