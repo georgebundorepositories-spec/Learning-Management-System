@@ -23,7 +23,9 @@ class WorkspaceNavigationTest {
     assertFalse(tabs.contains(WorkspaceTab.PARENTS))
     assertFalse(tabs.contains(WorkspaceTab.ASSIGNMENTS))
     assertTrue(tabs.contains(WorkspaceTab.NOTICES))
+    assertTrue(tabs.contains(WorkspaceTab.RESOURCES))
     assertFalse(tabs.contains(WorkspaceTab.FEES))
+    assertFalse(tabs.contains(WorkspaceTab.RESULTS))
     assertTrue(tabs.contains(WorkspaceTab.ATTENDANCE))
   }
 
@@ -45,6 +47,8 @@ class WorkspaceNavigationTest {
     assertTrue(tabs.contains(WorkspaceTab.CHILDREN))
     assertTrue(tabs.contains(WorkspaceTab.FEES))
     assertTrue(tabs.contains(WorkspaceTab.NOTICES))
+    assertTrue(tabs.contains(WorkspaceTab.RESOURCES))
+    assertTrue(tabs.contains(WorkspaceTab.RESULTS))
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
   }
 }
