@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
  * must still enforce all school/role restrictions: client menus are not auth.
  */
 data class PortalPerson(val id: String, val name: String, val role: String, val active: Boolean)
-data class PortalClass(val id: String, val name: String, val grade: String)
+data class PortalClass(val id: String, val name: String, val grade: String, val teacherId: String = "")
 data class PortalSubject(val id: String, val name: String)
 data class PortalAssignment(
   val classId: String,
@@ -103,10 +103,11 @@ class SchoolDirectoryRepository(
     // Every query is restricted to RLS-scoped records. The school filter is a
     // performance convenience, NOT the authorization boundary.
     val classes = jsonList(rows(profile,
-      "classes?select=id,school_id,name,grade_level&school_id=eq.${profile.schoolId}&deleted_at=is.null&order=name.asc&limit=500"))
+      "classes?select=id,school_id,name,grade_level,teacher_id&school_id=eq.${profile.schoolId}&deleted_at=is.null&order=name.asc&limit=500"))
       .map { entry ->
         check(entry.getString("school_id") == profile.schoolId) { "Cross-school class payload" }
-        PortalClass(entry.getString("id"), entry.getString("name"), entry.optString("grade_level"))
+        PortalClass(entry.getString("id"), entry.getString("name"), entry.optString("grade_level"),
+          entry.optString("teacher_id").takeUnless { it == "null" } ?: "")
       }
     val subjects = jsonList(rows(profile,
       "subjects?select=id,school_id,name&school_id=eq.${profile.schoolId}&deleted_at=is.null&order=name.asc&limit=500"))
