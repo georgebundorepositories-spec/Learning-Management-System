@@ -22,6 +22,8 @@ class WorkspaceNavigationTest {
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
     assertFalse(tabs.contains(WorkspaceTab.PARENTS))
     assertFalse(tabs.contains(WorkspaceTab.ASSIGNMENTS))
+    assertTrue(tabs.contains(WorkspaceTab.NOTICES))
+    assertFalse(tabs.contains(WorkspaceTab.FEES))
     assertTrue(tabs.contains(WorkspaceTab.ATTENDANCE))
   }
 
@@ -41,6 +43,8 @@ class WorkspaceNavigationTest {
   @Test fun parentOnlyGetsLinkedLearnerPortal() {
     val tabs = WorkspaceNavigation.tabs("parent")
     assertTrue(tabs.contains(WorkspaceTab.CHILDREN))
+    assertTrue(tabs.contains(WorkspaceTab.FEES))
+    assertTrue(tabs.contains(WorkspaceTab.NOTICES))
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
   }
 }
