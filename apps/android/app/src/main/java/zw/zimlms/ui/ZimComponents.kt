@@ -173,6 +173,15 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         rect(5f,3f,14f,18f)
         line(8f,8f,16f,8f);line(8f,12f,15f,12f);line(8f,16f,13f,16f)
       }
+      WorkspaceTab.RESOURCES -> {
+        rect(4f,4f,16f,16f)
+        line(7f,9f,17f,9f);line(7f,13f,17f,13f);line(7f,17f,13f,17f)
+      }
+      WorkspaceTab.RESULTS -> {
+        rect(4f,3f,16f,18f)
+        line(8f,9f,11f,12f);line(11f,12f,17f,7f)
+        line(8f,17f,16f,17f)
+      }
       WorkspaceTab.CALENDAR -> {
         rect(3f,5f,18f,16f);line(3f,10f,21f,10f)
         line(8f,3f,8f,7f);line(16f,3f,16f,7f)
