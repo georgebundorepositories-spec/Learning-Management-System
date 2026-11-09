@@ -50,8 +50,18 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
   val context=LocalContext.current.applicationContext
   val scope=rememberCoroutineScope()
   val today=remember { LocalDate.now(ZoneId.of("Africa/Harare")) }
-  var selectedClass by remember(directory) {
-    mutableStateOf(directory?.classes?.firstOrNull()?.id.orEmpty())
+  // The UI lists only assigned classes for a teacher. The database
+  // independently verifies every roster read and attendance write.
+  val availableClasses=remember(directory,profile.role,profile.userId) {
+    if(profile.role=="teacher") {
+      val assignedIds=directory?.assignments?.map { it.classId }?.toSet().orEmpty()
+      directory?.classes?.filter {
+        it.id in assignedIds || it.teacherId==profile.userId
+      }.orEmpty()
+    } else directory?.classes.orEmpty()
+  }
+  var selectedClass by remember(availableClasses) {
+    mutableStateOf(availableClasses.firstOrNull()?.id.orEmpty())
   }
   var roster by remember(selectedClass) { mutableStateOf<List<AttendanceLearner>>(emptyList()) }
   var marks by remember(selectedClass) { mutableStateOf<List<AttendanceMark>>(emptyList()) }
@@ -66,7 +76,7 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
   )
 
   LaunchedEffect(selectedClass,reload,profile.userId) {
-    if(selectedClass.isEmpty() || profile.role !in setOf("admin","head"))return@LaunchedEffect
+    if(selectedClass.isEmpty() || profile.role !in setOf("admin","head","teacher"))return@LaunchedEffect
     loading=true
     val result=runCatching {
       withContext(Dispatchers.IO) {
@@ -101,18 +111,18 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
       StateNotice("Online register — no offline attendance yet",
         "Each change is confirmed by the school server. Unsaved changes are not silently treated as recorded.")
     }
-    if(profile.role !in setOf("admin","head")) {
+    if(profile.role !in setOf("admin","head","teacher")) {
       item { StateNotice("Restricted access",
-        "Teacher attendance editing requires a reviewed, class-scoped server roster API.") }
+        "Only authorised school staff can mark daily attendance.") }
     }else if(directory==null) {
       item { StateNotice("Connect to school",
-        "Attendance needs your online, verified administrator session.") }
+        "Attendance needs your online, verified school staff session.") }
     }else {
       item {
         SectionTitle("Choose class","Only your authorised school classes")
         androidx.compose.foundation.layout.Column(
           verticalArrangement=Arrangement.spacedBy(5.dp)) {
-          directory.classes.forEach { klass ->
+          availableClasses.forEach { klass ->
             FilterChip(selected=klass.id==selectedClass,
               onClick={selectedClass=klass.id},
               label={Text(klass.name)})
