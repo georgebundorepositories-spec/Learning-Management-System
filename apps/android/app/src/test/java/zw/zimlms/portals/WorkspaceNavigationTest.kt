@@ -22,7 +22,7 @@ class WorkspaceNavigationTest {
     assertFalse(tabs.contains(WorkspaceTab.LEARNERS))
     assertFalse(tabs.contains(WorkspaceTab.PARENTS))
     assertFalse(tabs.contains(WorkspaceTab.ASSIGNMENTS))
-    assertFalse(tabs.contains(WorkspaceTab.ATTENDANCE))
+    assertTrue(tabs.contains(WorkspaceTab.ATTENDANCE))
   }
 
   @Test fun learnersAndParentsCannotOpenStaffCalendarEditor() {
