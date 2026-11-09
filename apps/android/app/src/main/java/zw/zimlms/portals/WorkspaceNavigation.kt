@@ -28,7 +28,7 @@ object WorkspaceNavigation {
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR
     )
     "teacher" -> listOf(
-      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,
+      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR
     )
     "student" -> listOf(
