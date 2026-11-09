@@ -1,0 +1,57 @@
+package zw.zimlms.portals
+
+enum class WorkspaceTab(val label: String) {
+  HOME("Dashboard"),
+  LEARNERS("Learners"),
+  TEACHERS("Teachers"),
+  PARENTS("Parents"),
+  CLASSES("Classes"),
+  ASSIGNMENTS("Teaching assignments"),
+  ATTENDANCE("Attendance"),
+  CHILDREN("My learners"),
+  MY_CLASSES("My classes"),
+  LEARNING("Learning library"),
+  CALENDAR("Calendar"),
+  NOTICES("Notices"),
+  FEES("Fee invoices")
+}
+
+/**
+ * Visual navigation is NOT an authorization layer; Supabase RLS enforces
+ * every directory read. Never let an admin switch authentication identities
+ * to display another role's private records.
+ */
+object WorkspaceNavigation {
+  fun tabs(role: String): List<WorkspaceTab> = when (role) {
+    "admin", "head" -> listOf(
+      WorkspaceTab.HOME, WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS,
+      WorkspaceTab.PARENTS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
+      WorkspaceTab.ATTENDANCE,
+      WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR,
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES
+    )
+    "teacher" -> listOf(
+      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
+      WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES
+    )
+    "student" -> listOf(
+      WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.LEARNING,
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES
+    )
+    "parent" -> listOf(
+      WorkspaceTab.HOME, WorkspaceTab.CHILDREN, WorkspaceTab.LEARNING,
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES
+    )
+    "bursar" -> listOf(WorkspaceTab.HOME, WorkspaceTab.FEES, WorkspaceTab.NOTICES)
+    "clerk" -> listOf(WorkspaceTab.HOME, WorkspaceTab.NOTICES)
+    else -> listOf(WorkspaceTab.HOME)
+  }
+
+  fun heading(role: String) = when(role) {
+    "admin", "head" -> "School administration"
+    "teacher" -> "Teacher portal"
+    "student" -> "Learner portal"
+    "parent" -> "Parent portal"
+    else -> "School workspace"
+  }
+}
