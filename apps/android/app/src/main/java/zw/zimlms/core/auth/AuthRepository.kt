@@ -18,6 +18,13 @@ data class CachedProfile(
   val schoolId: String
 )
 
+data class AuthenticatedSchoolLogin(
+  val profile: CachedProfile,
+  val accessToken: String,
+  val refreshToken: String,
+  val expiresAtMillis: Long
+)
+
 class AuthRepository(
   private val baseUrl: String,
   private val publishableKey: String,
@@ -27,7 +34,26 @@ class AuthRepository(
     .build()
 ) {
 
-  suspend fun login(identifier: String, password: String): CachedProfile = withContext(Dispatchers.IO) {
+  suspend fun login(identifier: String, password: String): CachedProfile =
+    loginCore(identifier, password).first
+
+  suspend fun loginWithSession(identifier: String, password: String): AuthenticatedSchoolLogin {
+    val (profile, session) = loginCore(identifier, password)
+    val accessToken = session.optString("access_token")
+    val refreshToken = session.optString("refresh_token")
+    val expiresIn = session.optLong("expires_in", 0L)
+    if (accessToken.isBlank() || refreshToken.isBlank() || expiresIn !in 60L..86400L) {
+      throw IOException("Server did not return a renewable session")
+    }
+    // Set an early safety margin to avoid using expired JWTs on unstable networks.
+    return AuthenticatedSchoolLogin(
+      profile, accessToken, refreshToken,
+      System.currentTimeMillis() + expiresIn * 1000L
+    )
+  }
+
+  private suspend fun loginCore(identifier: String, password: String):
+    Pair<CachedProfile, JSONObject> = withContext(Dispatchers.IO) {
     require(baseUrl.startsWith("https://") && publishableKey.startsWith("sb_publishable_")) {
       "School connection is not configured"
     }
@@ -62,11 +88,12 @@ class AuthRepository(
       records.getJSONObject(0)
     }
     if (!profile.optBoolean("is_active", false)) throw IOException("Account inactive")
-    CachedProfile(
+    val authorized = CachedProfile(
       userId = userId,
       fullName = profile.getString("full_name"),
       role = profile.getString("role"),
       schoolId = profile.getString("school_id")
     )
+    Pair(authorized, token)
   }
 }
