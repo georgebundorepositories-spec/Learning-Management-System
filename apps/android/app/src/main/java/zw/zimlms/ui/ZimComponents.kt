@@ -165,6 +165,14 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         line(7f,9f,10f,12f);line(10f,12f,16f,6f)
         line(7f,17f,17f,17f)
       }
+      WorkspaceTab.NOTICES -> {
+        rect(3f,4f,18f,16f)
+        line(7f,9f,17f,9f);line(7f,13f,17f,13f);line(7f,17f,13f,17f)
+      }
+      WorkspaceTab.FEES -> {
+        rect(5f,3f,14f,18f)
+        line(8f,8f,16f,8f);line(8f,12f,15f,12f);line(8f,16f,13f,16f)
+      }
       WorkspaceTab.CALENDAR -> {
         rect(3f,5f,18f,16f);line(3f,10f,21f,10f)
         line(8f,3f,8f,7f);line(16f,3f,16f,7f)
