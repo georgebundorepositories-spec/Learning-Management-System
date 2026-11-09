@@ -1,7 +1,7 @@
 name: Web authentication foundation
 on:
   push:
-    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
+    paths: ['apps/web/**', 'apps/android/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
   pull_request:
     paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
 
