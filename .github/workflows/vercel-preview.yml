@@ -22,7 +22,6 @@ jobs:
     name: Deploy and verify fictional preview
     runs-on: ubuntu-26.04
     timeout-minutes: 25
-    env:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
