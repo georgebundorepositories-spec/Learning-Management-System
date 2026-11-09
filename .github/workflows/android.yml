@@ -4,6 +4,12 @@ on:
     paths: ['apps/android/**', '.github/workflows/android.yml']
   pull_request:
     paths: ['apps/android/**', '.github/workflows/android.yml']
+# Older pushes and draft-PR runs from the same branch should not consume
+# multiple emulators while a newer commit is ready to validate.
+concurrency:
+  group: android-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -42,6 +48,40 @@ jobs:
         with:
           name: zimschool-phase0-debug-apk
           path: apps/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+  minified-release-size:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      ZIMLMS_SUPABASE_URL: https://mezbtcdkmvtkjxdmmhbw.supabase.co
+      ZIMLMS_SUPABASE_PUBLISHABLE_KEY: sb_publishable_nlxCwwfA_MWEpI-3zX1hWg__PlUl91m
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Build optimised unsigned release APK (not distribution-ready)
+        working-directory: apps/android
+        run: gradle :app:assembleRelease --no-daemon
+      - name: Enforce 25 MiB release APK budget
+        run: |
+          set -euo pipefail
+          path=apps/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          test -f "$path"
+          size=$(stat -c%s "$path")
+          echo "Unsigned release APK size: $size bytes"
+          echo "Maximum permitted size: 26214400 bytes"
+          test "$size" -le 26214400
+      - name: Preserve release-size evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: zimschool-unsigned-minified-release-apk
+          path: apps/android/app/build/outputs/apk/release/app-release-unsigned.apk
           if-no-files-found: error
 
   offline-auth-emulator:
