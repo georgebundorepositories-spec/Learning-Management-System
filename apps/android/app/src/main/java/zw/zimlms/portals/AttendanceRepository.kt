@@ -74,30 +74,24 @@ class AttendanceRepository(
 
   suspend fun roster(actor:CachedProfile,classId:String):List<AttendanceLearner> {
     authoriseClass(actor,classId)
-    // Student profiles are not generally accessible to teachers; this roster
-    // is deliberately restricted to school admins until a dedicated
-    // class-teacher-only RPC can be reviewed and deployed.
-    require(actor.role in setOf("admin","head")) {
-      "Teacher attendance roster requires reviewed class-scoped server access"
+    // The authenticated RPC is SECURITY INVOKER. Its unexposed internal
+    // function limits results to a teacher's assigned classes (or admin/head).
+    // Do not fall back to broad student_profiles or users directory queries.
+    val entries=each(send(actor,"rpc/get_attendance_roster","POST",
+      JSONObject().put("p_class_id",classId).toString()))
+    if(entries.size>=300)throw IOException("Roster exceeds safe page size")
+    val learners=entries.map { row ->
+      val studentId=row.getString("student_user_id")
+      if(!uuid.matches(studentId))throw IOException("Invalid learner ID in roster")
+      AttendanceLearner(studentId,row.optString("display_name","Learner"),classId)
     }
-    val profiles=each(send(actor,
-      "student_profiles?select=user_id,class_id&class_id=eq.$classId&deleted_at=is.null&limit=300"))
-    if(profiles.size>=300) throw IOException("Roster exceeds safe page size")
-    val ids=profiles.map{it.getString("user_id")}.filter(uuid::matches)
-    if(ids.isEmpty())return emptyList()
-    val directory=each(send(actor,
-      "users?select=id,full_name,role,is_active&school_id=eq.${actor.schoolId}&id=in.(${ids.joinToString(",")})&deleted_at=is.null&limit=300"))
-      .filter{it.optString("role")=="student"}
-      .associateBy{it.getString("id")}
-    return ids.mapNotNull{id->
-      val person=directory[id] ?: return@mapNotNull null
-      AttendanceLearner(id,person.optString("full_name","Learner"),classId)
-    }.sortedBy{it.name}
+    if(learners.map { it.id }.distinct().size!=learners.size)
+      throw IOException("Duplicate learner in the roster")
+    return learners.sortedBy { it.name }
   }
 
   suspend fun day(actor:CachedProfile,classId:String,date:LocalDate):List<AttendanceMark> {
     authoriseClass(actor,classId)
-    require(actor.role in setOf("admin","head")){"Administrator access required"}
     return each(send(actor,
       "attendance?select=id,student_user_id,status,date,school_id,class_id" +
         "&school_id=eq.${actor.schoolId}&class_id=eq.$classId&date=eq.$date" +
