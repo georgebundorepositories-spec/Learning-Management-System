@@ -91,7 +91,7 @@ export default async function LearningProgressPage(){
 
  const submissionIds=(submissions.data??[]).map(s=>s.id);
  const assessmentIds=(assessments.data??[]).map(a=>a.id);
- const [reviews,marks]=await Promise.all([
+ const [reviews,marks,practice]=await Promise.all([
   submissionIds.length && !scopeError
    ?db.from("assignment_reviews").select("submission_id,score")
     .eq("school_id",school).in("submission_id",submissionIds).limit(LIMIT)
@@ -99,14 +99,20 @@ export default async function LearningProgressPage(){
   assessmentIds.length && !scopeError
    ?db.from("assessment_results").select("assessment_id,student_user_id,score")
     .in("assessment_id",assessmentIds).in("student_user_id",learnerIds).limit(LIMIT)
+   :Promise.resolve(empty),
+  learnerIds.length && !scopeError
+   ?db.from("lesson_completions").select("student_user_id,lesson_id")
+     .eq("school_id",school).in("student_user_id",learnerIds).limit(LIMIT)
    :Promise.resolve(empty)
  ]);
  const error=scopeError||[names,schoolAssignments,submissions,assessments,
-  attendance,reviews,marks].some(x=>!!x.error);
+  attendance,reviews,marks,practice].some(x=>!!x.error);
  const nameById=new Map((names.data??[]).map(x=>[x.id,x.full_name]));
  const rows=error?[]:roster.map(profile=>({
   name:nameById.get(profile.user_id)??"Learner",
   grade:classNames.get(profile.class_id)??"Enrolled class",
+  practiceCount:new Set((practice.data??[])
+    .filter(p=>p.student_user_id===profile.user_id).map(p=>p.lesson_id)).size,
   summary:progressSnapshot(profile.user_id,profile.class_id,
    schoolAssignments.data??[],submissions.data??[],reviews.data??[],
    assessments.data??[],marks.data??[],attendance.data??[])
@@ -124,13 +130,14 @@ export default async function LearningProgressPage(){
    {error?<p className="notice-panel" role="alert">Your school records could not be loaded securely. Try signing in again or contact a school administrator.</p>
    :rows.length===0?<p className="notice-panel">No enrolled learner records are currently visible to your account.</p>
    :<div className="summary-cards">
-    {rows.map(({name,grade,summary:s})=><section className="summary-card" key={s.learnerId}>
+    {rows.map(({name,grade,practiceCount,summary:s})=><section className="summary-card" key={s.learnerId}>
      <p className="eyebrow">{grade}</p><h2>{name}</h2>
      <div className="summary-cards" style={{gap:12}}>
       <article className="summary-card"><span>Coursework submitted</span><strong>{s.submitted} / {s.assigned}</strong><small>{s.pending} awaiting submission · {s.reviewed} reviewed</small></article>
       <article className="summary-card"><span>Reviewed coursework</span><strong>{formatPercent(s.courseworkPercent)}</strong><small>Only marked submissions count</small></article>
       <article className="summary-card"><span>Formal assessment marks</span><strong>{formatPercent(s.assessmentPercent)}</strong><small>{s.markedAssessments} / {s.assessmentCount} assessments marked</small></article>
       <article className="summary-card"><span>Attendance entries</span><strong>{s.attendancePresent} / {s.attendanceRecorded}</strong><small>Present / recorded, recent entries only</small></article>
+      <article className="summary-card"><span>Formative lessons completed</span><strong>{practiceCount} / 75</strong><small>Correct self-check recorded across Android and web; not a graded assessment</small></article>
      </div>
     </section>)}
    </div>}
@@ -141,7 +148,7 @@ export default async function LearningProgressPage(){
    <p className="privacy-note">
     These are read-only snapshots of accessible records (at most {LIMIT} recent items per source), not complete term reports.
     Missing marks are not treated as zero. Coursework and formal assessments are shown separately;
-    offline Android practice completions are not synchronised to these figures.
+    only uploaded lesson self-check completions appear here; pending offline Android completions are not counted until synced.
     Access is checked against school membership and the database's row-level security rules.
    </p>
   </div>
