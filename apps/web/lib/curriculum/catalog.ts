@@ -1,4 +1,5 @@
 import rawCatalog from "../../../../packages/curriculum/catalog.json";
+import extraCatalog from "../../../../packages/curriculum/extension.json";
 
 export type CurriculumExercise={question:string;answer:string};
 export type CurriculumUnit={
@@ -9,8 +10,8 @@ export type CurriculumUnit={
  assignment:{title:string;instructions:string;maxScore:number;rubric:string[]};
  syllabusSource:string;mediaActivity:string;
 };
-export const curriculumUnits:CurriculumUnit[]=rawCatalog.units as CurriculumUnit[];
-export const curriculumVersion=rawCatalog.catalogVersion;
+export const curriculumUnits:CurriculumUnit[]=[...rawCatalog.units,...extraCatalog.units] as CurriculumUnit[];
+export const curriculumVersion=extraCatalog.version;
 export const curriculumNotice=rawCatalog.licenseNotice;
 export const curriculumGrades=["ECD A","ECD B",
  "Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]
