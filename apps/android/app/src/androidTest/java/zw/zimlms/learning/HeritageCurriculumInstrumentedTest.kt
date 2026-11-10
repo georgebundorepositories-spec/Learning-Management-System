@@ -24,7 +24,8 @@ class HeritageCurriculumInstrumentedTest {
    }
    assertTrue("Lessons must have substantive explanations, examples and quizzes",
      lessons.all { it.objective.length>15 && it.explanation.size>=3 &&
-       it.workedExample.length>20 && it.choices.size==3 &&
+       it.workedExample.length>20 && it.exercises.size==3 &&
+       it.assignmentInstructions.isNotBlank() && it.choices.size==3 &&
        it.correctIndex in it.choices.indices })
  }
 }
