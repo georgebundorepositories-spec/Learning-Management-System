@@ -46,7 +46,7 @@ data class SchoolCourseworkSnapshot(
   val reviews: List<SchoolCourseworkReview>
 )
 
-private val markPattern=Regex("""^(?:0|[1-9]\\d{0,4})(?:\\.\\d{1,2})?$""")
+private val markPattern=Regex("""^(?:0|[1-9]\d{0,4})(?:\.\d{1,2})?$""")
 /** Exact decimal validation avoids floating-point grade-rounding errors. */
 internal fun validCourseworkMark(score:String,maximum:String):Boolean{
   if(!markPattern.matches(score) || !markPattern.matches(maximum))return false
