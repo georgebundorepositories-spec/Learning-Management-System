@@ -1,0 +1,1688 @@
+{
+  "catalogVersion": "2026-11-10.1",
+  "curriculum": "Zimbabwe Heritage-Based Curriculum (MoPSE 2024–2030)",
+  "licenseNotice": "Original lesson text and questions created for ZimSchool, aligned to the user-supplied syllabi and topic examples. Commercial textbook pages, illustrations and exercises have not been reproduced.",
+  "teacherReview": "Teachers must check local teaching language, class ability and school assessment policies before assigning.",
+  "units": [
+    {
+      "id": "ecd-b-english-language-sounds-around-us",
+      "level": "ECD B",
+      "subject": "English Language",
+      "topic": "Listening/Observing",
+      "title": "Sounds around us",
+      "objective": "Recognise and name common sound sources.",
+      "durationMinutes": 20,
+      "explanation": [
+        "People, animals and objects make different sounds. Birds chirp, dogs bark and bells ring. Listen carefully before identifying what made a sound.",
+        "Ask a trusted adult to clap hands, shake a bell or tap a table softly. Name each sound source and tell how the sounds differ."
+      ],
+      "workedExample": "When we hear a bell ring, the bell is the source of the sound.",
+      "question": "Which object can ring?",
+      "choices": [
+        "A banana",
+        "A bell",
+        "A leaf"
+      ],
+      "correctIndex": 1,
+      "feedback": "A bell makes a ringing sound.",
+      "exercises": [
+        {
+          "question": "Name two animal sounds.",
+          "answer": "For example: dog barks; bird chirps."
+        },
+        {
+          "question": "What makes a clap?",
+          "answer": "Two hands clapping."
+        },
+        {
+          "question": "Why listen first?",
+          "answer": "To identify the sound accurately."
+        }
+      ],
+      "assignment": {
+        "title": "Sounds around us — class assignment",
+        "instructions": "Listen for three safe sounds around home or school. Draw each source and explain it to a teacher.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Teacher demonstration of sounds; use new illustrations rather than copied workbook pictures."
+    },
+    {
+      "id": "ecd-b-english-language-greetings-and-polite-replies",
+      "level": "ECD B",
+      "subject": "English Language",
+      "topic": "Speaking/Signing",
+      "title": "Greetings and polite replies",
+      "objective": "Use a suitable greeting at different times of day.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Greetings begin friendly conversations. Say 'Good morning' early in the day and 'Good afternoon' later. Listen respectfully to the reply.",
+        "Practise greeting a teacher, a friend and a family member. Learners may use signing or home-language greetings as appropriate."
+      ],
+      "workedExample": "Good morning, Teacher. Good morning, how are you? I am well, thank you.",
+      "question": "Which greeting is suitable before lessons begin?",
+      "choices": [
+        "Good morning",
+        "Good night",
+        "Goodbye"
+      ],
+      "correctIndex": 0,
+      "feedback": "Good morning is suitable at the beginning of the day.",
+      "exercises": [
+        {
+          "question": "Reply to 'How are you?'",
+          "answer": "I am fine/well, thank you."
+        },
+        {
+          "question": "When do you say goodbye?",
+          "answer": "When leaving."
+        },
+        {
+          "question": "Name another polite greeting.",
+          "answer": "Hello or good afternoon."
+        }
+      ],
+      "assignment": {
+        "title": "Greetings and polite replies — class assignment",
+        "instructions": "Act out two everyday greetings with a partner. Show careful listening and polite replies.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Consent-based learner role-play; no real addresses or phone numbers."
+    },
+    {
+      "id": "ecd-b-english-language-sequencing-picture-stories",
+      "level": "ECD B",
+      "subject": "English Language",
+      "topic": "Reading/Signing",
+      "title": "Sequencing picture stories",
+      "objective": "Arrange a story into first, next and last.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Stories have events that take place in a sequence. We can understand the order by looking closely at pictures before we read full sentences.",
+        "Imagine three pictures showing a child planting a seed, watering it and seeing it sprout. Tell what happened first, next and last."
+      ],
+      "workedExample": "First Chipo plants a seed. Next she waters it. Last a shoot grows.",
+      "question": "What must happen before watering a newly planted seed?",
+      "choices": [
+        "Eating lunch",
+        "Planting the seed",
+        "Picking a flower"
+      ],
+      "correctIndex": 1,
+      "feedback": "Planting the seed is the first step.",
+      "exercises": [
+        {
+          "question": "What word begins a sequence?",
+          "answer": "First."
+        },
+        {
+          "question": "What word marks the middle?",
+          "answer": "Next or then."
+        },
+        {
+          "question": "What word marks the ending?",
+          "answer": "Last or finally."
+        }
+      ],
+      "assignment": {
+        "title": "Sequencing picture stories — class assignment",
+        "instructions": "Draw three original pictures showing a simple sequence and describe the order aloud.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Learner-created three-panel story."
+    },
+    {
+      "id": "ecd-b-english-language-tracing-patterns-and-the-letter-o",
+      "level": "ECD B",
+      "subject": "English Language",
+      "topic": "Writing/Brailling",
+      "title": "Tracing patterns and the letter O",
+      "objective": "Practise lines, curves and early letter shapes.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Early writing begins with moving a pencil carefully across the page. Straight strokes, loops and circles develop control and hand-eye coordination.",
+        "Trace a large round shape, then try forming the capital letter O. Use safe pencil grip, take breaks and use tactile shapes where needed."
+      ],
+      "workedExample": "A capital O is one smooth closed round line.",
+      "question": "Which shape best helps you practise O?",
+      "choices": [
+        "Circle",
+        "Triangle",
+        "Straight line only"
+      ],
+      "correctIndex": 0,
+      "feedback": "O is formed from a rounded closed curve.",
+      "exercises": [
+        {
+          "question": "Draw two circles.",
+          "answer": "Two clear circles."
+        },
+        {
+          "question": "Trace three curved lines.",
+          "answer": "Three curves."
+        },
+        {
+          "question": "Attempt your name's first letter.",
+          "answer": "Recognisable initial letter."
+        }
+      ],
+      "assignment": {
+        "title": "Tracing patterns and the letter O — class assignment",
+        "instructions": "Create three rows of traced patterns and one row showing the first letter of your name.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Original large-print tracing card or tactile equivalent."
+    },
+    {
+      "id": "ecd-b-science-and-technology-washing-hands-with-soap",
+      "level": "ECD B",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "Washing hands with soap",
+      "objective": "Show appropriate handwashing actions.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Hands pick up dirt and germs when we play and touch surfaces. Washing with clean water and soap helps remove unwanted material.",
+        "Wet hands, apply soap, rub palms and backs of hands, clean between fingers, rinse and dry hygienically. Wash before eating and after using the toilet."
+      ],
+      "workedExample": "Tariro washes her hands after playing outside and before eating lunch.",
+      "question": "When should we wash our hands?",
+      "choices": [
+        "Only on Monday",
+        "Before eating",
+        "Only when adults watch"
+      ],
+      "correctIndex": 1,
+      "feedback": "Washing before eating helps keep us healthy.",
+      "exercises": [
+        {
+          "question": "Name two handwashing materials.",
+          "answer": "Soap and clean water."
+        },
+        {
+          "question": "When should we wash after using a toilet?",
+          "answer": "Immediately after using it."
+        },
+        {
+          "question": "Show cleaning between fingers.",
+          "answer": "Teacher observes rubbing between fingers."
+        }
+      ],
+      "assignment": {
+        "title": "Washing hands with soap — class assignment",
+        "instructions": "Demonstrate handwashing and draw two times when it is important.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Live demonstration with safe water and soap."
+    },
+    {
+      "id": "ecd-b-science-and-technology-foods-from-plants-and-animals",
+      "level": "ECD B",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Foods from plants and animals",
+      "objective": "Sort foods according to their sources.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Maize, groundnuts, vegetables and fruit grow on plants. Eggs and milk are examples of foods that come from animals.",
+        "Use real safe foods or pictures to make two groups. Ask where each food originates rather than guessing from its packaging."
+      ],
+      "workedExample": "Maize comes from a plant. Milk may come from a cow or goat.",
+      "question": "Which comes from a plant?",
+      "choices": [
+        "Eggs",
+        "Milk",
+        "Maize"
+      ],
+      "correctIndex": 2,
+      "feedback": "Maize is grown and harvested from plants.",
+      "exercises": [
+        {
+          "question": "Name two plant foods.",
+          "answer": "Maize and vegetables, or other correct examples."
+        },
+        {
+          "question": "Name an animal food.",
+          "answer": "Milk or eggs."
+        },
+        {
+          "question": "What source group contains bananas?",
+          "answer": "Plants."
+        }
+      ],
+      "assignment": {
+        "title": "Foods from plants and animals — class assignment",
+        "instructions": "Draw four foods available locally, then group them by plant or animal source.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Real foods or fresh learner drawings."
+    },
+    {
+      "id": "ecd-b-indigenous-languages-greetings-and-unhu",
+      "level": "ECD B",
+      "subject": "Indigenous Languages",
+      "topic": "Language Usage and Cultural Aspects",
+      "title": "Greetings and Unhu",
+      "objective": "Show respect through culturally suitable greetings.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Zimbabwean communities use a range of indigenous languages and greeting traditions. Respect includes waiting for a response and using polite words.",
+        "In Shona, 'Mangwanani' can be used as a morning greeting. Invite learners to share other locally appropriate expressions without treating one language as universal."
+      ],
+      "workedExample": "A child greets an older person politely, listens and answers the greeting.",
+      "question": "What best shows respect while greeting?",
+      "choices": [
+        "Listening to the reply",
+        "Interrupting",
+        "Turning away"
+      ],
+      "correctIndex": 0,
+      "feedback": "Unhu includes listening and responding respectfully.",
+      "exercises": [
+        {
+          "question": "Give a greeting in a familiar local language.",
+          "answer": "Suitable culturally appropriate greeting."
+        },
+        {
+          "question": "Name a kind action.",
+          "answer": "Helping or sharing."
+        },
+        {
+          "question": "How should you respond?",
+          "answer": "Listen and reply respectfully."
+        }
+      ],
+      "assignment": {
+        "title": "Greetings and Unhu — class assignment",
+        "instructions": "With consent, ask a family member to teach two greetings and demonstrate where each is appropriate.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Optional live greeting demonstration; do not collect private contact details."
+    },
+    {
+      "id": "grade-1-english-language-following-two-instructions",
+      "level": "Grade 1",
+      "subject": "English Language",
+      "topic": "Listening/Observing",
+      "title": "Following two instructions",
+      "objective": "Perform two safe actions in the correct order.",
+      "durationMinutes": 25,
+      "explanation": [
+        "When someone gives two instructions, listen to both before you begin. Remember which action comes first and which follows it.",
+        "Try 'point to the window, then clap once'. Complete the first instruction before doing the second."
+      ],
+      "workedExample": "Close the book and put it on the desk: close it first; place it on the desk second.",
+      "question": "Which action comes first when told 'stand up, then sit down'?",
+      "choices": [
+        "Sit down",
+        "Stand up",
+        "Jump outside"
+      ],
+      "correctIndex": 1,
+      "feedback": "Standing up comes before sitting down.",
+      "exercises": [
+        {
+          "question": "Give a two-step tidy-up instruction.",
+          "answer": "Two ordered safe steps."
+        },
+        {
+          "question": "Explain 'then'.",
+          "answer": "It introduces the next step."
+        },
+        {
+          "question": "Follow two teacher instructions.",
+          "answer": "Teacher checks correct order."
+        }
+      ],
+      "assignment": {
+        "title": "Following two instructions — class assignment",
+        "instructions": "Invent two short classroom instructions for a partner and check that the order is followed.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Teacher-recorded voice instruction or signing demonstration."
+    },
+    {
+      "id": "grade-2-science-and-technology-recording-the-weather",
+      "level": "Grade 2",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Recording the weather",
+      "objective": "Name common weather conditions and record observations.",
+      "durationMinutes": 25,
+      "explanation": [
+        "Weather may be sunny, cloudy, windy or rainy. Observing conditions helps us choose suitable clothing and plan everyday activities.",
+        "Make a small three-day chart and describe conditions while staying safe. Do not go outside to observe lightning or violent storms."
+      ],
+      "workedExample": "A rainy morning may be recorded as cloudy and wet. A raincoat can help a learner stay dry.",
+      "question": "What clothing helps in rain?",
+      "choices": [
+        "Raincoat",
+        "Sandals only",
+        "Sunglasses only"
+      ],
+      "correctIndex": 0,
+      "feedback": "A raincoat is useful during rainy weather.",
+      "exercises": [
+        {
+          "question": "Name two weather types.",
+          "answer": "Sunny and rainy, etc."
+        },
+        {
+          "question": "Record today's observed weather.",
+          "answer": "Depends on actual observation."
+        },
+        {
+          "question": "What is safe during lightning?",
+          "answer": "Remain in a suitable shelter with adult guidance."
+        }
+      ],
+      "assignment": {
+        "title": "Recording the weather — class assignment",
+        "instructions": "Keep a three-day weather chart using words or pictures and explain one suitable clothing choice.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Student-made weather symbols and chart."
+    },
+    {
+      "id": "grade-3-mathematics-place-value-up-to-one-thousand",
+      "level": "Grade 3",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Place value up to one thousand",
+      "objective": "Identify hundreds, tens and units.",
+      "durationMinutes": 35,
+      "explanation": [
+        "In the number 472, the 4 represents four hundreds, the 7 represents seven tens and the 2 represents two units.",
+        "We can write 472 as 400 + 70 + 2. Use bundles of sticks or a place-value chart to check each digit."
+      ],
+      "workedExample": "305 = 300 + 0 tens + 5 units.",
+      "question": "What is the value of 6 in 648?",
+      "choices": [
+        "60",
+        "600",
+        "6"
+      ],
+      "correctIndex": 1,
+      "feedback": "6 is in the hundreds place and is worth 600.",
+      "exercises": [
+        {
+          "question": "Expand 583.",
+          "answer": "500 + 80 + 3."
+        },
+        {
+          "question": "What is the tens digit in 719?",
+          "answer": "1."
+        },
+        {
+          "question": "Write four hundreds and six units.",
+          "answer": "406."
+        }
+      ],
+      "assignment": {
+        "title": "Place value up to one thousand — class assignment",
+        "instructions": "Create a place-value table for 736 and explain the value of each digit.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Homemade counters and hundreds-tens-units chart."
+    },
+    {
+      "id": "grade-3-mathematics-multiplication-as-equal-groups",
+      "level": "Grade 3",
+      "subject": "Mathematics",
+      "topic": "Operations",
+      "title": "Multiplication as equal groups",
+      "objective": "Calculate products using repeated addition.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Equal groups have the same number of items. Three groups of four counters contain 4 + 4 + 4 = 12 counters.",
+        "Multiplication is a short way to describe equal groups. Three groups of four are written 3 × 4 = 12."
+      ],
+      "workedExample": "Four plates with two bananas each show 4 × 2 = 8.",
+      "question": "What is 3 × 5?",
+      "choices": [
+        "8",
+        "10",
+        "15"
+      ],
+      "correctIndex": 2,
+      "feedback": "Three equal groups of five make fifteen.",
+      "exercises": [
+        {
+          "question": "Write 4 + 4 + 4 as multiplication.",
+          "answer": "3 × 4 = 12."
+        },
+        {
+          "question": "Find 5 × 2.",
+          "answer": "10."
+        },
+        {
+          "question": "Draw two groups of six.",
+          "answer": "Twelve counters arranged in two groups."
+        }
+      ],
+      "assignment": {
+        "title": "Multiplication as equal groups — class assignment",
+        "instructions": "Draw three examples of equal groups from home or school and work out their totals.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Stones or bottle tops for groups."
+    },
+    {
+      "id": "grade-3-english-language-main-idea-and-supporting-detail",
+      "level": "Grade 3",
+      "subject": "English Language",
+      "topic": "Reading/Signing",
+      "title": "Main idea and supporting detail",
+      "objective": "Identify what an original story is mostly about.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Read: 'Rudo planted a small garden. She watered it each morning. Green shoots appeared after several days.'",
+        "The main idea is that Rudo grew and cared for plants. The details tell what she did and what happened afterward."
+      ],
+      "workedExample": "Main idea: Rudo cared for her garden. Detail: she watered it in the morning.",
+      "question": "What is the story mainly about?",
+      "choices": [
+        "A football game",
+        "Growing plants",
+        "A bus journey"
+      ],
+      "correctIndex": 1,
+      "feedback": "Every sentence relates to Rudo's small garden.",
+      "exercises": [
+        {
+          "question": "Who planted the garden?",
+          "answer": "Rudo."
+        },
+        {
+          "question": "What happened after several days?",
+          "answer": "Green shoots appeared."
+        },
+        {
+          "question": "Write the main idea.",
+          "answer": "Rudo grew plants in a garden."
+        }
+      ],
+      "assignment": {
+        "title": "Main idea and supporting detail — class assignment",
+        "instructions": "Read a new short classroom story and give its main idea plus two details.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Learner-created picture of a garden."
+    },
+    {
+      "id": "grade-3-science-and-technology-food-sources-and-good-hygiene",
+      "level": "Grade 3",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Food sources and good hygiene",
+      "objective": "Classify common foods and explain basic handling.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Foods such as maize, groundnuts and vegetables come from plants. Other foods such as eggs and milk are produced by animals.",
+        "Food sources can be identified by asking how each item is grown or produced. Clean preparation and safe storage help reduce contamination."
+      ],
+      "workedExample": "An egg is an animal-derived food; a mango is a plant-derived food.",
+      "question": "Which food comes from an animal?",
+      "choices": [
+        "Groundnut",
+        "Egg",
+        "Maize"
+      ],
+      "correctIndex": 1,
+      "feedback": "Eggs are produced by birds such as chickens.",
+      "exercises": [
+        {
+          "question": "List two plant foods.",
+          "answer": "Maize, vegetables or fruit."
+        },
+        {
+          "question": "Name an animal food.",
+          "answer": "Egg or milk."
+        },
+        {
+          "question": "Give one food-hygiene step.",
+          "answer": "Wash hands and use clean utensils."
+        }
+      ],
+      "assignment": {
+        "title": "Food sources and good hygiene — class assignment",
+        "instructions": "Make a two-column table of six local foods, classify them by source and explain safe handling for one.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Original food-source pictures or safe food samples."
+    },
+    {
+      "id": "grade-4-english-language-common-nouns-and-proper-nouns",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Language Structures",
+      "title": "Common nouns and proper nouns",
+      "objective": "Identify nouns and use capital letters in proper names.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Nouns name people, places, animals and things. Words such as 'school', 'goat' and 'teacher' are common nouns.",
+        "Proper nouns identify particular people and places. Names such as Zimbabwe, Harare and Tariro begin with capital letters."
+      ],
+      "workedExample": "Tariro visited Kwekwe. Tariro and Kwekwe are proper nouns.",
+      "question": "Which word is a proper noun?",
+      "choices": [
+        "teacher",
+        "Zimbabwe",
+        "tree"
+      ],
+      "correctIndex": 1,
+      "feedback": "Zimbabwe names a particular country.",
+      "exercises": [
+        {
+          "question": "Find nouns in 'A goat eats grass'.",
+          "answer": "goat and grass."
+        },
+        {
+          "question": "Correct 'rudo lives in gweru'.",
+          "answer": "Rudo lives in Gweru."
+        },
+        {
+          "question": "Give two common nouns.",
+          "answer": "Any two suitable examples."
+        }
+      ],
+      "assignment": {
+        "title": "Common nouns and proper nouns — class assignment",
+        "instructions": "Write six original sentences containing at least three common nouns and three proper nouns.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Teacher-authored sentences; avoid copying commercial passages."
+    },
+    {
+      "id": "grade-4-english-language-a-friendly-letter",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "A friendly letter",
+      "objective": "Write an informal letter with a greeting, body and closing.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A friendly letter shares news and experiences with someone you know. Begin with an appropriate greeting and communicate in clear sentences.",
+        "Organise ideas into short paragraphs and use a suitable closing. Proofread spelling, punctuation and capital letters before sharing."
+      ],
+      "workedExample": "Dear Auntie, Our class planted vegetables today. I hope to see you soon. Yours lovingly, Nyasha.",
+      "question": "Which opening fits a friendly letter?",
+      "choices": [
+        "Invoice number",
+        "Dear Grandma,",
+        "To whom it may concern"
+      ],
+      "correctIndex": 1,
+      "feedback": "Dear Grandma is personal and polite.",
+      "exercises": [
+        {
+          "question": "Write an opening to a friend.",
+          "answer": "Dear [name],"
+        },
+        {
+          "question": "Name a letter's main section.",
+          "answer": "Body/message."
+        },
+        {
+          "question": "Give a friendly closing.",
+          "answer": "Your friend or Yours lovingly."
+        }
+      ],
+      "assignment": {
+        "title": "A friendly letter — class assignment",
+        "instructions": "Write 100–150 words to a relative about a school activity; do not include a real private address.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Original handwriting template or safe typed format."
+    },
+    {
+      "id": "grade-4-mathematics-four-digit-place-value",
+      "level": "Grade 4",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Four-digit place value",
+      "objective": "Read and expand numbers up to ten thousand.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Each position in a four-digit number has a value. In 6,204, the digit 6 stands for six thousands and 2 stands for two hundreds.",
+        "Expanded notation shows the values separately. We can write 6,204 as 6,000 + 200 + 4."
+      ],
+      "workedExample": "In 8,530 there are 8 thousands, 5 hundreds, 3 tens and 0 units.",
+      "question": "What is the value of 7 in 7,412?",
+      "choices": [
+        "700",
+        "7,000",
+        "70"
+      ],
+      "correctIndex": 1,
+      "feedback": "The 7 is in the thousands position.",
+      "exercises": [
+        {
+          "question": "Expand 4,908.",
+          "answer": "4,000 + 900 + 8."
+        },
+        {
+          "question": "Compare 5,405 and 5,045.",
+          "answer": "5,405 is greater."
+        },
+        {
+          "question": "Write three thousand and twelve.",
+          "answer": "3,012."
+        }
+      ],
+      "assignment": {
+        "title": "Four-digit place value — class assignment",
+        "instructions": "Record five four-digit numbers on a place-value chart and order them from smallest to largest.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Cardboard number cards and place-value pockets."
+    },
+    {
+      "id": "grade-4-indigenous-languages-retelling-a-folktale",
+      "level": "Grade 4",
+      "subject": "Indigenous Languages",
+      "topic": "Comprehension and Cultural Aspects",
+      "title": "Retelling a folktale",
+      "objective": "Retell story events and explain a moral.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Folktales are stories passed on in families and communities. Their characters may include people or talking animals.",
+        "Listen to a folktale in a familiar indigenous language. Retell its beginning, middle and end and explain the lesson it teaches."
+      ],
+      "workedExample": "A hare refuses to help neighbours, then needs their help. This story can teach cooperation.",
+      "question": "What shows understanding of a folktale?",
+      "choices": [
+        "Retelling its events and lesson",
+        "Interrupting the storyteller",
+        "Ignoring the ending"
+      ],
+      "correctIndex": 0,
+      "feedback": "Retelling and discussing the moral demonstrates comprehension.",
+      "exercises": [
+        {
+          "question": "What is a folktale?",
+          "answer": "A traditional shared story."
+        },
+        {
+          "question": "Name one part of a story.",
+          "answer": "Beginning, middle or end."
+        },
+        {
+          "question": "What is a moral?",
+          "answer": "The lesson learned from a story."
+        }
+      ],
+      "assignment": {
+        "title": "Retelling a folktale — class assignment",
+        "instructions": "Listen to a permitted local folktale and retell it in your own words, including its message.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Consent-based family storytelling; no reproduction of publisher art."
+    },
+    {
+      "id": "grade-5-science-and-technology-the-digestive-system",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "The digestive system",
+      "objective": "Identify main digestive organs and their roles.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Food passes through the mouth, oesophagus, stomach and intestines. Chewing breaks food into small pieces, and saliva helps begin digestion.",
+        "The stomach mixes food; the small intestine absorbs many nutrients, while the large intestine absorbs water from the remains."
+      ],
+      "workedExample": "Cooked maize is chewed in the mouth before moving down the oesophagus.",
+      "question": "Where are many food nutrients absorbed?",
+      "choices": [
+        "Small intestine",
+        "Lungs",
+        "Nose"
+      ],
+      "correctIndex": 0,
+      "feedback": "The small intestine absorbs much of the digested food's nutrients.",
+      "exercises": [
+        {
+          "question": "Name three digestive organs.",
+          "answer": "Mouth, stomach and intestines."
+        },
+        {
+          "question": "What do teeth do?",
+          "answer": "Break food into smaller parts."
+        },
+        {
+          "question": "Why does clean food matter?",
+          "answer": "It lowers the risk of illness."
+        }
+      ],
+      "assignment": {
+        "title": "The digestive system — class assignment",
+        "instructions": "Draw an original labelled digestive-system diagram and describe four organs.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "New learner diagram; PlusOne Grade 5 Teacher's Guide Unit 1 for topic reference."
+    },
+    {
+      "id": "grade-5-science-and-technology-preventing-water-pollution",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Preventing water pollution",
+      "objective": "Suggest ways to protect rivers and wells.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Water can be polluted by litter, sewage, chemicals and oils. Polluted water can damage aquatic habitats and cause illness.",
+        "Communities can dispose of waste properly, protect wells, maintain sanitation and report spills. Water that looks clean can still be unsafe."
+      ],
+      "workedExample": "A school covers a well opening and keeps waste bins away from the water source.",
+      "question": "Which action protects a river?",
+      "choices": [
+        "Pouring oil into it",
+        "Keeping waste out of it",
+        "Throwing bottles into it"
+      ],
+      "correctIndex": 1,
+      "feedback": "Preventing rubbish from entering water reduces pollution.",
+      "exercises": [
+        {
+          "question": "Name two pollutants.",
+          "answer": "Sewage, plastic, oil or chemicals."
+        },
+        {
+          "question": "State an effect of pollution.",
+          "answer": "Disease or habitat damage."
+        },
+        {
+          "question": "Give a protection method.",
+          "answer": "Cover wells or manage rubbish."
+        }
+      ],
+      "assignment": {
+        "title": "Preventing water pollution — class assignment",
+        "instructions": "Create a safe map sketch of a local water source with two risks and proposed solutions.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Original map drawing; PlusOne Grade 5 Teacher's Guide Unit 3."
+    },
+    {
+      "id": "grade-5-science-and-technology-using-solar-energy",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Energy and Fuels",
+      "title": "Using solar energy",
+      "objective": "Describe uses and limits of solar power.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Sunlight provides energy that can help heat water or produce electricity through a solar panel. Solar lamps can support evening study.",
+        "Solar electricity generation is reduced at night and during heavy cloud cover. Safe battery storage can help manage the difference."
+      ],
+      "workedExample": "A small solar panel charges a lamp during the day so it can be used in the evening.",
+      "question": "Which changes sunlight into electricity?",
+      "choices": [
+        "Solar panel",
+        "Plastic bucket",
+        "Clay pot"
+      ],
+      "correctIndex": 0,
+      "feedback": "Photovoltaic solar panels convert light into electricity.",
+      "exercises": [
+        {
+          "question": "Name two solar-energy uses.",
+          "answer": "Lighting, charging or heating water."
+        },
+        {
+          "question": "Name a limitation.",
+          "answer": "No sunshine at night."
+        },
+        {
+          "question": "State one safety step.",
+          "answer": "Avoid exposed electrical wiring."
+        }
+      ],
+      "assignment": {
+        "title": "Using solar energy — class assignment",
+        "instructions": "Design a labelled poster of three community solar-energy uses and one limitation.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "New poster; PlusOne Grade 5 Teacher's Guide Unit 24."
+    },
+    {
+      "id": "grade-5-english-language-writing-a-short-summary",
+      "level": "Grade 5",
+      "subject": "English Language",
+      "topic": "Reading and Writing",
+      "title": "Writing a short summary",
+      "objective": "Retell main points in fewer words.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A summary tells readers the main ideas of a passage without repeating every sentence. Read first for meaning and then identify key details.",
+        "Remove repeated information, keep important facts in order and rewrite in your own words. Check that the summary still makes sense."
+      ],
+      "workedExample": "Original: Children planted trees and watered them daily. Summary: Children cared for new trees.",
+      "question": "What should a summary include?",
+      "choices": [
+        "Every minor detail",
+        "Main ideas",
+        "Unrelated opinions"
+      ],
+      "correctIndex": 1,
+      "feedback": "A useful summary keeps the essential information.",
+      "exercises": [
+        {
+          "question": "What is a main idea?",
+          "answer": "The central point of a text."
+        },
+        {
+          "question": "What should be omitted?",
+          "answer": "Repetition and unnecessary detail."
+        },
+        {
+          "question": "Should you copy whole paragraphs?",
+          "answer": "No; use your own words."
+        }
+      ],
+      "assignment": {
+        "title": "Writing a short summary — class assignment",
+        "instructions": "Summarise a teacher-created environmental passage in 50–70 words.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Original short passage written by school staff."
+    },
+    {
+      "id": "grade-6-mathematics-whole-numbers-to-one-million",
+      "level": "Grade 6",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Whole numbers to one million",
+      "objective": "Read, expand and compare large numbers.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A digit's place determines its value. In 742,506 the 7 means seven hundred thousand and 4 means forty thousand.",
+        "Compare numbers from the highest place value first. Expanded form separates a number into the total of its component place values."
+      ],
+      "workedExample": "742,506 = 700,000 + 40,000 + 2,000 + 500 + 6.",
+      "question": "What is 8 worth in 803,214?",
+      "choices": [
+        "8,000",
+        "80,000",
+        "800,000"
+      ],
+      "correctIndex": 2,
+      "feedback": "The 8 occupies the hundred-thousands place.",
+      "exercises": [
+        {
+          "question": "Expand 560,021.",
+          "answer": "500,000 + 60,000 + 20 + 1."
+        },
+        {
+          "question": "Order 90,012; 89,999; 90,120.",
+          "answer": "89,999; 90,012; 90,120."
+        },
+        {
+          "question": "Is 29 prime?",
+          "answer": "Yes. Its only factors are 1 and 29."
+        }
+      ],
+      "assignment": {
+        "title": "Whole numbers to one million — class assignment",
+        "instructions": "Use a place-value chart to expand five six-digit numbers and explain the largest.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Homemade place-value abacus; PlusOne Grade 6 Mathematics Revision Unit 1."
+    },
+    {
+      "id": "grade-6-mathematics-adding-proper-fractions",
+      "level": "Grade 6",
+      "subject": "Mathematics",
+      "topic": "Number and Operations",
+      "title": "Adding proper fractions",
+      "objective": "Use equivalent fractions when adding.",
+      "durationMinutes": 35,
+      "explanation": [
+        "When fractions have the same denominator, add the numerators and keep the denominator. For example, 2/7 + 3/7 = 5/7.",
+        "For unlike denominators, first change them to equal denominators. One half equals two quarters, so 1/2 + 1/4 = 3/4."
+      ],
+      "workedExample": "2/8 + 3/8 = 5/8.",
+      "question": "What is 2/7 + 3/7?",
+      "choices": [
+        "5/14",
+        "5/7",
+        "6/7"
+      ],
+      "correctIndex": 1,
+      "feedback": "Two sevenths plus three sevenths makes five sevenths.",
+      "exercises": [
+        {
+          "question": "Find 1/5 + 2/5.",
+          "answer": "3/5."
+        },
+        {
+          "question": "Find 1/2 + 1/4.",
+          "answer": "3/4."
+        },
+        {
+          "question": "Compare 3/8 and 5/8.",
+          "answer": "5/8 is larger."
+        }
+      ],
+      "assignment": {
+        "title": "Adding proper fractions — class assignment",
+        "instructions": "Draw two fraction strips and explain how they help solve three addition problems.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Original folded-paper strips; PlusOne Grade 6 Mathematics Revision Unit 8."
+    },
+    {
+      "id": "grade-6-mathematics-using-ratios",
+      "level": "Grade 6",
+      "subject": "Mathematics",
+      "topic": "Operations",
+      "title": "Using ratios",
+      "objective": "Compare quantities and produce equivalent ratios.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A ratio compares quantities, such as two mangoes to three oranges. It can be written 2:3.",
+        "Equivalent ratios are made by multiplying or dividing both parts by the same number. For example, 2:3 is the same as 4:6."
+      ],
+      "workedExample": "If a recipe uses 1 cup juice to 2 cups water, doubling gives 2 cups juice to 4 cups water.",
+      "question": "Which ratio is equivalent to 3:4?",
+      "choices": [
+        "6:8",
+        "6:4",
+        "3:8"
+      ],
+      "correctIndex": 0,
+      "feedback": "Multiplying both parts of 3:4 by two gives 6:8.",
+      "exercises": [
+        {
+          "question": "Simplify 4:8.",
+          "answer": "1:2."
+        },
+        {
+          "question": "Double 2:5.",
+          "answer": "4:10."
+        },
+        {
+          "question": "Simplify 6 red to 9 blue.",
+          "answer": "2:3."
+        }
+      ],
+      "assignment": {
+        "title": "Using ratios — class assignment",
+        "instructions": "Survey two classroom categories, give their ratio and show an equivalent ratio.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Counters or teacher-made ratio chart; PlusOne Grade 6 Mathematics Revision Unit 12."
+    },
+    {
+      "id": "grade-6-english-language-a-formal-request-letter",
+      "level": "Grade 6",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "A formal request letter",
+      "objective": "Write a polite letter explaining a problem and solution.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A formal letter has a clear purpose, respectful greeting and organised body paragraphs. It is usually addressed to a person or office in an official capacity.",
+        "Explain what happened using reliable facts, describe why it matters, propose a practical action and close courteously."
+      ],
+      "workedExample": "Subject: Request to repair the school tap. I kindly request repairs because learners need clean water.",
+      "question": "Which sentence fits a formal letter?",
+      "choices": [
+        "Fix it, idiots!",
+        "I request that the damaged tap be repaired.",
+        "Water is funny."
+      ],
+      "correctIndex": 1,
+      "feedback": "A formal letter is respectful and specific.",
+      "exercises": [
+        {
+          "question": "Provide a subject heading.",
+          "answer": "Request for repairs/other accurate heading."
+        },
+        {
+          "question": "Give a formal closing.",
+          "answer": "Yours faithfully or sincerely."
+        },
+        {
+          "question": "Name a feature of formal tone.",
+          "answer": "Polite and precise wording."
+        }
+      ],
+      "assignment": {
+        "title": "A formal request letter — class assignment",
+        "instructions": "Write a 150–200 word letter about an environmental improvement; avoid publishing personal addresses.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Original layout; Grade 6 English learner's book formal-letter unit."
+    },
+    {
+      "id": "grade-6-english-language-reporting-real-observations",
+      "level": "Grade 6",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Reporting real observations",
+      "objective": "Write an accurate short report using headings.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A report states what was observed and organises facts into sections. Include a clear title and a brief explanation of the activity.",
+        "Separate what you actually observed from opinions. Give recommendations based on the evidence rather than inventing measurements."
+      ],
+      "workedExample": "Inspection: Three garden beds had seedlings and one needed watering. Recommendation: Water the dry bed.",
+      "question": "What should a report contain?",
+      "choices": [
+        "Only rumours",
+        "Invented figures",
+        "Recorded observations"
+      ],
+      "correctIndex": 2,
+      "feedback": "Reports should state actual observations accurately.",
+      "exercises": [
+        {
+          "question": "Name a useful heading.",
+          "answer": "Observations or Recommendations."
+        },
+        {
+          "question": "What is a factual statement?",
+          "answer": "A verifiable observation."
+        },
+        {
+          "question": "What follows a stated concern?",
+          "answer": "An evidence-based recommendation."
+        }
+      ],
+      "assignment": {
+        "title": "Reporting real observations — class assignment",
+        "instructions": "Observe a classroom space with a teacher, then write a dated report and two recommendations.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Original checklist for school garden observations."
+    },
+    {
+      "id": "grade-6-science-and-technology-planning-balanced-meals",
+      "level": "Grade 6",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Planning balanced meals",
+      "objective": "Identify food groups in locally available meals.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Different foods provide energy, protein, vitamins and minerals. A varied meal can combine a staple with beans, vegetables and clean drinking water.",
+        "Lack of important nutrients may cause deficiency problems. Food planning should consider safety, affordability and locally available foods."
+      ],
+      "workedExample": "Sadza, beans and leafy vegetables supply a range of food components.",
+      "question": "Which meal offers greater variety?",
+      "choices": [
+        "Only oil",
+        "Only sugar",
+        "Sadza, beans and vegetables"
+      ],
+      "correctIndex": 2,
+      "feedback": "A varied meal includes different food groups.",
+      "exercises": [
+        {
+          "question": "Name two nutrient groups.",
+          "answer": "Carbohydrates and proteins, or other suitable groups."
+        },
+        {
+          "question": "Why eat varied foods?",
+          "answer": "Different nutrients support different body functions."
+        },
+        {
+          "question": "Give a local vegetable.",
+          "answer": "Rape/covo/spinach, etc."
+        }
+      ],
+      "assignment": {
+        "title": "Planning balanced meals — class assignment",
+        "instructions": "Plan a one-day menu and show food groups and approximate affordability.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Student-drawn balanced-meal plate; PlusOne Grade 6 Science Nutrition."
+    },
+    {
+      "id": "grade-6-science-and-technology-water-filtration-and-safe-storage",
+      "level": "Grade 6",
+      "subject": "Science and Technology",
+      "topic": "Water and Conservation",
+      "title": "Water filtration and safe storage",
+      "objective": "Explain limits of filtration and methods to save water.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Settling and filtration can remove some particles from muddy water. They do not by themselves guarantee removal of germs or harmful dissolved chemicals.",
+        "Proper treatment depends on the water source and public-health advice. Cover stored water, repair leaks and do not drink classroom model water."
+      ],
+      "workedExample": "A sand-and-gravel model makes water less cloudy, but the result is marked NOT FOR DRINKING.",
+      "question": "Does simple filtration guarantee safe drinking water?",
+      "choices": [
+        "Yes",
+        "No",
+        "Only if clear"
+      ],
+      "correctIndex": 1,
+      "feedback": "Simple filtering may leave germs and chemicals.",
+      "exercises": [
+        {
+          "question": "Name a way to save water.",
+          "answer": "Repair leaking taps."
+        },
+        {
+          "question": "What can filtration remove?",
+          "answer": "Some suspended dirt particles."
+        },
+        {
+          "question": "Why label model water?",
+          "answer": "To prevent unsafe drinking."
+        }
+      ],
+      "assignment": {
+        "title": "Water filtration and safe storage — class assignment",
+        "instructions": "Build a supervised non-drinking filter model and write five safety precautions.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Original supervised model; PlusOne Grade 6 Science Water."
+    },
+    {
+      "id": "grade-6-indigenous-languages-proverbs-about-cooperation",
+      "level": "Grade 6",
+      "subject": "Indigenous Languages",
+      "topic": "Language Usage and Cultural Aspects",
+      "title": "Proverbs about cooperation",
+      "objective": "Explain how proverbs express community values.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Indigenous proverbs communicate ideas through short memorable sayings. Meanings may depend on the speaker's language and local situation.",
+        "The Shona saying 'Rume rimwe harikombi churu' can encourage cooperation. Invite equivalent proverbs in other Zimbabwean languages and discuss their context."
+      ],
+      "workedExample": "A group completes a community task by sharing effort; a proverb can reinforce teamwork.",
+      "question": "Which action shows cooperation?",
+      "choices": [
+        "Refusing help",
+        "Working together",
+        "Hiding shared tools"
+      ],
+      "correctIndex": 1,
+      "feedback": "Working together is a way of demonstrating community care.",
+      "exercises": [
+        {
+          "question": "Explain the proverb used.",
+          "answer": "One person alone may struggle; cooperation helps."
+        },
+        {
+          "question": "Give a context for a proverb.",
+          "answer": "Advice at home/school/community."
+        },
+        {
+          "question": "Provide another local saying.",
+          "answer": "Locally suitable saying with meaning."
+        }
+      ],
+      "assignment": {
+        "title": "Proverbs about cooperation — class assignment",
+        "instructions": "With permission, collect two proverbs and explain their lessons and where they are used.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Consent-based oral interview; original illustrations only."
+    },
+    {
+      "id": "grade-7-science-and-technology-breathing-and-the-diaphragm",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "Breathing and the diaphragm",
+      "objective": "Describe airflow and the diaphragm's role.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Air enters through the nose or mouth and passes down the trachea into the bronchi and lungs. Oxygen crosses from air sacs into the bloodstream.",
+        "The diaphragm contracts and moves down as we inhale, helping the lungs expand. Normal exhalation lets it relax and rise."
+      ],
+      "workedExample": "During inhalation the diaphragm moves downward and the chest has more space for air.",
+      "question": "Which tube carries air towards the lungs?",
+      "choices": [
+        "Trachea",
+        "Oesophagus",
+        "Large intestine"
+      ],
+      "correctIndex": 0,
+      "feedback": "The trachea is the windpipe leading to the bronchi.",
+      "exercises": [
+        {
+          "question": "Name three respiratory parts.",
+          "answer": "Nose, trachea, lungs, bronchi, diaphragm."
+        },
+        {
+          "question": "Which gas enters the bloodstream?",
+          "answer": "Oxygen."
+        },
+        {
+          "question": "What does the diaphragm do on inhalation?",
+          "answer": "Contracts and moves down."
+        }
+      ],
+      "assignment": {
+        "title": "Breathing and the diaphragm — class assignment",
+        "instructions": "Draw and label an original respiratory-system diagram and describe inhalation.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Learner-created diagram; PlusOne Grade 7 Science Unit 1."
+    },
+    {
+      "id": "grade-7-science-and-technology-comparing-energy-sources",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Energy and Fuels",
+      "title": "Comparing energy sources",
+      "objective": "Identify renewable and non-renewable resources.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Sunlight and wind are replenished naturally. Coal and petroleum form over geological time and are regarded as non-renewable fuels.",
+        "All energy choices have costs and limitations. Compare reliability, availability, emissions and safe handling when making recommendations."
+      ],
+      "workedExample": "A solar panel supplies power in sunshine, while a diesel generator uses a fuel that produces emissions.",
+      "question": "Which source is renewable?",
+      "choices": [
+        "Coal",
+        "Diesel",
+        "Sunlight"
+      ],
+      "correctIndex": 2,
+      "feedback": "Sunlight is continuously replenished.",
+      "exercises": [
+        {
+          "question": "Name two non-renewable fuels.",
+          "answer": "Coal and petroleum/diesel."
+        },
+        {
+          "question": "State a solar-power limitation.",
+          "answer": "Availability changes with sunlight."
+        },
+        {
+          "question": "Why conserve energy?",
+          "answer": "To limit waste and environmental impacts."
+        }
+      ],
+      "assignment": {
+        "title": "Comparing energy sources — class assignment",
+        "instructions": "Compare three energy sources used locally in a table of benefits and limitations.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Original energy comparison chart; PlusOne Grade 7 Science Energy."
+    },
+    {
+      "id": "grade-7-science-and-technology-reduce-reuse-and-recycle",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Sustainable Resource Management",
+      "title": "Reduce, reuse and recycle",
+      "objective": "Plan safe waste reduction in school.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Reduce means use less unnecessary material. Reuse means safely use an item again. Recycle means processing certain materials into something new.",
+        "Children should never sort sharp, medical or chemical waste. A class can examine clean paper, cardboard and safe containers with adult supervision."
+      ],
+      "workedExample": "Use both sides of a sheet before placing suitable paper in a recycling collection.",
+      "question": "What is an example of reuse?",
+      "choices": [
+        "Burning plastic",
+        "Using a clean jar for storage",
+        "Throwing out a reusable bag"
+      ],
+      "correctIndex": 1,
+      "feedback": "A clean jar can be reused for another purpose.",
+      "exercises": [
+        {
+          "question": "What does reduce mean?",
+          "answer": "Avoid unnecessary waste."
+        },
+        {
+          "question": "What is recycling?",
+          "answer": "Processing suitable waste into new products."
+        },
+        {
+          "question": "Name unsafe waste.",
+          "answer": "Medical, chemical or sharp waste."
+        }
+      ],
+      "assignment": {
+        "title": "Reduce, reuse and recycle — class assignment",
+        "instructions": "Complete a supervised count of safe classroom waste and suggest three reductions.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Student-created waste audit chart; PlusOne Grade 7 Science Sustainable Resources."
+    },
+    {
+      "id": "grade-7-mathematics-reading-bar-graphs",
+      "level": "Grade 7",
+      "subject": "Mathematics",
+      "topic": "Relationships",
+      "title": "Reading bar graphs",
+      "objective": "Interpret frequencies and compare groups.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A bar graph shows category quantities with bars. Read the graph title and axis scale before comparing heights.",
+        "Subtract category totals to find differences and add them to find totals. Draw bars of equal width with a consistent scale."
+      ],
+      "workedExample": "Garden survey: maize 12, beans 8, tomatoes 6. Total = 26 plants.",
+      "question": "How many more maize than tomato plants?",
+      "choices": [
+        "4",
+        "6",
+        "18"
+      ],
+      "correctIndex": 1,
+      "feedback": "12 − 6 = 6.",
+      "exercises": [
+        {
+          "question": "What should the vertical axis show?",
+          "answer": "The count or quantity scale."
+        },
+        {
+          "question": "Find the total survey plants.",
+          "answer": "26."
+        },
+        {
+          "question": "Which category is smallest?",
+          "answer": "Tomatoes."
+        }
+      ],
+      "assignment": {
+        "title": "Reading bar graphs — class assignment",
+        "instructions": "Survey a safe classroom topic, make a labelled bar graph and explain three observations.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Original tally and bar chart."
+    },
+    {
+      "id": "grade-7-mathematics-percentages-and-discounts",
+      "level": "Grade 7",
+      "subject": "Mathematics",
+      "topic": "Number and Operations",
+      "title": "Percentages and discounts",
+      "objective": "Find percentages of quantities and final prices.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Percent means per hundred. Ten percent can be found by dividing by ten, and twenty-five percent is one quarter.",
+        "To work out a discount, calculate the saving first and subtract it from the starting price. State currency units clearly."
+      ],
+      "workedExample": "A US$24 bag reduced by 25% saves US$6 and costs US$18.",
+      "question": "What is 20% of 60?",
+      "choices": [
+        "12",
+        "20",
+        "30"
+      ],
+      "correctIndex": 0,
+      "feedback": "10% of 60 is 6; 20% is 12.",
+      "exercises": [
+        {
+          "question": "Find 10% of 350.",
+          "answer": "35."
+        },
+        {
+          "question": "Find 25% of 80.",
+          "answer": "20."
+        },
+        {
+          "question": "Find a 10%-discount price from US$50.",
+          "answer": "US$45."
+        }
+      ],
+      "assignment": {
+        "title": "Percentages and discounts — class assignment",
+        "instructions": "Prepare three hypothetical prices for school items, apply a 10% discount and show all steps.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Handwritten price cards; PlusOne Grade 6 Mathematics Revision Percentages background."
+    },
+    {
+      "id": "grade-7-english-language-persuasive-writing-for-school-improvement",
+      "level": "Grade 7",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Persuasive writing for school improvement",
+      "objective": "Support a claim using reasons and evidence.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A persuasive paragraph expresses a clear viewpoint. Explain why it matters using logical reasons, examples or reliable observations.",
+        "Link points using words such as 'because' and 'therefore'. Be respectful and avoid inventing data to strengthen an argument."
+      ],
+      "workedExample": "Our school should repair leaking taps because water is essential and leaks waste resources.",
+      "question": "Which sentence gives a clear reason?",
+      "choices": [
+        "Water water water.",
+        "We should fix leaks because water is precious.",
+        "Blue is my favourite colour."
+      ],
+      "correctIndex": 1,
+      "feedback": "The sentence links a proposal with a clear reason.",
+      "exercises": [
+        {
+          "question": "Write one persuasive claim.",
+          "answer": "Specific claim for a safe improvement."
+        },
+        {
+          "question": "Name a linking word.",
+          "answer": "Because/therefore/for example."
+        },
+        {
+          "question": "What improves a claim?",
+          "answer": "Relevant evidence and reasons."
+        }
+      ],
+      "assignment": {
+        "title": "Persuasive writing for school improvement — class assignment",
+        "instructions": "Write 180–220 original words recommending a practical school improvement and give three supporting reasons.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
+      "mediaActivity": "Original persuasive poster or moderated class discussion."
+    }
+  ]
+}
