@@ -154,7 +154,11 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
   }
 
   fun navigate(target: WorkspaceTab) {
+    android.util.Log.i("ZimSchoolNavigation", "Requested ${target.name}; role permits=${target in tabs}; previous=${selectedKey}")
     if (target in tabs) selectedKey = target.name
+  }
+  LaunchedEffect(selectedKey) {
+    android.util.Log.i("ZimSchoolNavigation","Active module ${selectedKey}")
   }
   BackHandler(enabled=selected!=WorkspaceTab.HOME || drawer.isOpen) {
     if (drawer.isOpen) scope.launch { drawer.close() }
