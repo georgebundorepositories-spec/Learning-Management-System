@@ -1072,7 +1072,7 @@
         "When fractions have the same denominator, add the numerators and keep the denominator. For example, 2/7 + 3/7 = 5/7.",
         "For unlike denominators, first change them to equal denominators. One half equals two quarters, so 1/2 + 1/4 = 3/4."
       ],
-      "workedExample": "2/8 + 3/8 = 5/8.",
+      "workedExample": "Two eighths plus three eighths equals five eighths: 2/8 + 3/8 = 5/8.",
       "question": "What is 2/7 + 3/7?",
       "choices": [
         "5/14",
