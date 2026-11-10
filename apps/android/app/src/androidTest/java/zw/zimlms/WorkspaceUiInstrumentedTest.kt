@@ -36,7 +36,7 @@ class WorkspaceUiInstrumentedTest {
     }
     compose.onNodeWithText("Library").assertExists().performClick()
     compose.onNodeWithTag("learning-library-heading").assertExists()
-    compose.onNodeWithText("47 ready-to-read lessons").assertExists()
+    compose.onNodeWithText("59 ready-to-read lessons").assertExists()
     compose.onNodeWithText("Search lessons, subjects or topics").assertExists()
   }
 
