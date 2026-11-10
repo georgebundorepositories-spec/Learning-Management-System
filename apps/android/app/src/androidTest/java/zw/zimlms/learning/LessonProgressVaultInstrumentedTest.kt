@@ -58,6 +58,12 @@ class LessonProgressVaultInstrumentedTest {
     }
   }
 
+  @Test fun bundledCatalogMatchesSchoolCompletionWhitelist() {
+    val lessons=StarterLessons.lessons+HeritageCurriculum.load(context)
+    assertEquals(75,lessons.size)
+    assertEquals(75,lessons.map { it.id }.distinct().size)
+  }
+
   @Test fun newlyAddedCurriculumLessonsPersistEncrypted() {
     val id="grade-6-maths-ratio-scale"
     assertTrue(vault.markCompleted(user,school,id).contains(id))
