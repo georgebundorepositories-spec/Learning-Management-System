@@ -6,6 +6,8 @@ package zw.zimlms.learning
  * syllabuses and textbook licensing. They contain NO personal school data
  * and are safe to bundle for offline reading.
  */
+data class LessonExercise(val question: String, val answer: String)
+
 data class StarterLesson(
   val id: String,
   val level: String,
@@ -18,6 +20,10 @@ data class StarterLesson(
   val choices: List<String>,
   val correctIndex: Int,
   val feedback: String,
+  val exercises: List<LessonExercise> = emptyList(),
+  val assignmentInstructions: String = "",
+  val syllabusSource: String = "",
+  val practicalActivity: String = "",
 ) {
   init {
     require(id.isNotBlank() && level.isNotBlank() && subject.isNotBlank())
