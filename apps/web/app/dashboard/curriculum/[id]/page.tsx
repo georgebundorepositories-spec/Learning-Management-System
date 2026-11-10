@@ -22,6 +22,13 @@ export default async function CurriculumUnitPage({params}:{params:Promise<{id:st
  if(!actor?.is_active||!["admin","head","teacher","student","parent"].includes(actor.role))
    notFound();
  const isStaff=["admin","head","teacher"].includes(actor.role);
+ const trackProgress=actor.role==="student";
+ const completion=trackProgress?await supabase.from("lesson_completions")
+  .select("lesson_id").eq("school_id",actor.school_id)
+  .eq("student_user_id",user.id).eq("lesson_id",unit.id).maybeSingle()
+  :{data:null,error:null};
+ const initialCompleted=!!completion.data;
+
  const [classes,subjects,teaching]=isStaff?await Promise.all([
   supabase.from("classes").select("id,name,grade_level,teacher_id")
    .eq("school_id",actor.school_id).is("deleted_at",null).limit(150),
@@ -52,7 +59,7 @@ export default async function CurriculumUnitPage({params}:{params:Promise<{id:st
     <h2>Read and understand</h2>
     {unit.explanation.map((paragraph,index)=><p key={index} style={{fontSize:"1.06rem",lineHeight:1.75}}>{paragraph}</p>)}
     <section className="summary-card"><h2>Worked example</h2><p>{unit.workedExample}</p></section>
-    <Quiz question={unit.question} choices={unit.choices} correctIndex={unit.correctIndex} feedback={unit.feedback}/>
+    <Quiz lessonId={unit.id} question={unit.question} choices={unit.choices} correctIndex={unit.correctIndex} feedback={unit.feedback} trackProgress={trackProgress} initialCompleted={initialCompleted}/>
     <section className="summary-card">
       <h2>Practice exercises</h2>
       <ol>{unit.exercises.map((item,index)=><li key={index} style={{marginBottom:12}}>{item.question}</li>)}</ol>
