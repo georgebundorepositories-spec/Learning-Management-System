@@ -29,7 +29,7 @@ export default async function CurriculumCatalogue({
  <div className="dash-wrap">
   <p className="eyebrow">2024–2030 HERITAGE-BASED CURRICULUM</p>
   <h1>Lessons, exercises &amp; assignments</h1>
-  <p className="subhead">{curriculumUnits.length} original learning units for ECD B to Grade 7, organised using the supplied MoPSE syllabi. Each includes a lesson, worked example, exercises and an assignment template.</p>
+  <p className="subhead">{curriculumUnits.length} original learning units for ECD A to Grade 7, organised using the supplied MoPSE syllabi. Each includes a lesson, worked example, exercises and an assignment template.</p>
   <section className="summary-card" aria-label="Filter curriculum">
     <h2>Find learning material</h2>
     <form method="get" className="curriculum-filters">
