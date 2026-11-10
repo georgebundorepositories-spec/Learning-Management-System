@@ -27,6 +27,7 @@ export default async function ReportsPage(){
  return <main className="dashboard-page"><header className="topbar"><div className="topbrand"><span className="brand-mark">Z</span><strong>ZimSchool LMS</strong></div><Link href="/dashboard" className="outline-button">← Dashboard</Link></header>
  <div className="dash-wrap"><p className="eyebrow">SCHOOL REPORTS</p><h1>School overview</h1><p className="subhead">Live summary of school records visible to your administrator account.</p>
  <div className="summary-cards">{stats.map(s=><article className="summary-card" key={s.name}><span>{s.name}</span><strong>{s.error?"Unavailable":s.value??"—"}</strong></article>)}</div>
+ <p className="privacy-note"><Link href="/dashboard/progress">Open individual learning progress →</Link> (read-only, authorised roster)</p>
  <h2>Attendance snapshot</h2><p className="privacy-note">Based on the most recent {total} available attendance entries (maximum 1,000), not a complete-term attendance rate.</p>
  {attendance.error?<p className="notice-panel" role="alert">Attendance summary unavailable.</p>:<div className="summary-cards">{["present","absent","late","excused"].map(status=><article className="summary-card" key={status}><span>{status}</span><strong>{countBy(status)}</strong></article>)}</div>}
  <p className="privacy-note">For complete term totals and legally releasable reports, a separately tested export and reconciliation workflow is required.</p>
