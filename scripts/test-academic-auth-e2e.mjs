@@ -21,7 +21,7 @@ const password = "CI!" + randomBytes(22).toString("hex");
 const cleanup = {
   schools: [], authUsers: [], users: [], academicYears: [], terms: [],
   classes: [], subjects: [], classAssignments: [], guardians: [], profiles: [],
-  assignments: [], submissions: [], reviews: []
+  assignments: [], submissions: [], reviews: [], completionUsers: []
 };
 const clients = [];
 
@@ -82,6 +82,11 @@ async function clearRecords() {
   for (const client of clients) {
     try {await client.auth.signOut();} catch { /* local test server may be stopped */ }
   }
+  if (cleanup.completionUsers.length) {
+    const {error}=await server.from("lesson_completions")
+      .delete().in("student_user_id",cleanup.completionUsers);
+    if(error)errors.push("lesson_completions: "+error.message);
+  }
   for (const [table, key] of tableGroups) {
     if (!cleanup[key].length) continue;
     const {error} = await server.from(table).delete().in(
@@ -140,6 +145,52 @@ try {
     student_user_id:learner.id,guardian_user_id:linkedGuardian.id,
     is_primary:true,can_pay_fees:true
   },"Create linked guardian");cleanup.guardians.push(guardianLink);
+
+  // Phase 10: test real JWT-backed lesson completion via PostgREST, not
+  // postgres role impersonation. Only a learner may append, never reassign.
+  const lessonId="grade-6-maths-ratio-scale";
+  const extraLesson="grade-7-science-respiratory-system";
+  const saved=await ok(learner.client.from("lesson_completions").insert({
+    school_id:schoolA,student_user_id:learner.id,lesson_id:lessonId
+  }).select("lesson_id").single(),"Learner saves formative completion");
+  assert.equal(saved.lesson_id,lessonId);
+  cleanup.completionUsers.push(learner.id);
+
+  async function lessonIds(person) {
+    return new Set((await ok(person.client.from("lesson_completions")
+      .select("lesson_id"),"Read private lesson completions")).map(x=>x.lesson_id));
+  }
+  for(const person of [learner,linkedGuardian,teacherMath]) {
+    assert.ok((await lessonIds(person)).has(lessonId),
+      "Authorised student, linked parent or assigned teacher must see completion");
+  }
+  for(const person of [unrelatedGuardian,foreignTeacher]) {
+    assert.ok(!(await lessonIds(person)).has(lessonId),
+      "Unlinked guardian and other school cannot see completion");
+  }
+  const wrongOwner=await learner.client.from("lesson_completions").insert({
+    school_id:schoolA,student_user_id:teacherMath.id,lesson_id:extraLesson
+  });
+  assert.ok(wrongOwner.error,"Learner may not add a completion for someone else");
+  const teacherWrite=await teacherMath.client.from("lesson_completions").insert({
+    school_id:schoolA,student_user_id:learner.id,lesson_id:extraLesson
+  });
+  assert.ok(teacherWrite.error,"Teacher cannot forge formative completion");
+  const unknownId=await learner.client.from("lesson_completions").insert({
+    school_id:schoolA,student_user_id:learner.id,lesson_id:"not-a-real-lesson"
+  });
+  assert.ok(unknownId.error,"Unknown lesson ID cannot be synced");
+  const duplicate=await learner.client.from("lesson_completions").insert({
+    school_id:schoolA,student_user_id:learner.id,lesson_id:lessonId
+  });
+  assert.equal(duplicate.error?.code,"23505",
+    "Repeated completed lesson must be idempotently rejected");
+  const tamper=await learner.client.from("lesson_completions")
+    .update({lesson_id:extraLesson}).eq("lesson_id",lessonId).select("lesson_id");
+  assert.ok(tamper.error||!tamper.data?.length,
+    "Stored completion cannot be reassigned");
+  assert.equal((await lessonIds(learner)).size,1,
+    "Only one canonical completion remains");
 
   const published = await ok(teacherMath.client.from("school_assignments").insert({
     school_id:schoolA,class_id:klass,subject_id:math,
@@ -242,7 +293,7 @@ try {
   assert.equal(failedCrossSchool.error,null);
   assert.equal(failedCrossSchool.data.length,0);
 
-  console.log("PASS: six distinct signed-in accounts; teacher subject scope, learner submission and pre-grade revision, grade limits, locked graded answer, guardian privacy and cross-school denial.");
+  console.log("PASS: six JWT accounts; coursework and grade RLS, plus formative lesson sync ownership, linked-family visibility, duplicate and catalog restrictions; synthetic records cleaned.");
 } catch (error) {
   testError=error;
 } finally {
