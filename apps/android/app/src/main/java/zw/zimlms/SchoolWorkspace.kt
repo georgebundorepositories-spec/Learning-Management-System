@@ -769,9 +769,14 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   }
   val scope=rememberCoroutineScope()
   val vault=remember { LessonProgressVault(context) }
+  // Offline lessons must work in the demo/emulator even when school
+  // Supabase credentials are not configured in the debug build.
   val cloud=remember(profile.userId,profile.schoolId) {
-    LessonCloudSync(BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY,
-      SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    if(profile.role=="student" && BuildConfig.SUPABASE_URL.startsWith("https://")
+      && BuildConfig.SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")) {
+      LessonCloudSync(BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+        SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    } else null
   }
   var completed by remember(profile.userId,profile.schoolId) {
     mutableStateOf<Set<String>>(emptySet())
@@ -781,6 +786,10 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   var syncing by remember(profile.userId) { mutableStateOf(false) }
   fun syncNow() {
     if(profile.role!="student" || syncing)return
+    if(cloud==null){
+      syncMessage="School sync is not configured. Offline lessons are still available."
+      return
+    }
     syncing=true
     scope.launch {
       runCatching { cloud.synchronize(profile,vault) }.fold(
@@ -802,7 +811,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
     }.fold(
       onSuccess={local->
         completed=local
-        if(profile.role=="student") {
+        if(profile.role=="student" && cloud!=null) {
           syncing=true
           runCatching {cloud.synchronize(profile,vault)}.fold(
             onSuccess={result->
