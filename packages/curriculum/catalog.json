@@ -1,5 +1,5 @@
 {
-  "catalogVersion": "2026-11-10.1",
+  "catalogVersion": "2026-11-10.2",
   "curriculum": "Zimbabwe Heritage-Based Curriculum (MoPSE 2024–2030)",
   "licenseNotice": "Original lesson text and questions created for ZimSchool, aligned to the user-supplied syllabi and topic examples. Commercial textbook pages, illustrations and exercises have not been reproduced.",
   "teacherReview": "Teachers must check local teaching language, class ability and school assessment policies before assigning.",
@@ -1683,6 +1683,582 @@
       },
       "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030",
       "mediaActivity": "Original persuasive poster or moderated class discussion."
+    },
+    {
+      "id": "ecd-a-english-language-hearing-and-naming-everyday-sounds",
+      "level": "ECD A",
+      "subject": "English Language",
+      "topic": "Listening/Observing",
+      "title": "Hearing and naming everyday sounds",
+      "objective": "Identify two everyday sounds through listening and observation.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Different things make different sounds. A door may knock, a bird may sing and people may clap their hands when they are happy.",
+        "Listen to a trusted teacher make safe sounds. Say or sign the object you heard and describe whether it was loud, soft or repeated."
+      ],
+      "workedExample": "A teacher claps once, then twice. The sounds come from the teacher's hands.",
+      "question": "Which action makes a clapping sound?",
+      "choices": [
+        "Clapping hands",
+        "Drawing a picture",
+        "Reading silently"
+      ],
+      "correctIndex": 0,
+      "feedback": "Hands touching together make a clap.",
+      "exercises": [
+        {
+          "question": "Name an animal sound.",
+          "answer": "For example, a dog barks."
+        },
+        {
+          "question": "Listen and identify a hand clap.",
+          "answer": "Correct identification."
+        },
+        {
+          "question": "Name a safe quiet sound.",
+          "answer": "Whisper or soft tap."
+        }
+      ],
+      "assignment": {
+        "title": "Hearing and naming everyday sounds — class assignment",
+        "instructions": "With a teacher, identify three familiar sounds and draw one source.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Original teacher-made sound activity; no commercial illustration."
+    },
+    {
+      "id": "ecd-a-english-language-saying-hello-and-goodbye",
+      "level": "ECD A",
+      "subject": "English Language",
+      "topic": "Speaking/Signing",
+      "title": "Saying hello and goodbye",
+      "objective": "Use greetings during arrival and departure.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Greeting someone is a way to begin a conversation politely. A learner can say 'Hello' to a friend and 'Good morning' at the start of a school day.",
+        "When leaving, say 'Goodbye'. Listen to the other person's response, and use signing or a familiar language when needed."
+      ],
+      "workedExample": "Teacher: 'Good morning.' Child: 'Good morning, Teacher.'",
+      "question": "Which word can we say when leaving?",
+      "choices": [
+        "Please",
+        "Goodbye",
+        "Hello only"
+      ],
+      "correctIndex": 1,
+      "feedback": "Goodbye is a suitable farewell.",
+      "exercises": [
+        {
+          "question": "Say hello to a friend.",
+          "answer": "Hello."
+        },
+        {
+          "question": "Choose a morning greeting.",
+          "answer": "Good morning."
+        },
+        {
+          "question": "Say a polite farewell.",
+          "answer": "Goodbye."
+        }
+      ],
+      "assignment": {
+        "title": "Saying hello and goodbye — class assignment",
+        "instructions": "Act out meeting and leaving a friend with a teacher's support.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Teacher-led greeting role-play."
+    },
+    {
+      "id": "ecd-a-science-and-technology-my-body-and-clean-hands",
+      "level": "ECD A",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "My body and clean hands",
+      "objective": "Name basic body parts and practise clean habits.",
+      "durationMinutes": 20,
+      "explanation": [
+        "We use our hands to hold objects and our feet to walk. Our eyes help us see and our ears help us hear different sounds.",
+        "Keeping clean is important. A teacher can demonstrate washing hands with soap and clean water after play and before eating."
+      ],
+      "workedExample": "A child touches the ears when asked 'Show your ears' and then names the hands used to clap.",
+      "question": "Which body part helps us hear?",
+      "choices": [
+        "Nose",
+        "Ears",
+        "Knees"
+      ],
+      "correctIndex": 1,
+      "feedback": "Ears help us hear sounds.",
+      "exercises": [
+        {
+          "question": "Point to your hands.",
+          "answer": "Learner points to hands."
+        },
+        {
+          "question": "Name the body part used for walking.",
+          "answer": "Feet/legs."
+        },
+        {
+          "question": "Name one handwashing material.",
+          "answer": "Soap or clean water."
+        }
+      ],
+      "assignment": {
+        "title": "My body and clean hands — class assignment",
+        "instructions": "Draw a person and label or point to three body parts; demonstrate a handwashing step.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Teacher-supported original human outline."
+    },
+    {
+      "id": "ecd-a-science-and-technology-seeds-leaves-and-growing-plants",
+      "level": "ECD A",
+      "subject": "Science and Technology",
+      "topic": "Crops, Plants and Animals",
+      "title": "Seeds, leaves and growing plants",
+      "objective": "Recognise a plant and name simple parts.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Plants grow in many places including gardens and school grounds. Some grow from seeds into young plants with stems and leaves.",
+        "We can look at a plant without pulling it from the ground. Under supervision, show its leaves and stem and describe what it needs to grow."
+      ],
+      "workedExample": "A bean seed placed in suitable soil and watered may grow a small shoot.",
+      "question": "Which part of a plant is often green and flat?",
+      "choices": [
+        "Leaf",
+        "Shoe",
+        "Spoon"
+      ],
+      "correctIndex": 0,
+      "feedback": "Leaves are often green and flat.",
+      "exercises": [
+        {
+          "question": "Point to a leaf.",
+          "answer": "Learner identifies leaf."
+        },
+        {
+          "question": "Name something plants need.",
+          "answer": "Water, light or suitable growing medium."
+        },
+        {
+          "question": "What can grow into a new plant?",
+          "answer": "A suitable seed."
+        }
+      ],
+      "assignment": {
+        "title": "Seeds, leaves and growing plants — class assignment",
+        "instructions": "Observe a safe plant in the school yard, draw it and point to its leaves.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Live supervised plant observation."
+    },
+    {
+      "id": "ecd-a-indigenous-languages-listening-to-local-rhymes",
+      "level": "ECD A",
+      "subject": "Indigenous Languages",
+      "topic": "Language Usage and Cultural Aspects",
+      "title": "Listening to local rhymes",
+      "objective": "Listen to and join a short familiar rhyme.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Rhymes and songs help children practise listening and speaking. Families and communities have different locally meaningful rhymes.",
+        "Listen carefully to a short rhyme taught by a teacher. Repeat or sign a phrase and clap along to its rhythm while respecting other learners' language choices."
+      ],
+      "workedExample": "A teacher says a simple original greeting rhyme and learners repeat the last line together.",
+      "question": "What should you do first when learning a rhyme?",
+      "choices": [
+        "Listen carefully",
+        "Run away",
+        "Shout unrelated words"
+      ],
+      "correctIndex": 0,
+      "feedback": "Listening helps us follow a rhyme's rhythm and words.",
+      "exercises": [
+        {
+          "question": "Listen to a two-line rhyme.",
+          "answer": "Learner attends and participates."
+        },
+        {
+          "question": "Repeat one line.",
+          "answer": "Age-appropriate repetition or signing."
+        },
+        {
+          "question": "Show rhythm in a safe way.",
+          "answer": "Clap or tap gently."
+        }
+      ],
+      "assignment": {
+        "title": "Listening to local rhymes — class assignment",
+        "instructions": "Share a short community-approved rhyme or greeting and explain when it is used.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Use teacher-authored or community-permitted recordings only."
+    },
+    {
+      "id": "grade-1-english-language-recognising-beginning-sounds",
+      "level": "Grade 1",
+      "subject": "English Language",
+      "topic": "Reading/Signing",
+      "title": "Recognising beginning sounds",
+      "objective": "Connect simple spoken sounds with beginning letters.",
+      "durationMinutes": 25,
+      "explanation": [
+        "Words have sounds that we can hear. The word 'mat' begins with the /m/ sound while 'sun' begins with /s/.",
+        "Say a word slowly and listen for its first sound. Use picture cards that the teacher has drawn, rather than guessing from spelling alone."
+      ],
+      "workedExample": "The word 'ball' begins with the /b/ sound.",
+      "question": "What sound begins 'sun'?",
+      "choices": [
+        "/b/",
+        "/s/",
+        "/m/"
+      ],
+      "correctIndex": 1,
+      "feedback": "The first sound in sun is /s/.",
+      "exercises": [
+        {
+          "question": "Name a word beginning /m/.",
+          "answer": "Mat, man or another correct word."
+        },
+        {
+          "question": "Identify the first sound in 'tap'.",
+          "answer": "/t/."
+        },
+        {
+          "question": "Group 'sun' with a same-sound word.",
+          "answer": "Sock or another /s/ word."
+        }
+      ],
+      "assignment": {
+        "title": "Recognising beginning sounds — class assignment",
+        "instructions": "Draw four objects and match each to the first letter of its name.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Original picture phonics cards."
+    },
+    {
+      "id": "grade-2-english-language-writing-sentences-from-pictures",
+      "level": "Grade 2",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Writing sentences from pictures",
+      "objective": "Use capital letters and full stops in short sentences.",
+      "durationMinutes": 25,
+      "explanation": [
+        "A sentence tells a complete idea. Start with a capital letter and use a full stop at the end of a statement.",
+        "Look at a picture or real scene. Say what is happening, then write the idea in a clear sentence that the reader can understand."
+      ],
+      "workedExample": "The child waters the plants. This sentence starts with a capital and ends with a full stop.",
+      "question": "Which sentence is correctly punctuated?",
+      "choices": [
+        "the dog runs",
+        "The dog runs.",
+        "the dog Runs"
+      ],
+      "correctIndex": 1,
+      "feedback": "The second sentence starts with a capital letter and ends with a full stop.",
+      "exercises": [
+        {
+          "question": "Write a sentence about a tree.",
+          "answer": "A grammatically clear complete sentence."
+        },
+        {
+          "question": "Add punctuation: 'i like mangoes'.",
+          "answer": "I like mangoes."
+        },
+        {
+          "question": "What begins a sentence?",
+          "answer": "A capital letter."
+        }
+      ],
+      "assignment": {
+        "title": "Writing sentences from pictures — class assignment",
+        "instructions": "Write five short sentences describing original drawings or things seen at school.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030",
+      "mediaActivity": "Teacher-created picture prompts."
+    },
+    {
+      "id": "grade-4-science-and-technology-caring-for-teeth",
+      "level": "Grade 4",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "Caring for teeth",
+      "objective": "Name types of teeth and ways to maintain dental hygiene.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Teeth help us bite and chew food. Different teeth have different shapes; some cut food while others grind it.",
+        "Brushing with appropriate toothpaste, keeping toothbrushes clean and visiting a dental professional when possible help protect oral health."
+      ],
+      "workedExample": "Molars have broad chewing surfaces useful for grinding food.",
+      "question": "Which teeth mainly grind food?",
+      "choices": [
+        "Molars",
+        "Incisors",
+        "No teeth"
+      ],
+      "correctIndex": 0,
+      "feedback": "Molars have broad surfaces used in grinding.",
+      "exercises": [
+        {
+          "question": "Name a tooth-care habit.",
+          "answer": "Brushing properly."
+        },
+        {
+          "question": "What do incisors help do?",
+          "answer": "Bite/cut food."
+        },
+        {
+          "question": "Why care for teeth?",
+          "answer": "Prevent damage and support eating."
+        }
+      ],
+      "assignment": {
+        "title": "Caring for teeth — class assignment",
+        "instructions": "Prepare a tooth-care poster showing safe hygiene routines and name two types of teeth.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "Original labelled tooth shapes, not publisher diagrams."
+    },
+    {
+      "id": "grade-4-science-and-technology-safe-food-handling",
+      "level": "Grade 4",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Safe food handling",
+      "objective": "Explain ways to prevent food contamination.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Food may become unsafe when harmful germs or dirt enter it. Wash hands and clean preparation surfaces before handling food.",
+        "Keep raw and ready-to-eat foods separate where appropriate, cover food, and use safe storage conditions. Ask a responsible adult when unsure."
+      ],
+      "workedExample": "A child washes hands and uses a clean plate before serving fruit.",
+      "question": "Which habit helps protect food?",
+      "choices": [
+        "Leaving it uncovered outside",
+        "Using clean utensils",
+        "Handling food with dirty hands"
+      ],
+      "correctIndex": 1,
+      "feedback": "Clean utensils help reduce contamination.",
+      "exercises": [
+        {
+          "question": "Name two hygiene practices.",
+          "answer": "Wash hands, clean surfaces or cover food."
+        },
+        {
+          "question": "Why cover food?",
+          "answer": "To reduce contamination by dirt/insects."
+        },
+        {
+          "question": "Who should supervise heat or knives?",
+          "answer": "Responsible adult."
+        }
+      ],
+      "assignment": {
+        "title": "Safe food handling — class assignment",
+        "instructions": "Create a four-step illustrated guide to safely preparing a simple snack.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030",
+      "mediaActivity": "New food-hygiene picture sequence."
+    },
+    {
+      "id": "grade-5-mathematics-finding-fractions-of-quantities",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Finding fractions of quantities",
+      "objective": "Work out unit fractions and related quantities.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A fraction represents equal parts of a whole. The denominator names how many equal parts there are, and the numerator names how many are chosen.",
+        "To find one-quarter of a number, divide by four. To find three quarters, multiply that answer by three."
+      ],
+      "workedExample": "Three quarters of 20 = (20 ÷ 4) × 3 = 15.",
+      "question": "What is 3/4 of 12?",
+      "choices": [
+        "6",
+        "9",
+        "3"
+      ],
+      "correctIndex": 1,
+      "feedback": "A quarter of 12 is 3, so three quarters is 9.",
+      "exercises": [
+        {
+          "question": "Find 1/4 of 20.",
+          "answer": "5."
+        },
+        {
+          "question": "Find 1/2 of 18.",
+          "answer": "9."
+        },
+        {
+          "question": "Find 3/5 of 15.",
+          "answer": "9."
+        }
+      ],
+      "assignment": {
+        "title": "Finding fractions of quantities — class assignment",
+        "instructions": "Use bottle tops to demonstrate three fractions of quantities and explain the calculations.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030",
+      "mediaActivity": "Original fraction counters."
+    },
+    {
+      "id": "grade-5-indigenous-languages-summarising-a-community-story",
+      "level": "Grade 5",
+      "subject": "Indigenous Languages",
+      "topic": "Comprehension and Cultural Aspects",
+      "title": "Summarising a community story",
+      "objective": "Identify a story's main idea and lesson in a familiar language.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Stories told in an indigenous language preserve family experiences and cultural knowledge. Listen or read carefully before summarising.",
+        "Select the main events and the message, but leave out details that are not essential. The teacher may invite translations where learners use different home languages."
+      ],
+      "workedExample": "A story about neighbours sharing seeds may be summarised as a lesson on cooperation and helping each other.",
+      "question": "What belongs in a story summary?",
+      "choices": [
+        "Every repeated phrase",
+        "Only unrelated names",
+        "Main events and message"
+      ],
+      "correctIndex": 2,
+      "feedback": "A summary focuses on essential events and their meaning.",
+      "exercises": [
+        {
+          "question": "Identify the main event.",
+          "answer": "Accurate event from chosen story."
+        },
+        {
+          "question": "Name one character.",
+          "answer": "Correct character."
+        },
+        {
+          "question": "Explain the story's lesson.",
+          "answer": "Reasonable supported moral."
+        }
+      ],
+      "assignment": {
+        "title": "Summarising a community story — class assignment",
+        "instructions": "Summarise a community-approved story in your home language and explain its value.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Original locally permitted storytelling; respect storyteller ownership."
+    },
+    {
+      "id": "grade-7-indigenous-languages-writing-about-a-traditional-skill",
+      "level": "Grade 7",
+      "subject": "Indigenous Languages",
+      "topic": "Composition and Cultural Aspects",
+      "title": "Writing about a traditional skill",
+      "objective": "Write a structured account of a heritage skill with respectful explanation.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Heritage skills can include weaving, pottery, farming methods and music. A clear composition describes the skill, the tools and the order of key activities.",
+        "Use appropriate vocabulary in the indigenous language being studied. Describe where the information came from, respect the knowledge holder and do not claim to have witnessed activities that were only described."
+      ],
+      "workedExample": "A learner explains that a woven basket is made by preparing safe plant fibres and interlacing them in a planned pattern.",
+      "question": "What strengthens a heritage composition?",
+      "choices": [
+        "Accurate sequence and respectful language",
+        "Invented interviews",
+        "Unrelated statements"
+      ],
+      "correctIndex": 0,
+      "feedback": "A well-organised account uses a clear sequence and accurate local information.",
+      "exercises": [
+        {
+          "question": "Name a heritage skill.",
+          "answer": "Weaving, pottery, farming or suitable example."
+        },
+        {
+          "question": "What should a process description include?",
+          "answer": "Tools and ordered steps."
+        },
+        {
+          "question": "Why acknowledge an informant?",
+          "answer": "Respect for the source of knowledge."
+        }
+      ],
+      "assignment": {
+        "title": "Writing about a traditional skill — class assignment",
+        "instructions": "Write an original composition about a local traditional skill, based on your observation or a consented interview.",
+        "maxScore": 10,
+        "rubric": [
+          "Knowledge and correctness — 4 marks",
+          "Completion and application — 4 marks",
+          "Clear presentation and explanation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030",
+      "mediaActivity": "Learner's own drawing or authorised community media only."
     }
   ]
 }
