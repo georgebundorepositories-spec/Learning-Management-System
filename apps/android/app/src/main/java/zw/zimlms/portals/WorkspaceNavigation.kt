@@ -15,7 +15,8 @@ enum class WorkspaceTab(val label: String) {
   NOTICES("Notices"),
   FEES("Fee invoices"),
   RESOURCES("School resources"),
-  RESULTS("Assessment results")
+  RESULTS("Assessment results"),
+  COURSEWORK("Assignments")
 }
 
 /**
@@ -30,20 +31,21 @@ object WorkspaceNavigation {
       WorkspaceTab.PARENTS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
       WorkspaceTab.ATTENDANCE,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR,
-      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES,
+      WorkspaceTab.COURSEWORK
     )
     "teacher" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,
-      WorkspaceTab.RESOURCES
+      WorkspaceTab.RESOURCES, WorkspaceTab.COURSEWORK
     )
     "student" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.LEARNING,
-      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES, WorkspaceTab.RESULTS
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES, WorkspaceTab.RESULTS, WorkspaceTab.COURSEWORK
     )
     "parent" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.CHILDREN, WorkspaceTab.LEARNING,
-      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES, WorkspaceTab.RESULTS
+      WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES, WorkspaceTab.RESULTS, WorkspaceTab.COURSEWORK
     )
     "bursar" -> listOf(WorkspaceTab.HOME, WorkspaceTab.FEES, WorkspaceTab.NOTICES)
     "clerk" -> listOf(WorkspaceTab.HOME, WorkspaceTab.NOTICES)
