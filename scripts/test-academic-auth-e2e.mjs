@@ -21,7 +21,7 @@ const password = "CI!" + randomBytes(22).toString("hex");
 const cleanup = {
   schools: [], authUsers: [], users: [], academicYears: [], terms: [],
   classes: [], subjects: [], classAssignments: [], guardians: [], profiles: [],
-  assignments: [], submissions: [], reviews: [], completionUsers: []
+  assignments: [], submissions: [], reviews: [], plans: [], completionUsers: []
 };
 const clients = [];
 
@@ -66,6 +66,7 @@ async function readIds(client, table, filterColumn, filterId) {
 async function clearRecords() {
   let errors = [];
   const tableGroups = [
+    ["teacher_lesson_plans","plans"],
     ["assignment_reviews","reviews"],
     ["assignment_submissions","submissions"],
     ["school_assignments","assignments"],
@@ -192,6 +193,57 @@ try {
   assert.equal((await lessonIds(learner)).size,1,
     "Only one canonical completion remains");
 
+
+  // Phase 11: real JWT-backed staff lesson planning must never leak to learners,
+  // linked parents, unassigned subject teachers or unrelated schools.
+  const staffPlan=await ok(teacherMath.client.from("teacher_lesson_plans").insert({
+    school_id:schoolA,teacher_id:teacherMath.id,class_id:klass,subject_id:math,
+    source_lesson_id:"grade-4-mathematics-four-digit-place-value",
+    lesson_title:"CI Place Value "+unique,
+    objective:"Identify the place value of digits in four-digit numbers.",
+    teaching_steps:"Use physical counters to group thousands, hundreds, tens and ones, then practise together.",
+    resources:"Counting counters and a board",assessment:"Ask learners to break apart 2,345.",
+    reflection:"",status:"draft"
+  }).select("id").single(),"Teacher saves private lesson plan");
+  cleanup.plans.push(staffPlan.id);
+  for(const person of [teacherMath]){
+    assert.equal((await readIds(person.client,"teacher_lesson_plans")).has(staffPlan.id),true,
+      "Authorised owner sees own private lesson plan");
+  }
+  for(const person of [teacherEnglish,learner,linkedGuardian,unrelatedGuardian,foreignTeacher]){
+    assert.equal((await readIds(person.client,"teacher_lesson_plans")).has(staffPlan.id),false,
+      "Other teacher, learner, parent and foreign school cannot read private teacher plan");
+  }
+  const wrongSubjectPlan=await teacherEnglish.client.from("teacher_lesson_plans").insert({
+    school_id:schoolA,teacher_id:teacherEnglish.id,class_id:klass,subject_id:math,
+    source_lesson_id:"grade-4-mathematics-four-digit-place-value",
+    lesson_title:"Unauthorised subject",
+    objective:"Incorrectly claiming an unrelated teaching subject.",
+    teaching_steps:"This must be refused because teacher is not assigned to Maths.",
+    status:"draft"
+  }).select("id");
+  assert.ok(wrongSubjectPlan.error||!wrongSubjectPlan.data?.length,
+    "Teacher cannot create a lesson plan in another teacher's subject");
+  const parentPlan=await linkedGuardian.client.from("teacher_lesson_plans").insert({
+    school_id:schoolA,teacher_id:linkedGuardian.id,class_id:klass,subject_id:math,
+    source_lesson_id:"grade-4-mathematics-four-digit-place-value",
+    lesson_title:"Guardian attempted plan",
+    objective:"Guardian should not write staff private lesson plans.",
+    teaching_steps:"This parent does not have the classroom teacher designation.",
+    status:"draft"
+  });
+  assert.ok(parentPlan.error,"Guardian may not forge a lesson plan");
+  const hijackPlan=await teacherMath.client.from("teacher_lesson_plans")
+    .update({teacher_id:teacherEnglish.id}).eq("id",staffPlan.id).select("id");
+  assert.ok(hijackPlan.error||!hijackPlan.data?.length,
+    "Teacher cannot transfer lesson plan ownership");
+  const revisedPlan=await ok(teacherMath.client.from("teacher_lesson_plans")
+    .update({reflection:"Learners understood the grouping activity.",status:"ready"})
+    .eq("id",staffPlan.id).select("status,reflection").single(),
+    "Teacher revises own private plan");
+  assert.equal(revisedPlan.status,"ready");
+  assert.match(revisedPlan.reflection,/grouping activity/);
+
   const published = await ok(teacherMath.client.from("school_assignments").insert({
     school_id:schoolA,class_id:klass,subject_id:math,
     title:"CI Homework "+unique,instructions:"Find the sum of two plus two.",
@@ -293,7 +345,18 @@ try {
   assert.equal(failedCrossSchool.error,null);
   assert.equal(failedCrossSchool.data.length,0);
 
-  console.log("PASS: six JWT accounts; coursework and grade RLS, plus formative lesson sync ownership, linked-family visibility, duplicate and catalog restrictions; synthetic records cleaned.");
+
+  // Revocation test: a previous guardian must immediately lose visibility
+  // after the school administrator removes the learner relationship.
+  await ok(server.from("student_guardian_link").delete().eq("id",guardianLink),
+    "Revoke synthetic parent-learner relationship");
+  cleanup.guardians=cleanup.guardians.filter(id=>id!==guardianLink);
+  assert.equal((await lessonIds(linkedGuardian)).has(lessonId),false,
+    "Revoked guardian must lose lesson progress visibility");
+  assert.equal((await readIds(linkedGuardian.client,"assignment_reviews")).has(review.id),false,
+    "Revoked guardian must lose private grade feedback visibility");
+
+  console.log("PASS: six JWT accounts; teacher-only planning, coursework and grades, parent-link revocation, lesson sync and tenant RLS; synthetic records cleaned.");
 } catch (error) {
   testError=error;
 } finally {
