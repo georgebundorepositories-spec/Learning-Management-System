@@ -25,6 +25,12 @@ android {
     buildConfigField("String", "SUPABASE_PUBLISHABLE_KEY", "\"${publishableKey}\"")
   }
 
+  // Embed the very same original curriculum JSON used by the web LMS.
+  // Relative to apps/android/app: repository_root/packages/curriculum.
+  sourceSets {
+    getByName("main").assets.srcDir("../../../packages/curriculum")
+  }
+
   buildFeatures { compose = true; buildConfig = true }
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
