@@ -13,8 +13,8 @@ android {
     applicationId = "zw.zimlms"
     minSdk = 26
     targetSdk = 35
-    versionCode = 12
-    versionName = "0.12.0-lesson-sync-preview"
+    versionCode = 13
+    versionName = "0.13.0-role-portals-preview"
     manifestPlaceholders["applicationLabel"] = "ZimSchool LMS"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,9 +41,9 @@ android {
     debug {
       // Side-by-side test install protects earlier offline queues when CI's
       // ephemeral debug signing certificate differs between workflow runs.
-      applicationIdSuffix = ".preview.lessonsync12"
+      applicationIdSuffix = ".preview.roles13"
       versionNameSuffix = "-test"
-      manifestPlaceholders["applicationLabel"] = "ZimSchool Lesson Sync Preview"
+      manifestPlaceholders["applicationLabel"] = "ZimSchool Role Portals Preview"
     }
     release {
       isMinifyEnabled = true
