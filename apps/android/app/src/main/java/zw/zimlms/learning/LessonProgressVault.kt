@@ -14,19 +14,23 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
 /**
- * Very small device-local progress tracker for the bundled starter lessons.
+ * Device-local encrypted progress for every bundled learning lesson.
  * No learner names, marks, passwords or real school records are persisted.
  * Each user+school is an independent AES-GCM protected, authenticated namespace.
  *
- * This is NOT cloud-synchronised learning analytics. A device wipe will delete
- * progress, and an invalid encrypted payload fails closed instead of resetting.
+ * The separate cloud synchroniser uploads only a student's successfully completed
+ * lesson IDs. An invalid encrypted payload fails closed rather than resetting.
  */
 class LessonProgressVault(context: Context) {
   private val prefs=context.applicationContext.getSharedPreferences(
     "zimschool_lesson_progress_v1",Context.MODE_PRIVATE)
   private val keyAlias="zimschool_lesson_progress_aes_v1"
   private val uuid=Regex("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
-  private val validIds=StarterLessons.lessons.map { it.id }.toSet()
+  // Includes the 63 curriculum lessons, not just the original 12 starter IDs.
+  // If curriculum assets cannot load, existing starter records remain usable.
+  private val validIds=(StarterLessons.lessons.map { it.id } +
+    runCatching { HeritageCurriculum.load(context.applicationContext).map { it.id } }
+      .getOrDefault(emptyList())).toSet()
 
   private fun key(): SecretKey {
     val store=KeyStore.getInstance("AndroidKeyStore").apply{load(null)}
@@ -73,8 +77,20 @@ class LessonProgressVault(context: Context) {
   }
 
   @Synchronized fun markCompleted(userId:String,schoolId:String,lessonId:String):Set<String> {
-    require(lessonId in validIds){"Unknown starter lesson"}
-    val set=completed(userId,schoolId)+lessonId
+    require(lessonId in validIds){"Unknown bundled lesson"}
+    return mergeCompleted(userId,schoolId,setOf(lessonId))
+  }
+
+  /** Merge remote and local completion sets without losing offline events.
+   * Preserves the existing AES-GCM namespace and writes only when needed.
+   */
+  @Synchronized fun mergeCompleted(
+    userId:String,schoolId:String,cloudIds:Set<String>
+  ):Set<String> {
+    val current=completed(userId,schoolId)
+    val safeCloud=cloudIds.filter { it in validIds }.toSet()
+    val set=current+safeCloud
+    if(set==current)return current
     val slot=slot(userId,schoolId)
     val record=JSONObject().put("user_id",userId).put("school_id",schoolId)
       .put("completed",JSONArray(set.sorted())).toString().toByteArray(Charsets.UTF_8)
