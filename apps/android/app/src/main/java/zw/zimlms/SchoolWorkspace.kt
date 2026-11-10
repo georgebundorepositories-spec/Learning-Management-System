@@ -70,6 +70,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
+import zw.zimlms.learning.HeritageCurriculum
 import zw.zimlms.learning.StarterLesson
 import zw.zimlms.learning.StarterLessons
 import zw.zimlms.learning.LessonProgressVault
@@ -535,7 +536,7 @@ private fun DashboardModule(
           WorkspaceTab.ATTENDANCE -> "Mark today's register"
           WorkspaceTab.MY_CLASSES -> "Your assigned groups"
           WorkspaceTab.CHILDREN -> "Linked learners"
-          WorkspaceTab.LEARNING -> "12 lessons • offline"
+          WorkspaceTab.LEARNING -> "Offline lessons and practice"
           WorkspaceTab.CALENDAR -> "School events"
           WorkspaceTab.NOTICES -> "School announcements"
           WorkspaceTab.FEES -> "Private school charges"
@@ -758,6 +759,13 @@ private fun OfflineDirectory() {
 @Composable
 private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   val context=LocalContext.current.applicationContext
+  // One versioned curriculum catalog for both Android and the web. Reading
+  // app assets needs no connection, and completion remains scoped to the
+  // encrypted local school/user progress vault.
+  val catalogResult=remember(context) { runCatching { HeritageCurriculum.load(context) } }
+  val allLessons=remember(catalogResult) {
+    StarterLessons.lessons + catalogResult.getOrDefault(emptyList())
+  }
   val scope=rememberCoroutineScope()
   val vault=remember { LessonProgressVault(context) }
   var completed by remember(profile.userId,profile.schoolId) {
@@ -788,16 +796,16 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   var grade by rememberSaveable { mutableStateOf("All") }
   var opened by rememberSaveable { mutableStateOf<String?>(null) }
   val levels=remember { listOf("All")+
-    StarterLessons.lessons.map { it.level }.distinct() }
+    allLessons.map { it.level }.distinct() }
   val results=remember(query,grade) {
-    StarterLessons.lessons.filter { entry->
+    allLessons.filter { entry->
       (grade=="All" || entry.level==grade) &&
         (query.isBlank() || listOf(entry.title,entry.subject,entry.level).any {
           it.contains(query.trim(),ignoreCase=true)
         })
     }
   }
-  val lesson=remember(opened) { StarterLessons.lessons.find { it.id==opened } }
+  val lesson=remember(opened) { allLessons.find { it.id==opened } }
   BackHandler(enabled=lesson!=null){opened=null}
   LazyColumn(
     modifier=modifier.fillMaxSize(),
@@ -853,6 +861,11 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
             color=MaterialTheme.colorScheme.onSurfaceVariant)
         }
       }
+      if(catalogResult.isFailure) item(key="curriculum-status") {
+        StateNotice("Curriculum unavailable",
+          "The added curriculum could not be loaded on this device. Original offline starter lessons remain accessible.",
+          MaterialTheme.colorScheme.error)
+      }
       item(key="library-feature") {
         AppPanel(Modifier.fillMaxWidth()){
           Row(horizontalArrangement=Arrangement.spacedBy(14.dp),
@@ -865,7 +878,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
                 color=MaterialTheme.colorScheme.onTertiaryContainer)
             }
             Column {
-              Text("12 ready-to-read lessons",
+              Text("${allLessons.size} ready-to-read lessons",
                 style=MaterialTheme.typography.titleMedium)
               Text("Explanations, examples and practice questions. " +
                 "All available without internet.",
@@ -896,7 +909,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
       item(key="count") {
         Column(verticalArrangement=Arrangement.spacedBy(9.dp)) {
           SectionTitle("Browse lessons",
-            "${results.size} resources • ${completed.size} of ${StarterLessons.lessons.size} completed")
+            "${results.size} resources • ${completed.size} of ${allLessons.size} completed")
           progressError?.let {StateNotice("Progress status",it,
             MaterialTheme.colorScheme.error)}
         }
@@ -919,7 +932,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
         }
       }
       item(key="copyright"){
-        Text("Starter content is original demonstration material. Uploadable school-approved resources and progress reporting are separate development features.",
+        Text("Original ZimSchool curriculum-aligned material. Staff can publish matching class assignments in the web LMS. No commercial workbook pages are bundled.",
           style=MaterialTheme.typography.bodySmall,
           color=MaterialTheme.colorScheme.onSurfaceVariant)
       }
