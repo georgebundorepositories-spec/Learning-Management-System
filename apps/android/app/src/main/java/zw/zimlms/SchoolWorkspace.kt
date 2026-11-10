@@ -74,6 +74,7 @@ import zw.zimlms.learning.HeritageCurriculum
 import zw.zimlms.learning.StarterLesson
 import zw.zimlms.learning.StarterLessons
 import zw.zimlms.learning.LessonProgressVault
+import zw.zimlms.learning.LessonCloudSync
 import zw.zimlms.portals.PortalPerson
 import zw.zimlms.portals.SchoolDirectory
 import zw.zimlms.portals.SchoolDirectoryRepository
@@ -768,15 +769,53 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   }
   val scope=rememberCoroutineScope()
   val vault=remember { LessonProgressVault(context) }
+  val cloud=remember(profile.userId,profile.schoolId) {
+    LessonCloudSync(BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+      SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+  }
   var completed by remember(profile.userId,profile.schoolId) {
     mutableStateOf<Set<String>>(emptySet())
   }
   var progressError by remember(profile.userId) { mutableStateOf<String?>(null) }
+  var syncMessage by remember(profile.userId) { mutableStateOf<String?>(null) }
+  var syncing by remember(profile.userId) { mutableStateOf(false) }
+  fun syncNow() {
+    if(profile.role!="student" || syncing)return
+    syncing=true
+    scope.launch {
+      runCatching { cloud.synchronize(profile,vault) }.fold(
+        onSuccess={result->
+          completed=vault.completed(profile.userId,profile.schoolId)
+          syncMessage="School synced: ${result.total} lesson completions."
+          progressError=null
+        },
+        onFailure={
+          syncMessage="School sync unavailable. Completed lessons remain encrypted on this device."
+        }
+      )
+      syncing=false
+    }
+  }
   LaunchedEffect(profile.userId,profile.schoolId) {
     runCatching {
       withContext(Dispatchers.IO) {vault.completed(profile.userId,profile.schoolId)}
     }.fold(
-      onSuccess={completed=it},
+      onSuccess={local->
+        completed=local
+        if(profile.role=="student") {
+          syncing=true
+          runCatching {cloud.synchronize(profile,vault)}.fold(
+            onSuccess={result->
+              completed=vault.completed(profile.userId,profile.schoolId)
+              syncMessage="School synced: ${result.total} lesson completions."
+            },
+            onFailure={
+              syncMessage="Offline: local lesson progress is safe. Tap Sync when connected."
+            }
+          )
+          syncing=false
+        }
+      },
       onFailure={progressError="Saved progress could not be read securely."}
     )
   }
@@ -787,7 +826,11 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
           vault.markCompleted(profile.userId,profile.schoolId,id)
         }
       }.fold(
-        onSuccess={completed=it;progressError=null},
+        onSuccess={
+          completed=it
+          progressError=null
+          if(profile.role=="student")syncNow()
+        },
         onFailure={progressError="Could not save progress on this device."}
       )
     }
@@ -824,7 +867,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
       item(key="read-header"){
         if(lesson.id in completed) {
           StateNotice("Lesson completed",
-            "You answered this lesson's question correctly on this device.")
+            "Correct self-check saved locally; school progress syncs when online.")
         }
         SectionTitle("Read & understand")
       }
@@ -921,6 +964,20 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
                 "All available without internet.",
                 style=MaterialTheme.typography.bodySmall,
                 color=MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+          }
+        }
+      }
+      if(profile.role=="student") item(key="school-sync") {
+        AppPanel(Modifier.fillMaxWidth().testTag("lesson-cloud-sync")) {
+          Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
+            Text("Learning progress across devices",
+              style=MaterialTheme.typography.titleSmall)
+            Text(syncMessage?:"Correct self-checks are saved on this device. Connect to sync to your school account.",
+              style=MaterialTheme.typography.bodySmall)
+            OutlinedButton(onClick={syncNow()},enabled=!syncing,
+              modifier=Modifier.fillMaxWidth()) {
+              Text(if(syncing)"Syncing with school…" else "Sync progress now")
             }
           }
         }
