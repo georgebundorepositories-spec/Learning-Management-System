@@ -12,9 +12,9 @@ class HeritageCurriculumInstrumentedTest {
  @Test fun sharedCatalogIsAvailableOfflineForEveryCoveredGrade() {
    val context=InstrumentationRegistry.getInstrumentation().targetContext
    val lessons=HeritageCurriculum.load(context)
-   assertEquals(35, lessons.size)
-   assertEquals(35, lessons.map { it.id }.distinct().size)
-   for(level in listOf("ECD B","Grade 1","Grade 2","Grade 3",
+   assertEquals(47, lessons.size)
+   assertEquals(47, lessons.map { it.id }.distinct().size)
+   for(level in listOf("ECD A","ECD B","Grade 1","Grade 2","Grade 3",
        "Grade 4","Grade 5","Grade 6","Grade 7")) {
      assertTrue("Missing level: $level", lessons.any { it.level==level })
    }
