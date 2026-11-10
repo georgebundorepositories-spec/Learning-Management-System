@@ -8,6 +8,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -53,6 +54,56 @@ class WorkspaceUiInstrumentedTest {
       .assertIsDisplayed().performTouchInput { click() }
     compose.waitUntil(5_000L) { requested.get() }
     assertTrue("Signout callback must fire",requested.get())
+  }
+
+  @Test fun dashboardTeacherLearnerParentCardsReallyOpenFullScreenDirectories() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("admin"),onSignOut={}) }
+    }
+    val destinations = listOf(
+      Triple("teachers","teacher","Teacher directory"),
+      Triple("learners","student","Learner register"),
+      Triple("parents","parent","Parent & guardian directory")
+    )
+    for ((card,directoryRole,heading) in destinations) {
+      compose.onNodeWithTag("home-tool-$card")
+        .performScrollTo().assertIsDisplayed()
+        .performTouchInput { click() }
+      compose.onNodeWithTag("module-screen-$card").assertExists()
+      compose.onNodeWithTag("people-directory-$directoryRole").assertExists()
+      compose.onNodeWithText(heading).assertIsDisplayed()
+      compose.onNodeWithContentDescription("Back to dashboard")
+        .assertIsDisplayed().performTouchInput { click() }
+      compose.onNodeWithTag("module-screen-home").assertExists()
+    }
+  }
+
+  @Test fun teacherToolOpensClassesInsteadOfRemainingOnDashboard() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("teacher"),onSignOut={}) }
+    }
+    compose.onNodeWithTag("home-tool-my_classes")
+      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+    compose.onNodeWithTag("module-screen-my_classes").assertExists()
+    compose.onNodeWithContentDescription("Back to dashboard").assertExists()
+  }
+
+  @Test fun learnerToolOpensOwnClassModule() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
+    }
+    compose.onNodeWithTag("home-tool-my_classes")
+      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+    compose.onNodeWithTag("module-screen-my_classes").assertExists()
+  }
+
+  @Test fun parentToolOpensLinkedLearnersModule() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("parent"),onSignOut={}) }
+    }
+    compose.onNodeWithTag("home-tool-children")
+      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+    compose.onNodeWithTag("module-screen-children").assertExists()
   }
 
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
