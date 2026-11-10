@@ -9,6 +9,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.hasTestTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -66,9 +68,12 @@ class WorkspaceUiInstrumentedTest {
       Triple("parents","parent","Parent & guardian directory")
     )
     for ((card,directoryRole,heading) in destinations) {
+      // LazyColumn composes only visible rows. Scroll to an off-screen card
+      // before querying its semantics node (especially Parents, row two).
+      compose.onNodeWithTag("home-module-list")
+        .performScrollToNode(hasTestTag("home-tool-$card"))
       compose.onNodeWithTag("home-tool-$card")
-        .performScrollTo().assertIsDisplayed()
-        .performTouchInput { click() }
+        .assertIsDisplayed().performTouchInput { click() }
       compose.onNodeWithTag("module-screen-$card").assertExists()
       compose.onNodeWithTag("people-directory-$directoryRole").assertExists()
       compose.onNodeWithText(heading).assertIsDisplayed()
