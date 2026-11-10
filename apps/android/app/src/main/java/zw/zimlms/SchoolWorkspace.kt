@@ -844,8 +844,45 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
       item(key="quiz"){
         QuizPanel(lesson,onCorrect={recordLesson(it)})
       }
+      if(lesson.exercises.isNotEmpty()) {
+        item(key="practice-exercises") {
+          var showAnswers by rememberSaveable(lesson.id) { mutableStateOf(false) }
+          AppPanel(Modifier.fillMaxWidth().testTag("lesson-exercises")) {
+            Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
+              Eyebrow("PRACTISE WHAT YOU LEARNED")
+              SectionTitle("Three practice exercises")
+              lesson.exercises.forEachIndexed {index,exercise->
+                Text("${index+1}. ${exercise.question}",
+                  style=MaterialTheme.typography.bodyLarge)
+                if(showAnswers) {
+                  Text("Suggested answer: ${exercise.answer}",
+                    color=MaterialTheme.colorScheme.primary,
+                    style=MaterialTheme.typography.bodyMedium)
+                }
+              }
+              OutlinedButton(onClick={showAnswers=!showAnswers},
+                modifier=Modifier.fillMaxWidth()) {
+                Text(if(showAnswers) "Hide suggested answers" else "Reveal suggested answers")
+              }
+            }
+          }
+        }
+      }
+      if(lesson.assignmentInstructions.isNotBlank()) {
+        item(key="class-assignment") {
+          AppPanel(Modifier.fillMaxWidth().testTag("lesson-assignment")) {
+            Column(verticalArrangement=Arrangement.spacedBy(9.dp)) {
+              Eyebrow("CLASS ASSIGNMENT")
+              Text(lesson.assignmentInstructions,
+                style=MaterialTheme.typography.bodyLarge)
+              StateNotice("Teacher publication",
+                "This is an offline practice template. Teachers publish graded coursework to the class from the web LMS.")
+            }
+          }
+        }
+      }
       item(key="disclaimer"){
-        Text("Original starter lesson · Not an official ZIMSEC textbook",
+        Text("Original ZimSchool learning material · Not an official ZIMSEC textbook",
           style=MaterialTheme.typography.bodySmall,
           color=MaterialTheme.colorScheme.onSurfaceVariant)
       }
