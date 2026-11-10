@@ -33,7 +33,16 @@ object HeritageCurriculum {
         question = item.getString("question"),
         choices = (0 until choices.length()).map { choices.getString(it) },
         correctIndex = item.getInt("correctIndex"),
-        feedback = item.getString("feedback")
+        feedback = item.getString("feedback"),
+        exercises = item.getJSONArray("exercises").let { arr ->
+          (0 until arr.length()).map { index ->
+            val exercise=arr.getJSONObject(index)
+            LessonExercise(exercise.getString("question"),exercise.getString("answer"))
+          }
+        },
+        assignmentInstructions = item.getJSONObject("assignment").getString("instructions"),
+        syllabusSource = item.optString("syllabusSource"),
+        practicalActivity = practical
       ))
     }
     require(lessons.isNotEmpty()) { "HBC curriculum asset is empty" }
