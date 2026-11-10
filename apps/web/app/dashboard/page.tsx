@@ -6,6 +6,7 @@ import { signOut } from "./actions";
 export const dynamic = "force-dynamic";
 
 const modules = [
+  { href: "/dashboard/coursework", title: "Assignments", description: "Classwork and private learner submissions", roles: ["admin","head","teacher","student","parent"] },
   { href: "/dashboard/admin", title: "Administration", description: "School information, permissions and audit overview", roles: ["admin","head"] },
   { href: "/dashboard/reports", title: "Reports", description: "School metrics and attendance summaries", roles: ["admin","head"] },
   { href: "/dashboard/notices", title: "Messages & Notices", description: "In-app school announcements", roles: ["admin","head","teacher","student","parent","bursar"] },
