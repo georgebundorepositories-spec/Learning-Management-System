@@ -9,6 +9,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -69,6 +71,7 @@ class WorkspaceUiInstrumentedTest {
       compose.onNodeWithTag("home-tool-$card")
         .performScrollTo().assertIsDisplayed()
         .performTouchInput { click() }
+      compose.onRoot().printToLog("ZimSchoolNavTree")
       compose.onNodeWithTag("module-screen-$card").assertExists()
       compose.onNodeWithTag("people-directory-$directoryRole").assertExists()
       compose.onNodeWithText(heading).assertIsDisplayed()
