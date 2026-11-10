@@ -1,0 +1,774 @@
+{
+  "version": "2026-11-10.3",
+  "notice": "Original ZimSchool teaching resources; aligned to uploaded 2024–2030 syllabi; publisher materials used only as topic references, not reproduced.",
+  "units": [
+    {
+      "id": "ecd-a-english-listening-instructions",
+      "level": "ECD A",
+      "subject": "English Language",
+      "topic": "Listening/Observing",
+      "title": "Listening and following two actions",
+      "objective": "Listen to and carry out simple classroom instructions.",
+      "durationMinutes": 20,
+      "explanation": [
+        "When a person speaks, listen to the words and watch any demonstration. Start only when you understand what to do. We can listen, observe or use signs to receive an instruction.",
+        "Practise with familiar commands such as 'touch your head' and 'clap twice'. Try completing both actions in the correct order. Ask for a repeat when unsure."
+      ],
+      "workedExample": "Teacher says 'Stand up, then clap once.' Learner stands and claps once.",
+      "question": "Which action comes first in 'Touch your ear, then wave'? ",
+      "choices": [
+        "Wave",
+        "Touch your ear",
+        "Sit down"
+      ],
+      "correctIndex": 1,
+      "feedback": "Touching your ear is the first action.",
+      "exercises": [
+        {
+          "question": "Act on 'clap once and sit down'.",
+          "answer": "Clap once, then sit."
+        },
+        {
+          "question": "Say why we listen carefully.",
+          "answer": "To understand what to do and stay safe."
+        },
+        {
+          "question": "Give a partner two kind instructions.",
+          "answer": "Any two clear, safe actions in sequence."
+        }
+      ],
+      "assignment": {
+        "title": "Listening and following two actions — class assignment",
+        "instructions": "With a partner, listen to three pairs of safe instructions and demonstrate the actions. Explain which action came first.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Infant English Language Syllabus.pdf",
+      "mediaActivity": "Teacher-led gestures with no photographs of learners."
+    },
+    {
+      "id": "ecd-b-english-picture-vocabulary",
+      "level": "ECD B",
+      "subject": "English Language",
+      "topic": "Speaking/Signing",
+      "title": "Naming objects around the school",
+      "objective": "Name everyday school objects and describe one use.",
+      "durationMinutes": 20,
+      "explanation": [
+        "We use words to identify objects we can see and touch. Look at a book, a pencil, a chair and a cup. Say or sign the name before explaining how the object is used.",
+        "Collect four safe classroom objects. Place them on a mat and take turns naming them. Listen to how classmates pronounce their names and use the objects carefully."
+      ],
+      "workedExample": "This is a pencil. I use a pencil to write or draw.",
+      "question": "Which object is normally used to write?",
+      "choices": [
+        "Pencil",
+        "Plate",
+        "Spoon"
+      ],
+      "correctIndex": 0,
+      "feedback": "A pencil is used for writing and drawing.",
+      "exercises": [
+        {
+          "question": "Name two classroom objects.",
+          "answer": "For example: book and chair."
+        },
+        {
+          "question": "Explain what a cup is used for.",
+          "answer": "It can hold water for drinking."
+        },
+        {
+          "question": "Make one sentence about a book.",
+          "answer": "For example: I read my book."
+        }
+      ],
+      "assignment": {
+        "title": "Naming objects around the school — class assignment",
+        "instructions": "Choose three classroom objects, draw them and tell an adult the name and use of each.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Infant English Language Syllabus.pdf",
+      "mediaActivity": "Teacher-made object photographs or real objects; no publisher artwork."
+    },
+    {
+      "id": "ecd-b-indigenous-greetings",
+      "level": "ECD B",
+      "subject": "Indigenous Languages",
+      "topic": "Language Usage and Cultural Aspects",
+      "title": "Respectful greetings in an indigenous language",
+      "objective": "Use greetings and replies respectfully in a language selected by the school.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Every community has ways to greet people respectfully. The words can vary between Shona, Ndebele, Tonga and other languages. Ask your teacher or a fluent speaker for the appropriate greeting for the time of day.",
+        "In pairs, rehearse a greeting and reply, then practise a respectful farewell. Watch for when a listener needs you to repeat or speak more clearly. Do not assume one language has a single form for every community."
+      ],
+      "workedExample": "In a Shona-speaking class: 'Mangwanani' can be a morning greeting. A fluent teacher supplies the appropriate local reply.",
+      "question": "What should you do if you do not know the correct local greeting?",
+      "choices": [
+        "Invent a word",
+        "Ask a fluent speaker or teacher",
+        "Laugh at the speaker"
+      ],
+      "correctIndex": 1,
+      "feedback": "Learn from fluent community speakers with respect.",
+      "exercises": [
+        {
+          "question": "Demonstrate a greeting in your class's language.",
+          "answer": "Teacher checks the locally appropriate expression."
+        },
+        {
+          "question": "Explain when people greet one another.",
+          "answer": "At the beginning of an interaction or meeting."
+        },
+        {
+          "question": "Demonstrate a polite farewell.",
+          "answer": "Teacher checks the locally appropriate farewell."
+        }
+      ],
+      "assignment": {
+        "title": "Respectful greetings in an indigenous language — class assignment",
+        "instructions": "Practise a short respectful greeting, reply and farewell with a partner in the school-selected indigenous language.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: 818573946-Infant-Indigenous-Language-Syllabus.pdf",
+      "mediaActivity": "Local fluent speaker leads; do not record voices without permission."
+    },
+    {
+      "id": "grade-2-science-soil-water",
+      "level": "Grade 2",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Keeping water and soil clean",
+      "objective": "Identify actions that protect soil and water.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Rain can wash loose soil into drains and rivers. Litter may block drains and make places dirty. Keeping waste in suitable containers helps protect our surroundings.",
+        "Walk around the school with an adult and observe a safe area after rain. Look for soil movement or litter without touching sharp or dirty objects. Suggest how grass, bins or proper drainage could help."
+      ],
+      "workedExample": "Putting waste in a bin instead of a stream helps protect the stream.",
+      "question": "Which action helps keep water clean?",
+      "choices": [
+        "Throwing rubbish into a ditch",
+        "Using a bin",
+        "Washing paint into a stream"
+      ],
+      "correctIndex": 1,
+      "feedback": "Waste belongs in safe disposal places, not waterways.",
+      "exercises": [
+        {
+          "question": "Name one source of litter.",
+          "answer": "For example: dropped food packaging."
+        },
+        {
+          "question": "Explain one way plants protect soil.",
+          "answer": "Roots help hold soil in place."
+        },
+        {
+          "question": "Draw a clean water source.",
+          "answer": "Teacher checks for clean surrounds and safe disposal."
+        }
+      ],
+      "assignment": {
+        "title": "Keeping water and soil clean — class assignment",
+        "instructions": "Draw two ways the school can keep water and soil clean and explain them aloud.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Infant Science and Technology Syllabus(1).pdf",
+      "mediaActivity": "Original diagram of a protected stream bank."
+    },
+    {
+      "id": "grade-3-science-emergency-helpers",
+      "level": "Grade 3",
+      "subject": "Science and Technology",
+      "topic": "Disaster Risk Management and Resilience",
+      "title": "People who help in an emergency",
+      "objective": "Identify suitable emergency helpers and describe basic safe actions.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Fires, injuries and floods are examples of dangerous situations. Adults such as teachers, health workers and firefighters can help. A child should move away from danger rather than attempt a risky rescue.",
+        "Practise telling a trusted adult what happened, where it happened and whether anyone is hurt. Follow the school's agreed evacuation route during a supervised drill. Never call an emergency service as a joke."
+      ],
+      "workedExample": "If a classroom smells strongly of smoke, a learner alerts the teacher and follows evacuation instructions.",
+      "question": "What should you do first when you notice a dangerous fire?",
+      "choices": [
+        "Hide",
+        "Tell a trusted adult and move to safety",
+        "Touch the flames"
+      ],
+      "correctIndex": 1,
+      "feedback": "Alert an adult and leave the danger area.",
+      "exercises": [
+        {
+          "question": "Name two emergency helpers.",
+          "answer": "For example: firefighter and nurse."
+        },
+        {
+          "question": "What information can you tell a helper?",
+          "answer": "What happened and where it happened."
+        },
+        {
+          "question": "Why should children avoid entering floodwater?",
+          "answer": "It can be deep, fast or contaminated."
+        }
+      ],
+      "assignment": {
+        "title": "People who help in an emergency — class assignment",
+        "instructions": "Draw a safe school evacuation route and explain where pupils assemble under teacher guidance.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior Science and Technology.pdf",
+      "mediaActivity": "Original emergency-route sketch made by the school."
+    },
+    {
+      "id": "grade-4-english-informal-letter",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Writing an informal letter",
+      "objective": "Write an organised friendly letter with a greeting, body and closing.",
+      "durationMinutes": 35,
+      "explanation": [
+        "We write informal letters to friends or relatives. A friendly letter usually gives the date, greets the reader, shares news in clear paragraphs and ends politely. The words should suit the reader.",
+        "Plan your message before writing. Decide on one main piece of news and two details. Check capital letters, full stops, correct spelling and a suitable closing. Do not put private home addresses into online practice submissions."
+      ],
+      "workedExample": "Dear Tariro, I hope you are well. Our class planted trees on Friday. We watered them and placed guards around the young plants. Your friend, Rudo.",
+      "question": "Which part normally begins a friendly letter?",
+      "choices": [
+        "Greeting",
+        "Shopping receipt",
+        "Bibliography"
+      ],
+      "correctIndex": 0,
+      "feedback": "A friendly greeting opens an informal letter.",
+      "exercises": [
+        {
+          "question": "Write a suitable informal greeting.",
+          "answer": "For example: Dear Chipo,"
+        },
+        {
+          "question": "Name two details to include in a letter about a class garden.",
+          "answer": "For example: what was planted and how pupils cared for it."
+        },
+        {
+          "question": "Write a friendly closing.",
+          "answer": "For example: Your friend, Tendai."
+        }
+      ],
+      "assignment": {
+        "title": "Writing an informal letter — class assignment",
+        "instructions": "Write a 100–120 word friendly letter telling a fictional friend about an environmental activity at school. Do not include your home address.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior English Syllabus.pdf",
+      "mediaActivity": "Teacher-created sample letter diagram."
+    },
+    {
+      "id": "grade-4-english-collective-nouns",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Reading and Language Structures",
+      "title": "Collective nouns in context",
+      "objective": "Recognise and use common collective nouns in sentences.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A collective noun names a group of people, animals or things. We can say a flock of birds, a team of players and a bunch of bananas. The group word helps readers imagine several members together.",
+        "Read each noun in its sentence. Do not guess that the collective noun always means exactly the same number of members. Practise describing groups commonly seen in Zimbabwean communities."
+      ],
+      "workedExample": "A flock of birds flew over the school garden.",
+      "question": "Which phrase has a collective noun?",
+      "choices": [
+        "A team of players",
+        "A tall player",
+        "A blue jersey"
+      ],
+      "correctIndex": 0,
+      "feedback": "Team names a group of players.",
+      "exercises": [
+        {
+          "question": "Complete: a ___ of bananas.",
+          "answer": "Bunch."
+        },
+        {
+          "question": "Use 'flock' in a sentence.",
+          "answer": "For example: A flock of birds landed in the tree."
+        },
+        {
+          "question": "Identify the collective noun in 'The class worked together'.",
+          "answer": "Class."
+        }
+      ],
+      "assignment": {
+        "title": "Collective nouns in context — class assignment",
+        "instructions": "Write five original sentences about groups of people, animals or objects, using five appropriate collective nouns.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030 syllabus alignment; topic reference: 981912480-Plus-One-HBC-English-Grade-4-LB.pdf",
+      "mediaActivity": "Original vocabulary card with words only."
+    },
+    {
+      "id": "grade-5-science-water-pollution",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Water pollution in a local community",
+      "objective": "Identify common water pollutants and propose ways to reduce them.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Water becomes polluted when substances such as sewage, rubbish or harmful chemicals enter water sources. Pollution can affect people, animals and plants. Clear water is not always safe to drink.",
+        "Investigate safely from a distance: list possible risks near a school drain, stream or well. Separate sources of pollution from prevention measures. Do not sample polluted water or touch unsafe waste."
+      ],
+      "workedExample": "If plastic waste blocks a drain, collecting it safely through an adult-supervised clean-up and providing bins can help prevent further pollution.",
+      "question": "Which action is a source of water pollution?",
+      "choices": [
+        "Protecting a well cover",
+        "Dumping waste into a river",
+        "Planting grass by a stream"
+      ],
+      "correctIndex": 1,
+      "feedback": "Dumping waste into a river can pollute water.",
+      "exercises": [
+        {
+          "question": "List two possible water pollutants.",
+          "answer": "For example: sewage and plastic litter."
+        },
+        {
+          "question": "State one effect of polluted water.",
+          "answer": "It can spread illness or harm aquatic life."
+        },
+        {
+          "question": "Suggest one prevention measure.",
+          "answer": "Dispose of waste safely and protect water sources."
+        }
+      ],
+      "assignment": {
+        "title": "Water pollution in a local community — class assignment",
+        "instructions": "Create a one-page water-protection poster for a fictional village and explain three preventive actions.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: SCIENCE AND TECHNOLOGY JUNIOR GRADE 3 - 7 HBC.pdf",
+      "mediaActivity": "Learner-created poster and safe observation checklist."
+    },
+    {
+      "id": "grade-5-science-solar-energy",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Energy and Fuels",
+      "title": "Using energy from the Sun",
+      "objective": "Describe two useful applications of solar energy and basic safety.",
+      "durationMinutes": 35,
+      "explanation": [
+        "The Sun supplies light and heat. Solar panels can convert sunlight into electrical energy. Sunlight also helps dry washed clothes and some agricultural produce when suitable hygiene precautions are followed.",
+        "Make a list of solar-powered devices used locally, such as a solar lamp or a small solar charger. Explain how each depends on sunlight. Never open electrical equipment, touch exposed wiring or stare directly at the Sun."
+      ],
+      "workedExample": "A school uses a solar lamp to provide light when there is no electricity from the grid.",
+      "question": "Which device directly uses a solar panel to supply electricity?",
+      "choices": [
+        "Solar lamp",
+        "Charcoal stove",
+        "Hand broom"
+      ],
+      "correctIndex": 0,
+      "feedback": "A solar lamp can be charged by sunlight captured through a panel.",
+      "exercises": [
+        {
+          "question": "State two uses of sunlight.",
+          "answer": "Lighting and drying clothes, for example."
+        },
+        {
+          "question": "Why might a solar lamp help in a power cut?",
+          "answer": "It stores electricity made from sunlight."
+        },
+        {
+          "question": "Mention one solar safety rule.",
+          "answer": "Do not touch exposed electrical wires."
+        }
+      ],
+      "assignment": {
+        "title": "Using energy from the Sun — class assignment",
+        "instructions": "Draw a labelled school solar-lighting idea showing the panel, lamp and safe place for use.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030 syllabus alignment; topic reference: 971890994-PlusOne-HBC-Science-and-Tech-Grade-5-TG.pdf",
+      "mediaActivity": "Original labelled solar-lamp sketch; no reproduced publisher figures."
+    },
+    {
+      "id": "grade-6-maths-ratio-scale",
+      "level": "Grade 6",
+      "subject": "Mathematics",
+      "topic": "Operations: Ratio and Scale",
+      "title": "Comparing quantities using ratios",
+      "objective": "Write ratios and solve simple sharing problems.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A ratio compares quantities using the same units. If a class has two red counters for every three blue counters, the ratio red to blue is 2:3. Ratios describe relationships, not necessarily a fixed total.",
+        "For a sharing ratio of 2:3 there are five equal parts altogether. If twenty-five oranges are shared in that ratio, each part is five; the shares are ten and fifteen oranges. State clearly whose share comes first."
+      ],
+      "workedExample": "Thirty counters are shared in the ratio 1:2. Three equal parts mean ten per part: one person receives 10 and the other 20.",
+      "question": "Which ratio shows four red beads for every six blue beads?",
+      "choices": [
+        "4:6",
+        "6:4",
+        "4:10"
+      ],
+      "correctIndex": 0,
+      "feedback": "The order is red to blue, so the ratio is 4:6 (or 2:3).",
+      "exercises": [
+        {
+          "question": "Simplify the ratio 6:9.",
+          "answer": "2:3."
+        },
+        {
+          "question": "Share 40 equally in ratio 1:3.",
+          "answer": "10 and 30."
+        },
+        {
+          "question": "A model scale is 1 cm to 5 m. What does 3 cm represent?",
+          "answer": "15 metres."
+        }
+      ],
+      "assignment": {
+        "title": "Comparing quantities using ratios — class assignment",
+        "instructions": "Design a simple map of a fictional school garden using the scale 1 cm : 2 m. Calculate two distances.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior mathematics syllabus.pdf",
+      "mediaActivity": "Original grid-paper garden map and ruler."
+    },
+    {
+      "id": "grade-6-maths-data-tables",
+      "level": "Grade 6",
+      "subject": "Mathematics",
+      "topic": "Relationships: Data Handling",
+      "title": "Creating and interpreting data tables",
+      "objective": "Organise small data sets and answer questions from a table.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Data can be collected by counting responses or observations. A tally table groups marks in fives to help avoid counting mistakes. A frequency table records how often each category occurs.",
+        "Record which of three fruits ten fictional learners prefer, then count each category and check the totals sum to ten. Convert the frequencies into a simple bar graph with a title and labelled axes."
+      ],
+      "workedExample": "Fruit votes: Mango 5, Banana 3, Orange 2. Total = 10. Mango is the most popular.",
+      "question": "Which fruit has the fewest votes?",
+      "choices": [
+        "Mango",
+        "Banana",
+        "Orange"
+      ],
+      "correctIndex": 2,
+      "feedback": "Orange has 2 votes, the smallest frequency.",
+      "exercises": [
+        {
+          "question": "How many votes in total?",
+          "answer": "10 votes."
+        },
+        {
+          "question": "What is the difference between mango and banana votes?",
+          "answer": "2 votes."
+        },
+        {
+          "question": "Why label a graph's axes?",
+          "answer": "To show what each direction or measure represents."
+        }
+      ],
+      "assignment": {
+        "title": "Creating and interpreting data tables — class assignment",
+        "instructions": "Collect 12 anonymous votes on a safe classroom topic. Make a tally table and a labelled bar graph.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior mathematics syllabus.pdf",
+      "mediaActivity": "Learner-created graph; no private learner-identifying data."
+    },
+    {
+      "id": "grade-6-science-nutrition",
+      "level": "Grade 6",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Balanced diets and nutrient deficiencies",
+      "objective": "Describe elements of a varied diet and ways to avoid deficiency.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Food gives the body energy and materials for growth and repair. Different foods provide different nutrients, so a varied diet can include staple grains, legumes, vegetables, fruit and suitable protein sources.",
+        "A lack of some nutrients over time can cause deficiency diseases. For example, insufficient vitamin C can cause scurvy. Discuss food choices without shaming families, and consider what is locally available and affordable."
+      ],
+      "workedExample": "A meal of sadza, beans and leafy vegetables offers different nutrients from each component.",
+      "question": "Which condition is associated with insufficient vitamin C?",
+      "choices": [
+        "Scurvy",
+        "Broken arm",
+        "Tooth decay from injury"
+      ],
+      "correctIndex": 0,
+      "feedback": "Long-term vitamin C deficiency can cause scurvy.",
+      "exercises": [
+        {
+          "question": "Give two plant sources of nutrients.",
+          "answer": "For example: leafy vegetables and groundnuts."
+        },
+        {
+          "question": "Explain why variety matters in meals.",
+          "answer": "Different foods supply different nutrients."
+        },
+        {
+          "question": "Name one source of vitamin C.",
+          "answer": "For example: guava or citrus fruit."
+        }
+      ],
+      "assignment": {
+        "title": "Balanced diets and nutrient deficiencies — class assignment",
+        "instructions": "Plan a practical day's menu for a fictional family using locally available foods. Explain the main nutrient groups.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030 syllabus alignment; topic reference: 698036265-PLUS-ONE-GRADE6-SCIE-TECH.pdf",
+      "mediaActivity": "Original food-group sorting chart; avoid photographing pupils' meals."
+    },
+    {
+      "id": "grade-6-english-report-writing",
+      "level": "Grade 6",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Writing a factual school report",
+      "objective": "Organise an event report using facts and a clear sequence.",
+      "durationMinutes": 35,
+      "explanation": [
+        "A report tells readers what happened, when, where, who participated and what the outcome was. Unlike a personal story, a factual report uses evidence, an accurate sequence and appropriate headings.",
+        "Start with a short title, then organise an introduction, events and conclusion. Separate facts from opinions and check dates. In digital work, use a fictional school event and avoid identifying other children without permission."
+      ],
+      "workedExample": "The Grade 6 environment club met at 10:00 on Friday. Members collected litter from the garden while an adult supervised. The club agreed to add two labelled bins.",
+      "question": "Which belongs in a factual report?",
+      "choices": [
+        "Accurate time and actions",
+        "Invented gossip",
+        "Private passwords"
+      ],
+      "correctIndex": 0,
+      "feedback": "A report should contain verifiable event details.",
+      "exercises": [
+        {
+          "question": "List three questions a report should answer.",
+          "answer": "What, when and where (also who and how)."
+        },
+        {
+          "question": "Suggest a suitable title for a tree-planting report.",
+          "answer": "For example: School Tree-Planting Activity."
+        },
+        {
+          "question": "How is a report different from a fictional story?",
+          "answer": "It focuses on facts rather than invented events."
+        }
+      ],
+      "assignment": {
+        "title": "Writing a factual school report — class assignment",
+        "instructions": "Write a 140–180 word report about a fictional class clean-up, using a heading, facts and a conclusion.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior English Syllabus.pdf",
+      "mediaActivity": "Teacher-designed event timeline."
+    },
+    {
+      "id": "grade-7-science-respiratory-system",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "Breathing and the respiratory system",
+      "objective": "Identify main respiratory structures and explain breathing.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Air enters through the nose or mouth and travels down the trachea, through the bronchi, into the lungs. The diaphragm and muscles between the ribs help air move in and out.",
+        "In the lungs, oxygen passes into the blood and carbon dioxide passes out. During inhalation, the diaphragm contracts and moves down, making space for the lungs to expand. Observe your own breathing without holding your breath or performing unsafe experiments."
+      ],
+      "workedExample": "During a calm breath in, the chest expands and air moves into the lungs.",
+      "question": "Which structure branches from the trachea into the lungs?",
+      "choices": [
+        "Bronchi",
+        "Stomach",
+        "Kidneys"
+      ],
+      "correctIndex": 0,
+      "feedback": "The trachea divides into two main bronchi.",
+      "exercises": [
+        {
+          "question": "Name three parts of the respiratory system.",
+          "answer": "For example: nose, trachea, lungs."
+        },
+        {
+          "question": "What is the main job of gas exchange?",
+          "answer": "To take oxygen into blood and remove carbon dioxide."
+        },
+        {
+          "question": "Explain the diaphragm's movement when breathing in.",
+          "answer": "It contracts and moves downward."
+        }
+      ],
+      "assignment": {
+        "title": "Breathing and the respiratory system — class assignment",
+        "instructions": "Draw an original labelled diagram of the main breathing structures and explain the path taken by air.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030 syllabus alignment; topic reference: 669763525-Science-Tech-Grade-7-textbook-sample.pdf",
+      "mediaActivity": "Draw own breathing diagram; do not copy textbook diagram."
+    },
+    {
+      "id": "grade-7-science-waste-resources",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Waste as a useful resource",
+      "objective": "Distinguish reducing, reusing and recycling through examples.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Waste may be made up of food scraps, paper, containers and other discarded material. Reducing means preventing unnecessary waste. Reusing means using an item again, while recycling processes a material into something usable.",
+        "Some safe organic waste can become compost in a properly managed school garden. Keep sharp objects, chemicals and hazardous materials away from learners. Compare traditional reuse practices with newer recycling systems."
+      ],
+      "workedExample": "Refilling a reusable bottle is reuse; purchasing fewer disposable bottles is waste reduction.",
+      "question": "Which action best shows reuse?",
+      "choices": [
+        "Using a container again",
+        "Throwing it in a river",
+        "Burning plastic in the playground"
+      ],
+      "correctIndex": 0,
+      "feedback": "Using a safe container again extends its use.",
+      "exercises": [
+        {
+          "question": "Name one biodegradable waste material.",
+          "answer": "For example: fruit peels."
+        },
+        {
+          "question": "Explain one difference between reuse and recycling.",
+          "answer": "Reuse keeps the item; recycling processes the material."
+        },
+        {
+          "question": "Suggest one safe school waste-reduction action.",
+          "answer": "Use reusable containers and labelled bins."
+        }
+      ],
+      "assignment": {
+        "title": "Waste as a useful resource — class assignment",
+        "instructions": "Design a school waste-sorting plan with three categories and a brief safety rule for each.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: SCIENCE AND TECHNOLOGY JUNIOR GRADE 3 - 7 HBC.pdf",
+      "mediaActivity": "Original waste-sorting poster, no hazardous-waste handling."
+    },
+    {
+      "id": "grade-7-indigenous-folktale",
+      "level": "Grade 7",
+      "subject": "Indigenous Languages",
+      "topic": "Comprehension and Summary; Cultural Aspects",
+      "title": "Retelling a community folktale respectfully",
+      "objective": "Summarise a folktale and identify a culturally appropriate lesson.",
+      "durationMinutes": 35,
+      "explanation": [
+        "Folktales are stories shared within communities. They may explain choices, relationships and values, and their meaning can depend on language and context. Listen to the story and identify the main characters, problem and outcome.",
+        "Choose a story that an elder or teacher permits you to retell. Use your school-selected indigenous language and preserve the teller's intended meaning. If you write a summary, distinguish your own response from the original speaker's words."
+      ],
+      "workedExample": "A short folktale may show that cooperation helps neighbours solve a challenge; learners should explain how the story demonstrates that lesson.",
+      "question": "What is a good first step before retelling a community story?",
+      "choices": [
+        "Ask permission and listen carefully",
+        "Change the storyteller's name",
+        "Record secretly"
+      ],
+      "correctIndex": 0,
+      "feedback": "Permission and accurate listening respect the storyteller.",
+      "exercises": [
+        {
+          "question": "Identify a story's setting.",
+          "answer": "Teacher checks the place and time described in the chosen story."
+        },
+        {
+          "question": "Summarise a folktale in four sentences.",
+          "answer": "Accurate character, problem, action and outcome."
+        },
+        {
+          "question": "Name one value shown in the story.",
+          "answer": "A justified value such as cooperation or honesty."
+        }
+      ],
+      "assignment": {
+        "title": "Retelling a community folktale respectfully — class assignment",
+        "instructions": "With consent, listen to a folktale and write an original summary in the school-selected indigenous language; include its lesson.",
+        "maxScore": 10,
+        "rubric": [
+          "Accuracy and understanding — 4 marks",
+          "Practical application and completion — 4 marks",
+          "Clarity and safe presentation — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE 2024–2030: Junior Indigenous Languages.pdf",
+      "mediaActivity": "Consent-based live storytelling, not copied audio recordings."
+    }
+  ]
+}
