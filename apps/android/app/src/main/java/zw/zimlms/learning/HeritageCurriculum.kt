@@ -13,9 +13,13 @@ object HeritageCurriculum {
     val json = context.assets.open("catalog.json").bufferedReader(Charsets.UTF_8)
       .use { it.readText() }
     val root = JSONObject(json)
-    val units = root.getJSONArray("units")
-    val lessons = ArrayList<StarterLesson>(units.length())
-    for (i in 0 until units.length()) {
+    val extension = context.assets.open("extension.json").bufferedReader(Charsets.UTF_8)
+      .use { JSONObject(it.readText()) }
+    val baseUnits = root.getJSONArray("units")
+    val extraUnits = extension.getJSONArray("units")
+    val lessons = ArrayList<StarterLesson>(baseUnits.length() + extraUnits.length())
+    val allUnits = listOf(baseUnits, extraUnits)
+    for (units in allUnits) for (i in 0 until units.length()) {
       val item = units.getJSONObject(i)
       val text = item.getJSONArray("explanation")
       val explanation = (0 until text.length()).map { text.getString(it) }.toMutableList()
