@@ -22,7 +22,8 @@ data class SchoolCoursework(
   val subjectId: String,
   val title: String,
   val instructions: String,
-  val dueOn: String?
+  val dueOn: String?,
+  val maxScore: String
 )
 data class SchoolCourseworkAnswer(
   val id: String,
@@ -31,9 +32,17 @@ data class SchoolCourseworkAnswer(
   val text: String,
   val updatedAt: String
 )
+data class SchoolCourseworkReview(
+  val id: String,
+  val submissionId: String,
+  val score: String,
+  val feedback: String,
+  val reviewedAt: String
+)
 data class SchoolCourseworkSnapshot(
   val assignments: List<SchoolCoursework>,
-  val answers: List<SchoolCourseworkAnswer>
+  val answers: List<SchoolCourseworkAnswer>,
+  val reviews: List<SchoolCourseworkReview>
 )
 
 class SchoolCourseworkRepository(
@@ -74,16 +83,19 @@ class SchoolCourseworkRepository(
 
   suspend fun load(actor:CachedProfile):SchoolCourseworkSnapshot {
     require(actor.role in setOf("admin","head","teacher","student","parent"))
-    val items=request(actor,"school_assignments?select=id,class_id,subject_id,title,instructions,due_on" +
+    val items=request(actor,"school_assignments?select=id,class_id,subject_id,title,instructions,due_on,max_score" +
       "&school_id=eq.${actor.schoolId}&deleted_at=is.null&order=created_at.desc&limit=100")
     val answers=request(actor,"assignment_submissions?select=id,assignment_id,student_user_id,text_answer,updated_at" +
       "&school_id=eq.${actor.schoolId}&order=submitted_at.desc&limit=500")
+    val reviewed=request(actor,"assignment_reviews?select=id,submission_id,score,feedback,reviewed_at" +
+      "&school_id=eq.${actor.schoolId}&order=reviewed_at.desc&limit=500")
     val assignments=(0 until items.length()).map{i->
       val row=items.getJSONObject(i)
       SchoolCoursework(
         row.getString("id"),row.getString("class_id"),row.getString("subject_id"),
         row.getString("title"),row.getString("instructions"),
-        row.optString("due_on").takeUnless{it.isEmpty()||it=="null"}
+        row.optString("due_on").takeUnless{it.isEmpty()||it=="null"},
+        row.getString("max_score")
       )
     }
     val visible=assignments.map{it.id}.toSet()
@@ -96,7 +108,17 @@ class SchoolCourseworkRepository(
         row.getString("text_answer"),row.optString("updated_at")
       )
     }
-    return SchoolCourseworkSnapshot(assignments,privateAnswers)
+    val visibleAnswers=privateAnswers.map{it.id}.toSet()
+    val reviews=(0 until reviewed.length()).mapNotNull{i->
+      val row=reviewed.getJSONObject(i)
+      val submissionId=row.getString("submission_id")
+      if(submissionId !in visibleAnswers)return@mapNotNull null
+      SchoolCourseworkReview(
+        row.getString("id"),submissionId,row.getString("score"),
+        row.optString("feedback",""),row.getString("reviewed_at")
+      )
+    }
+    return SchoolCourseworkSnapshot(assignments,privateAnswers,reviews)
   }
 
   /** A learner may create or revise only their own answer; server-side
