@@ -27,6 +27,8 @@ import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
 import zw.zimlms.portals.SchoolCoursework
 import zw.zimlms.portals.SchoolCourseworkAnswer
+import zw.zimlms.portals.SchoolCourseworkReview
+import zw.zimlms.portals.validCourseworkMark
 import zw.zimlms.portals.SchoolCourseworkRepository
 import zw.zimlms.portals.SchoolCourseworkSnapshot
 import zw.zimlms.portals.SchoolDirectory
@@ -127,6 +129,9 @@ fun SchoolCourseworkPage(profile:CachedProfile,directory:SchoolDirectory?,
                   Text("Awaiting teacher review",
                     style=MaterialTheme.typography.bodySmall)
                 }
+                if(profile.role in setOf("admin","head","teacher")){
+                  CourseworkGradeEditor(profile,repo,assignment,answer,review,onSaved={refresh++})
+                }
               }
               if(answers.size>40)Text("Additional responses are available in the web portal.",
                 style=MaterialTheme.typography.bodySmall)
@@ -174,4 +179,46 @@ private fun CourseworkAnswerEditor(
     style=MaterialTheme.typography.labelSmall,
     color=MaterialTheme.colorScheme.onSurfaceVariant)
   if(error!=null)StateNotice("Not submitted",error!!)
+}
+
+@Composable
+private fun CourseworkGradeEditor(
+  profile:CachedProfile,repo:SchoolCourseworkRepository,
+  assignment:SchoolCoursework,answer:SchoolCourseworkAnswer,
+  review:SchoolCourseworkReview?,onSaved:()->Unit
+) {
+  val scope=rememberCoroutineScope()
+  var mark by remember(profile.userId,answer.id,review?.reviewedAt){
+    mutableStateOf(review?.score?:"")
+  }
+  var feedback by remember(profile.userId,answer.id,review?.reviewedAt){
+    mutableStateOf(review?.feedback?:"")
+  }
+  var saving by remember(profile.userId,answer.id){mutableStateOf(false)}
+  var error by remember(profile.userId,answer.id){mutableStateOf<String?>(null)}
+  val valid=validCourseworkMark(mark.trim(),assignment.maxScore)
+  OutlinedTextField(value=mark,onValueChange={if(it.length<=12)mark=it},
+    label={Text("Mark out of "+assignment.maxScore)},
+    singleLine=true,modifier=Modifier.fillMaxWidth(),
+    isError=mark.isNotBlank()&&!valid)
+  OutlinedTextField(value=feedback,onValueChange={if(it.length<=2000)feedback=it},
+    label={Text("Teacher feedback")},minLines=2,maxLines=5,
+    modifier=Modifier.fillMaxWidth())
+  OutlinedButton(
+    onClick={
+      error=null
+      saving=true
+      scope.launch {
+        runCatching{repo.review(profile,answer.id,mark,assignment.maxScore,
+          feedback,review?.id)}.fold(
+          onSuccess={onSaved()},
+          onFailure={error="Review was not saved. Check mark limits, permissions and connection."}
+        )
+        saving=false
+      }
+    },enabled=!saving&&valid,modifier=Modifier.fillMaxWidth()
+  ){
+    Text(if(saving)"Saving review…" else if(review==null)"Record mark" else "Update mark and feedback")
+  }
+  if(error!=null)StateNotice("Review not saved",error!!)
 }
