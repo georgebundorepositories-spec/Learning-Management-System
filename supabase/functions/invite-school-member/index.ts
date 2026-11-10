@@ -15,6 +15,19 @@ function reply(status:number,message:string){
 }
 function value(v:unknown){return typeof v==="string"?v.trim():"";}
 
+/** Redirect destination is controlled by deployment configuration, NEVER by
+ * the client form, request headers or user-editable metadata.
+ */
+function inviteRedirect():string|null {
+ const configured=Deno.env.get("ZIMSCHOOL_WEB_ORIGIN")||"";
+ try{
+  const url=new URL(configured);
+  if(url.protocol!=="https:"||url.username||url.password||url.search||url.hash||
+     url.pathname!=="/")return null;
+  return url.origin+"/accept-invite";
+ }catch{return null}
+}
+
 /**
  * Privileged identity creation must happen here, never in a browser or
  * Next.js client bundle. Require both a valid JWT and an active school admin
@@ -71,6 +84,11 @@ Deno.serve(async(request:Request)=>{
     .eq("is_active",true).is("deleted_at",null).maybeSingle();
    if(error||!data)return reply(400,"Linked learner must be active in this school");
   }
+  // Fail before creating an Auth identity if the invitation cannot reach a
+  // verified HTTPS password-setup page. An unknown site URL is not safe.
+  const redirectTo=inviteRedirect();
+  if(!redirectTo)return reply(503,
+   "School invitations require an approved HTTPS web URL. Ask the deployment administrator to configure it.");
   const [existingEmail,existingPhone]=await Promise.all([
    server.from("users").select("id").eq("email",email).maybeSingle(),
    server.from("users").select("id").eq("phone",phone).maybeSingle()
@@ -78,7 +96,7 @@ Deno.serve(async(request:Request)=>{
   if(existingEmail.error||existingPhone.error)return reply(503,"Could not check for duplicate accounts");
   if(existingEmail.data||existingPhone.data)
    return reply(409,"An account with this email or phone already exists");
-  const {data:invited,error:invitationError}=await server.auth.admin.inviteUserByEmail(email);
+  const {data:invited,error:invitationError}=await server.auth.admin.inviteUserByEmail(email,{redirectTo});
   if(invitationError||!invited.user)return reply(400,"Invitation could not be sent; check the email address and school mail settings");
   const personId=invited.user.id;
   let created=false;
