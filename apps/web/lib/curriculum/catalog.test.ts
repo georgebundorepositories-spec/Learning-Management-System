@@ -5,10 +5,10 @@ import {
 } from "./catalog";
 
 describe("Heritage-Based Curriculum content",()=>{
- it("provides 35 complete original units across eight levels and four subjects",()=>{
-  expect(curriculumUnits).toHaveLength(35);
-  expect(new Set(curriculumUnits.map(x=>x.id)).size).toBe(35);
-  expect(curriculumGrades).toEqual(["ECD B","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]);
+ it("provides 47 complete original units across nine levels and four subjects",()=>{
+  expect(curriculumUnits).toHaveLength(47);
+  expect(new Set(curriculumUnits.map(x=>x.id)).size).toBe(47);
+  expect(curriculumGrades).toEqual(["ECD A","ECD B","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]);
   expect(new Set(curriculumSubjects)).toEqual(new Set([
    "English Language","Science and Technology","Indigenous Languages","Mathematics"
   ]));
