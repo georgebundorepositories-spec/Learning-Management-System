@@ -808,7 +808,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
   val lesson=remember(opened) { allLessons.find { it.id==opened } }
   BackHandler(enabled=lesson!=null){opened=null}
   LazyColumn(
-    modifier=modifier.fillMaxSize(),
+    modifier=modifier.fillMaxSize().testTag("learning-library-list"),
     contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
     verticalArrangement=Arrangement.spacedBy(13.dp)
   ) {
