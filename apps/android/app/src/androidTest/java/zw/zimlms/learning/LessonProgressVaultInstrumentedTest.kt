@@ -10,6 +10,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 
 @RunWith(AndroidJUnit4::class)
 class LessonProgressVaultInstrumentedTest {
@@ -83,6 +86,27 @@ class LessonProgressVaultInstrumentedTest {
     assertEquals(merged,LessonProgressVault(context).completed(user,school))
     assertTrue(vault.completed(otherUser,school).isEmpty())
     assertTrue(vault.completed(user,otherSchool).isEmpty())
+  }
+
+  @Test fun concurrentVaultInstancesCannotLoseCompletions() {
+    val first="grade-6-maths-ratio-scale"
+    val second="grade-7-science-respiratory-system"
+    val ready=CountDownLatch(1)
+    val done=CountDownLatch(2)
+    val error=AtomicReference<Throwable?>(null)
+    listOf(first,second).forEach { id ->
+      Thread {
+        try {
+          ready.await()
+          LessonProgressVault(context).markCompleted(user,school,id)
+        }catch(t:Throwable){error.compareAndSet(null,t)}
+        finally{done.countDown()}
+      }.start()
+    }
+    ready.countDown()
+    assertTrue(done.await(10,TimeUnit.SECONDS))
+    error.get()?.let {throw AssertionError("Concurrent merge failure",it)}
+    assertEquals(setOf(first,second),vault.completed(user,school))
   }
 
   @Test fun encryptedProgressTamperingFailsClosed() {

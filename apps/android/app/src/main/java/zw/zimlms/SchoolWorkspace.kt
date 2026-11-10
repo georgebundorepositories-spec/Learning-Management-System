@@ -75,6 +75,7 @@ import zw.zimlms.learning.StarterLesson
 import zw.zimlms.learning.StarterLessons
 import zw.zimlms.learning.LessonProgressVault
 import zw.zimlms.learning.LessonCloudSync
+import zw.zimlms.learning.LessonSyncScheduler
 import zw.zimlms.portals.PortalPerson
 import zw.zimlms.portals.SchoolDirectory
 import zw.zimlms.portals.SchoolDirectoryRepository
@@ -838,7 +839,11 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
         onSuccess={
           completed=it
           progressError=null
-          if(profile.role=="student")syncNow()
+          if(profile.role=="student") {
+            // Queue replay as soon as the network returns, including after app closure.
+            if(cloud!=null)LessonSyncScheduler.requestImmediate(context)
+            syncNow()
+          }
         },
         onFailure={progressError="Could not save progress on this device."}
       )

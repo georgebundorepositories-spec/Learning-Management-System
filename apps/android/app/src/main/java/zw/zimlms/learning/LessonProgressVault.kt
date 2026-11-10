@@ -22,6 +22,8 @@ import javax.crypto.spec.GCMParameterSpec
  * lesson IDs. An invalid encrypted payload fails closed rather than resetting.
  */
 class LessonProgressVault(context: Context) {
+  // Coordinate separate UI and WorkManager instances during read/merge/write.
+  private companion object { val progressLock=Any() }
   private val prefs=context.applicationContext.getSharedPreferences(
     "zimschool_lesson_progress_v1",Context.MODE_PRIVATE)
   private val keyAlias="zimschool_lesson_progress_aes_v1"
@@ -86,7 +88,7 @@ class LessonProgressVault(context: Context) {
    */
   @Synchronized fun mergeCompleted(
     userId:String,schoolId:String,cloudIds:Set<String>
-  ):Set<String> {
+  ):Set<String> = synchronized(progressLock) {
     val current=completed(userId,schoolId)
     val safeCloud=cloudIds.filter { it in validIds }.toSet()
     val set=current+safeCloud
@@ -103,6 +105,6 @@ class LessonProgressVault(context: Context) {
       Base64.encodeToString(encrypted,Base64.NO_WRAP)).commit()){
       "Could not save learning progress"
     }
-    return set
+    set
   }
 }

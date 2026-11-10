@@ -51,6 +51,7 @@ import zw.zimlms.core.auth.OfflineVault
 import zw.zimlms.core.auth.SessionBroker
 import zw.zimlms.core.auth.SessionVault
 import zw.zimlms.core.sync.CalendarSyncScheduler
+import zw.zimlms.learning.LessonSyncScheduler
 import zw.zimlms.ui.BrandMark
 import zw.zimlms.ui.Eyebrow
 import zw.zimlms.ui.StateNotice
@@ -90,6 +91,7 @@ private fun ZimSchoolApp() {
       if(!busy) {
         busy=true
         CalendarSyncScheduler.cancel(context)
+        LessonSyncScheduler.cancel(context)
         scope.launch {
           val removed=runCatching {
             SessionBroker(context,BuildConfig.SUPABASE_URL,
@@ -203,6 +205,7 @@ private fun ZimSchoolApp() {
                     password=""
                     error=null
                     CalendarSyncScheduler.schedule(context)
+                    if(profileToEnroll.role=="student")LessonSyncScheduler.schedule(context)
                   },
                   onFailure={error=context.getString(R.string.pin_save_error)}
                 )
@@ -294,6 +297,7 @@ private fun ZimSchoolApp() {
                     if(session?.profile?.userId==result.profile.userId &&
                       session.profile.schoolId==result.profile.schoolId) {
                       CalendarSyncScheduler.schedule(context)
+                      if(result.profile.role=="student")LessonSyncScheduler.schedule(context)
                     }
                   }
                   is OfflineLogin.Rejected -> {error=result.reason}
