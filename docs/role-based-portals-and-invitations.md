@@ -16,6 +16,9 @@ The administrator opens `/dashboard/users` and sends two separate email invitati
 
 SMTP and Supabase Auth Site URL need approval before inviting real children or adults. The server-side invite flow will be visible only when the web deployment has been approved and configured.
 
+## Android preview compatibility
+Android v0.13 role-portal debug builds use a separate test package (`zw.zimlms.preview.roles13`) from v0.12. This protects installed v0.12 local progress when the CI signing certificate changes; v0.12 offline completions do **not** automatically migrate to v0.13. Sync earlier progress to the cloud with the earlier app before changing devices or removing that installation.
+
 ## Testing / release boundaries
 - Unit tests assert role visibility.
 - Staff planning pages check role on Android and web.
