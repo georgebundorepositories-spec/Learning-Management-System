@@ -135,3 +135,15 @@
 
 /* Phase 4–7: responsive school operations */
 .resource-form .form-full{grid-column:1/-1}.summary-card small{color:var(--muted);overflow-wrap:anywhere}.summary-card code{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.78rem}.dashboard-page .summary-card:where(a):hover{border-color:#9dc7ac;box-shadow:0 12px 28px #0b6e4f16;transform:translateY(-2px)}.dashboard-page .summary-card:where(a){transition:border-color .15s,box-shadow .15s,transform .15s}.dashboard-page h2{letter-spacing:-.035em}.dashboard-page .resource-form button:focus-visible{outline:3px solid var(--earth)}.dashboard-page .notice-panel[role=alert]{border-left-color:#ad3535}.topbar a{text-decoration:none}.dashboard-page form textarea{font:inherit}@media(max-width:760px){.dash-wrap{margin:1.4rem auto}.summary-cards{grid-template-columns:1fr}.topbar{padding:1rem 1.1rem}.resource-form .form-full{grid-column:1}}@media(prefers-reduced-motion:reduce){.dashboard-page .summary-card:where(a):hover{transform:none}}
+
+/* Phase 6: readable, private text-based classroom submissions. */
+.coursework-answer-form{display:grid;gap:.8rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.coursework-answer-form label{display:flex;flex-direction:column;gap:.4rem;font-weight:600;font-size:.87rem}
+.coursework-answer-form textarea{width:100%;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);font:inherit;padding:.8rem;resize:vertical;min-height:120px}
+.coursework-answer-form button{justify-self:start}
+.coursework-submissions{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.coursework-submissions h3{font-size:1rem}
+.coursework-submission{border:1px solid var(--border);border-radius:10px;padding:1rem;margin:.6rem 0;overflow-wrap:anywhere}
+.coursework-submission strong,.coursework-submission small{display:block}
+.coursework-submission small{margin-top:.2rem}
+.coursework-submission p{margin:.6rem 0 0}
