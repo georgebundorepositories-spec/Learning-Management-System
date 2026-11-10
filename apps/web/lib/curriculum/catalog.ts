@@ -12,7 +12,9 @@ export type CurriculumUnit={
 export const curriculumUnits:CurriculumUnit[]=rawCatalog.units as CurriculumUnit[];
 export const curriculumVersion=rawCatalog.catalogVersion;
 export const curriculumNotice=rawCatalog.licenseNotice;
-export const curriculumGrades=[...new Set(curriculumUnits.map(unit=>unit.level))];
+export const curriculumGrades=["ECD A","ECD B",
+ "Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]
+ .filter(level=>curriculumUnits.some(unit=>unit.level===level));
 export const curriculumSubjects=[...new Set(curriculumUnits.map(unit=>unit.subject))];
 
 export function getCurriculumUnit(id:string):CurriculumUnit|undefined{
