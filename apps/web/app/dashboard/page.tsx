@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 const modules = [
   { href: "/dashboard/coursework", title: "Assignments", description: "Classwork and private learner submissions", roles: ["admin","head","teacher","student","parent"] },
+  { href: "/dashboard/progress", title: "Learning Progress", description: "Private coursework, assessment and attendance progress", roles: ["admin","head","teacher","student","parent"] },
   { href: "/dashboard/admin", title: "Administration", description: "School information, permissions and audit overview", roles: ["admin","head"] },
   { href: "/dashboard/reports", title: "Reports", description: "School metrics and attendance summaries", roles: ["admin","head"] },
   { href: "/dashboard/notices", title: "Messages & Notices", description: "In-app school announcements", roles: ["admin","head","teacher","student","parent","bursar"] },
@@ -19,7 +20,7 @@ const modules = [
   { href: "/dashboard/parents", title: "Parents", description: "View linked guardians", roles: ["admin","head"] },
   { href: "/dashboard/attendance", title: "Attendance", description: "Daily class attendance register", roles: ["admin","head","teacher"] },
   { href: "/dashboard/learning", title: "Learning", description: "Subject catalogue and learning resources", roles: ["admin","head","teacher","student","parent"] },
-  { href: "/dashboard/curriculum", title: "Curriculum Lessons & Exercises", description: "47 syllabus-aligned lessons, practice quizzes and publishable assignments", roles: ["admin","head","teacher","student","parent"] },
+  { href: "/dashboard/curriculum", title: "Curriculum Lessons & Exercises", description: "63 syllabus-aligned lessons, practice quizzes and publishable assignments", roles: ["admin","head","teacher","student","parent"] },
 ] as const;
 
 export default async function Dashboard() {
