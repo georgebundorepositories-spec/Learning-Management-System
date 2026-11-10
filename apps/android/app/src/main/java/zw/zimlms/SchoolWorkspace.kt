@@ -234,21 +234,36 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
             horizontalArrangement=Arrangement.spacedBy(9.dp)
           ) {
             IconButton(
-              onClick={scope.launch { drawer.open() }},
-              modifier=Modifier.semantics { contentDescription="Open navigation menu" }
-            ) {
-              Column(verticalArrangement=Arrangement.spacedBy(4.dp)) {
-                repeat(3) {
-                  Spacer(Modifier.width(21.dp).height(2.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(MaterialTheme.colorScheme.onSurface))
+              onClick={
+                if (selected == WorkspaceTab.HOME) {
+                  scope.launch { drawer.open() }
+                } else {
+                  navigate(WorkspaceTab.HOME)
                 }
+              },
+              modifier=Modifier.semantics {
+                contentDescription=if(selected == WorkspaceTab.HOME)
+                  "Open navigation menu" else "Back to dashboard"
+              }
+            ) {
+              if (selected == WorkspaceTab.HOME) {
+                Column(verticalArrangement=Arrangement.spacedBy(4.dp)) {
+                  repeat(3) {
+                    Spacer(Modifier.width(21.dp).height(2.dp)
+                      .clip(RoundedCornerShape(2.dp))
+                      .background(MaterialTheme.colorScheme.onSurface))
+                  }
+                }
+              } else {
+                Text("←", style=MaterialTheme.typography.headlineMedium,
+                  color=MaterialTheme.colorScheme.onSurface)
               }
             }
             BrandMark(Modifier.size(36.dp))
             Column(Modifier.weight(1f)) {
               Text("ZimSchool",style=MaterialTheme.typography.titleMedium)
-              Text(if(directory?.isDemo==true) "DEMONSTRATION SCHOOL"
+              Text(if(selected != WorkspaceTab.HOME) selected.label.uppercase()
+              else if(directory?.isDemo==true) "DEMONSTRATION SCHOOL"
               else "YOUR SCHOOL WORKSPACE",
                 style=MaterialTheme.typography.labelSmall,
                 color=MaterialTheme.colorScheme.onSurfaceVariant)
@@ -479,10 +494,23 @@ private fun HomeHero(profile: CachedProfile,directory: SchoolDirectory?) {
 private fun DashboardModule(
   tab: WorkspaceTab,modifier: Modifier=Modifier,onClick:(WorkspaceTab)->Unit
 ) {
-  AppPanel(modifier=modifier.clip(RoundedCornerShape(20.dp))
-    .clickable { onClick(tab) }) {
+  // Material3's clickable Surface owns the touch target and accessibility
+  // action. A clickable modifier on a nested, non-clickable Surface can leave
+  // the visual card tappable in appearance only on some Android devices.
+  Surface(
+    onClick={ onClick(tab) },
+    modifier=modifier
+      .testTag("home-tool-${tab.name.lowercase()}")
+      .semantics { contentDescription="Open ${tab.label}" },
+    shape=RoundedCornerShape(20.dp),
+    color=MaterialTheme.colorScheme.surface,
+    tonalElevation=0.dp,
+    shadowElevation=1.dp,
+    border=androidx.compose.foundation.BorderStroke(
+      1.dp, MaterialTheme.colorScheme.outlineVariant)
+  ) {
     Column(
-      modifier=Modifier.fillMaxWidth().height(119.dp),
+      modifier=Modifier.fillMaxWidth().padding(18.dp).height(119.dp),
       verticalArrangement=Arrangement.SpaceBetween
     ) {
       Box(
