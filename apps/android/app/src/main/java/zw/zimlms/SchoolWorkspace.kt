@@ -308,7 +308,8 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
         }
       }
     ) { insets ->
-      when (selected) {
+      Box(Modifier.fillMaxSize().testTag("module-screen-${selected.name.lowercase()}")) {
+        when (selected) {
         WorkspaceTab.HOME -> HomePage(
           profile,directory,status,loading,
           modifier=Modifier.padding(insets),
@@ -350,6 +351,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
         WorkspaceTab.COURSEWORK -> SchoolCourseworkPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.MY_CLASSES -> MyClassesPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.CHILDREN -> FamilyPage(directory,Modifier.padding(insets))
+        }
       }
     }
   }
@@ -559,7 +561,7 @@ private fun PeoplePage(
 ) {
   val people=remember(directory,role) { directory?.peopleByRole(role).orEmpty() }
   LazyColumn(
-    modifier=modifier.fillMaxSize(),
+    modifier=modifier.fillMaxSize().testTag("people-directory-${role}"),
     contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
     verticalArrangement=Arrangement.spacedBy(12.dp)
   ) {
