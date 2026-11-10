@@ -5,9 +5,9 @@ import {
 } from "./catalog";
 
 describe("Heritage-Based Curriculum content",()=>{
- it("provides 47 complete original units across nine levels and four subjects",()=>{
-  expect(curriculumUnits).toHaveLength(47);
-  expect(new Set(curriculumUnits.map(x=>x.id)).size).toBe(47);
+ it("provides 63 complete original units across nine levels and four subjects",()=>{
+  expect(curriculumUnits).toHaveLength(63);
+  expect(new Set(curriculumUnits.map(x=>x.id)).size).toBe(63);
   expect(curriculumGrades).toEqual(["ECD A","ECD B","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]);
   expect(new Set(curriculumSubjects)).toEqual(new Set([
    "English Language","Science and Technology","Indigenous Languages","Mathematics"
@@ -24,6 +24,22 @@ describe("Heritage-Based Curriculum content",()=>{
     expect(unit.assignment.maxScore).toBe(10);
     expect(unit.assignment.rubric).toHaveLength(3);
     expect(unit.syllabusSource).toContain("MoPSE");
+  }
+ });
+ it("includes the newly uploaded syllabus and textbook topic alignment",()=>{
+  for(const id of [
+    "ecd-a-english-listening-instructions",
+    "grade-4-english-informal-letter",
+    "grade-5-science-water-pollution",
+    "grade-6-maths-ratio-scale",
+    "grade-7-science-respiratory-system",
+    "grade-7-indigenous-folktale"
+  ]) {
+    const item=getCurriculumUnit(id);
+    expect(item).toBeDefined();
+    expect(item?.exercises).toHaveLength(3);
+    expect(item?.assignment.rubric).toHaveLength(3);
+    expect(item?.syllabusSource).toContain("MoPSE");
   }
  });
  it("does not allow a curriculum template to be assigned to the wrong grade",()=>{
