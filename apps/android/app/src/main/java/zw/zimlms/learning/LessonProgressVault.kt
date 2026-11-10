@@ -88,7 +88,8 @@ class LessonProgressVault(context: Context) {
    */
   @Synchronized fun mergeCompleted(
     userId:String,schoolId:String,cloudIds:Set<String>
-  ):Set<String> = synchronized(progressLock) {
+  ):Set<String> {
+    return synchronized(progressLock) {
     val current=completed(userId,schoolId)
     val safeCloud=cloudIds.filter { it in validIds }.toSet()
     val set=current+safeCloud
@@ -106,5 +107,6 @@ class LessonProgressVault(context: Context) {
       "Could not save learning progress"
     }
     set
+    }
   }
 }
