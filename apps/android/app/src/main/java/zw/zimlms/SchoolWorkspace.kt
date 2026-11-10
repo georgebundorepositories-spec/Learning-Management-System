@@ -321,7 +321,7 @@ fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
           onSignOut=onSignOut
         )
         WorkspaceTab.LEARNING -> LearningPage(profile,Modifier.padding(insets))
-        WorkspaceTab.PLANNING -> TeacherPlanningPage(profile,Modifier.padding(insets))
+        WorkspaceTab.PLANNING -> TeacherPlanningPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.CALENDAR -> {
           if (profile.role in setOf("admin","head","teacher")) {
             Column(Modifier.fillMaxSize().padding(insets)
