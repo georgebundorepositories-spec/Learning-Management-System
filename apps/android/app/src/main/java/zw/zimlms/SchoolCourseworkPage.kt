@@ -86,6 +86,7 @@ fun SchoolCourseworkPage(profile:CachedProfile,directory:SchoolDirectory?,
       items(data.assignments,key={it.id}){assignment->
         val answers=data.answers.filter{it.assignmentId==assignment.id}
         val own=answers.firstOrNull{it.learnerId==profile.userId}
+        val ownReview=data.reviews.firstOrNull{it.submissionId==own?.id}
         AppPanel(Modifier.fillMaxWidth()){
           Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
             Text((directory?.className(assignment.classId)?:"Class")+
@@ -94,10 +95,20 @@ fun SchoolCourseworkPage(profile:CachedProfile,directory:SchoolDirectory?,
               color=MaterialTheme.colorScheme.onSurfaceVariant)
             Text(assignment.title,style=MaterialTheme.typography.titleLarge)
             Text(assignment.instructions,style=MaterialTheme.typography.bodyMedium)
-            Text("Due: "+(assignment.dueOn?:"No due date specified"),
+            Text("Due: "+(assignment.dueOn?:"No due date specified")+
+              " · Maximum: "+assignment.maxScore,
               style=MaterialTheme.typography.bodySmall)
             if(profile.role=="student") {
-              CourseworkAnswerEditor(profile,repo,assignment,own,onSaved={refresh++})
+              if(ownReview!=null) {
+                Text("Graded: "+ownReview.score+" / "+assignment.maxScore,
+                  style=MaterialTheme.typography.titleMedium)
+                Text(ownReview.feedback.ifBlank{"No written feedback recorded."},
+                  style=MaterialTheme.typography.bodyMedium)
+                StateNotice("Answer reviewed",
+                  "Your submitted answer is locked. Contact your teacher about a new assignment.")
+              }else{
+                CourseworkAnswerEditor(profile,repo,assignment,own,onSaved={refresh++})
+              }
             }else if(answers.isNotEmpty()) {
               Text("Submitted answers (${answers.size})",
                 style=MaterialTheme.typography.titleSmall)
@@ -106,6 +117,16 @@ fun SchoolCourseworkPage(profile:CachedProfile,directory:SchoolDirectory?,
                   else "Learner reference "+answer.learnerId.takeLast(8)
                 Text(learnerLabel,style=MaterialTheme.typography.labelMedium)
                 Text(answer.text,style=MaterialTheme.typography.bodyMedium)
+                val review=data.reviews.firstOrNull{it.submissionId==answer.id}
+                if(review!=null) {
+                  Text("Mark: "+review.score+" / "+assignment.maxScore,
+                    style=MaterialTheme.typography.titleSmall)
+                  Text(review.feedback.ifBlank{"No written feedback recorded."},
+                    style=MaterialTheme.typography.bodySmall)
+                }else{
+                  Text("Awaiting teacher review",
+                    style=MaterialTheme.typography.bodySmall)
+                }
               }
               if(answers.size>40)Text("Additional responses are available in the web portal.",
                 style=MaterialTheme.typography.bodySmall)
