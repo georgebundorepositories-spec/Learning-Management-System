@@ -58,6 +58,27 @@ class LessonProgressVaultInstrumentedTest {
     }
   }
 
+  @Test fun newlyAddedCurriculumLessonsPersistEncrypted() {
+    val id="grade-6-maths-ratio-scale"
+    assertTrue(vault.markCompleted(user,school,id).contains(id))
+    assertTrue(LessonProgressVault(context).completed(user,school).contains(id))
+    val encrypted=prefs.all.values.joinToString()
+    assertFalse(encrypted.contains(id))
+    assertFalse(encrypted.contains(user))
+  }
+
+  @Test fun cloudMergeCombinesBothDevicesWithoutDuplicatingOfflineProgress() {
+    val starter=StarterLessons.lessons[0].id
+    val remote="grade-7-science-respiratory-system"
+    vault.markCompleted(user,school,starter)
+    val merged=vault.mergeCompleted(user,school,setOf(remote,starter))
+    assertEquals(setOf(starter,remote),merged)
+    assertEquals(merged,vault.mergeCompleted(user,school,setOf(remote)))
+    assertEquals(merged,LessonProgressVault(context).completed(user,school))
+    assertTrue(vault.completed(otherUser,school).isEmpty())
+    assertTrue(vault.completed(user,otherSchool).isEmpty())
+  }
+
   @Test fun encryptedProgressTamperingFailsClosed() {
     val id=StarterLessons.lessons[0].id
     vault.markCompleted(user,school,id)
