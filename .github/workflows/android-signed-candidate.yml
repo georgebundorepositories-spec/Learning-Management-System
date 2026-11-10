@@ -91,6 +91,9 @@ jobs:
             echo "This is not a production release. Real-device and privacy gates remain mandatory."
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Audit signed APK before QA distribution
+        run: python3 scripts/audit-android-apk.py apps/android/app/build/outputs/apk/release/ZimSchool-signed-qa-candidate.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: ZimSchool-signed-qa-candidate
