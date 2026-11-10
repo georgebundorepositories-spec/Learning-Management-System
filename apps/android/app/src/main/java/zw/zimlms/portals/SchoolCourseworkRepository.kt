@@ -11,6 +11,7 @@ import org.json.JSONObject
 import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
 import java.io.IOException
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 
 /** Online coursework with JWT and school/learner RLS.
@@ -44,6 +45,15 @@ data class SchoolCourseworkSnapshot(
   val answers: List<SchoolCourseworkAnswer>,
   val reviews: List<SchoolCourseworkReview>
 )
+
+private val markPattern=Regex("""^(?:0|[1-9]\\d{0,4})(?:\\.\\d{1,2})?$""")
+/** Exact decimal validation avoids floating-point grade-rounding errors. */
+internal fun validCourseworkMark(score:String,maximum:String):Boolean{
+  if(!markPattern.matches(score) || !markPattern.matches(maximum))return false
+  val mark=BigDecimal(score)
+  val max=BigDecimal(maximum)
+  return max>BigDecimal.ZERO && max<=BigDecimal("10000") && mark<=max
+}
 
 class SchoolCourseworkRepository(
   private val baseUrl:String,
@@ -151,5 +161,37 @@ class SchoolCourseworkRepository(
     if(rows.length()!=1)throw IOException("School server did not confirm the answer")
     if(!uuid.matches(rows.getJSONObject(0).getString("id")))
       throw IOException("Invalid coursework confirmation")
+  }
+
+  /** Record teacher feedback with an authenticated PostgREST request.  The
+   * server verifies class+subject assignment, score ceiling and record owner.
+   */
+  suspend fun review(actor:CachedProfile,submissionId:String,scoreInput:String,
+      maxScore:String,feedbackInput:String,existingId:String?):Unit{
+    require(actor.role in setOf("admin","head","teacher")){"School staff role required"}
+    require(uuid.matches(submissionId) && (existingId==null || uuid.matches(existingId)))
+    require(validCourseworkMark(scoreInput.trim(),maxScore)){"Invalid mark or maximum score"}
+    val feedback=feedbackInput.trim()
+    require(feedback.length<=2000){"Feedback exceeds 2,000 characters"}
+
+    val payload=JSONObject()
+      .put("score",BigDecimal(scoreInput.trim()))
+      .put("feedback",feedback)
+      .put("reviewed_by",actor.userId)
+    val method:String
+    val path:String
+    if(existingId==null){
+      method="POST"
+      path="assignment_reviews?select=id"
+      payload.put("school_id",actor.schoolId)
+        .put("submission_id",submissionId)
+    }else{
+      method="PATCH"
+      path="assignment_reviews?id=eq.$existingId&school_id=eq.${actor.schoolId}&select=id"
+      payload.put("reviewed_at",java.time.Instant.now().toString())
+    }
+    val saved=request(actor,path,method,payload.toString())
+    if(saved.length()!=1 || !uuid.matches(saved.getJSONObject(0).getString("id")))
+      throw IOException("School server did not confirm the review")
   }
 }
