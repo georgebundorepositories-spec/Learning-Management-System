@@ -901,7 +901,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
         }
       }
       item(key="quiz"){
-        QuizPanel(lesson,onCorrect={recordLesson(it)})
+        QuizPanel(lesson,onCorrect={if(profile.role=="student")recordLesson(it)})
       }
       if(lesson.exercises.isNotEmpty()) {
         item(key="practice-exercises") {
