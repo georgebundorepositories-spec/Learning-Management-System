@@ -40,6 +40,27 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithText("Search lessons, subjects or topics").assertExists()
   }
 
+  @Test fun newCurriculumLessonShowsExercisesAndAssignmentOffline() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
+    }
+    compose.onNodeWithText("Library").performClick()
+    compose.onNodeWithTag("learning-library-list")
+      .performScrollToNode(hasTestTag("learning-library-heading"))
+    compose.onNodeWithTag("learning-library-list")
+      .performScrollToNode(hasText("Sounds around us"))
+    compose.onNodeWithText("Sounds around us").assertIsDisplayed()
+      .performTouchInput { click() }
+    compose.onNodeWithTag("learning-library-list")
+      .performScrollToNode(hasTestTag("lesson-exercises"))
+    compose.onNodeWithTag("lesson-exercises").assertExists()
+    compose.onNodeWithText("Three practice exercises").assertExists()
+    compose.onNodeWithTag("learning-library-list")
+      .performScrollToNode(hasTestTag("lesson-assignment"))
+    compose.onNodeWithTag("lesson-assignment").assertExists()
+    compose.onNodeWithText("CLASS ASSIGNMENT").assertExists()
+  }
+
   @Test fun authenticatedShellHasAccessibleNavigationAndSignOut() {
     val requested=AtomicBoolean(false)
     compose.setContent {
