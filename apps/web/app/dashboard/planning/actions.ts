@@ -73,9 +73,9 @@ export async function saveTeacherPlan(_previous:PlanState,form:FormData):Promise
      !["draft","ready"].includes(status)||!validDate)
    return {status:"error",message:"Check your title, lesson objective, teaching steps and field lengths."};
   const fields={lesson_title,objective,teaching_steps,resources,assessment,reflection,
-   planned_on:date||null,status,updated_at:new Date().toISOString()};
+   planned_on:date||null,status};
   if(id){
-   const {data,error}=await db.from("teacher_lesson_plans").update(fields)
+   const {data,error}=await db.from("teacher_lesson_plans").update({...fields,updated_at:new Date().toISOString()})
     .eq("id",id).eq("school_id",actor.school_id).eq("teacher_id",user.id)
     .is("deleted_at",null).select("id").maybeSingle();
    if(error||!data)return {status:"error",message:"Unable to revise this plan. Check your class assignment."};
