@@ -373,7 +373,7 @@ private fun HomePage(
   val date=remember { LocalDate.now(ZoneId.of("Africa/Harare"))
     .format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")) }
   LazyColumn(
-    modifier=modifier.fillMaxSize(),
+    modifier=modifier.fillMaxSize().testTag("home-module-list"),
     contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
     verticalArrangement=Arrangement.spacedBy(19.dp)
   ) {
