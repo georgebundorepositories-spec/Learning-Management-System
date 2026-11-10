@@ -243,6 +243,16 @@ try {
     "Teacher revises own private plan");
   assert.equal(revisedPlan.status,"ready");
   assert.match(revisedPlan.reflection,/grouping activity/);
+  // A cached identity must lose access immediately when the authoritative
+  // school role changes, even before the JWT has been refreshed.
+  await ok(server.from("users").update({role:"parent"}).eq("id",teacherMath.id),
+    "Temporarily revoke teacher designation in local fixture");
+  assert.equal((await readIds(teacherMath.client,"teacher_lesson_plans")).has(staffPlan.id),false,
+    "Former teacher must lose private lesson plan access without signing out");
+  await ok(server.from("users").update({role:"teacher"}).eq("id",teacherMath.id),
+    "Restore local teacher designation");
+  assert.equal((await readIds(teacherMath.client,"teacher_lesson_plans")).has(staffPlan.id),true,
+    "Restoring assigned teacher role restores plan visibility");
 
   const published = await ok(teacherMath.client.from("school_assignments").insert({
     school_id:schoolA,class_id:klass,subject_id:math,
@@ -346,6 +356,16 @@ try {
   assert.equal(failedCrossSchool.data.length,0);
 
 
+  // A stale guardian relationship cannot grant parent privileges to a
+  // user whose school role has been changed away from parent.
+  await ok(server.from("users").update({role:"teacher"}).eq("id",linkedGuardian.id),
+    "Temporarily revoke parent designation");
+  assert.equal((await lessonIds(linkedGuardian)).has(lessonId),false,
+    "Former guardian must lose linked learner progress");
+  await ok(server.from("users").update({role:"parent"}).eq("id",linkedGuardian.id),
+    "Restore local parent designation");
+  assert.equal((await lessonIds(linkedGuardian)).has(lessonId),true,
+    "Restored parent relationship still works before link removal");
   // Revocation test: a previous guardian must immediately lose visibility
   // after the school administrator removes the learner relationship.
   await ok(server.from("student_guardian_link").delete().eq("id",guardianLink),
