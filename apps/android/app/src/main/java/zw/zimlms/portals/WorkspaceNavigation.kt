@@ -11,6 +11,7 @@ enum class WorkspaceTab(val label: String) {
   CHILDREN("My learners"),
   MY_CLASSES("My classes"),
   LEARNING("Learning library"),
+  PLANNING("Lesson planning"),
   CALENDAR("Calendar"),
   NOTICES("Notices"),
   FEES("Fee invoices"),
@@ -29,14 +30,14 @@ object WorkspaceNavigation {
     "admin", "head" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS,
       WorkspaceTab.PARENTS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
-      WorkspaceTab.ATTENDANCE,
+      WorkspaceTab.ATTENDANCE, WorkspaceTab.PLANNING,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR,
       WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES,
       WorkspaceTab.COURSEWORK
     )
     "teacher" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
-      WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,
+      WorkspaceTab.PLANNING, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,
       WorkspaceTab.RESOURCES, WorkspaceTab.COURSEWORK
     )
     "student" -> listOf(
@@ -51,6 +52,8 @@ object WorkspaceNavigation {
     "clerk" -> listOf(WorkspaceTab.HOME, WorkspaceTab.NOTICES)
     else -> listOf(WorkspaceTab.HOME)
   }
+
+  fun canOpen(role:String,tab:WorkspaceTab)=tab in tabs(role)
 
   fun heading(role: String) = when(role) {
     "admin", "head" -> "School administration"

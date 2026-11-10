@@ -133,6 +133,18 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("module-screen-children").assertExists()
   }
 
+  @Test fun teacherCanOpenLessonPlanning() {
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("teacher"),onSignOut={}) }
+    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-planning"))
+    compose.onNodeWithTag("home-tool-planning")
+      .performTouchInput { click() }
+    compose.onNodeWithTag("module-screen-planning").assertExists()
+    compose.onNodeWithTag("teacher-planning-screen").assertExists()
+  }
+
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
@@ -141,5 +153,6 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithText("Teachers").assertDoesNotExist()
     compose.onNodeWithText("Parents").assertDoesNotExist()
     compose.onNodeWithText("Learners").assertDoesNotExist()
+    compose.onNodeWithText("Lesson planning").assertDoesNotExist()
   }
 }

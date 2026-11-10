@@ -154,7 +154,7 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         rect(3f,4f,18f,16f)
         line(3f,10f,21f,10f);line(9f,10f,9f,20f);line(15f,10f,15f,20f)
       }
-      WorkspaceTab.LEARNING -> {
+      WorkspaceTab.PLANNING,WorkspaceTab.LEARNING -> {
         line(12f,6f,12f,21f);line(12f,7f,8f,5f);line(8f,5f,3f,5f)
         line(3f,5f,3f,19f);line(3f,19f,8f,19f);line(8f,19f,12f,21f)
         line(12f,7f,16f,5f);line(16f,5f,21f,5f)

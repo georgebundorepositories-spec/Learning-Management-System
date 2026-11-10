@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 // This catch-all handles only the three school directories.
 const directories = {
   learners: { title: "Learner register", roles: ["admin", "head", "teacher"], memberRole: "student", label: "Learner" },
-  teachers: { title: "Teaching staff", roles: ["admin", "head", "teacher"], memberRole: "teacher", label: "Teacher" },
+  teachers: { title: "Teaching staff", roles: ["admin", "head"], memberRole: "teacher", label: "Teacher" },
   parents: { title: "Guardian directory", roles: ["admin", "head"], memberRole: "parent", label: "Parent" },
 } as const;
 

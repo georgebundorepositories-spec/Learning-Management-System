@@ -5,7 +5,7 @@ import {addLearningResource} from "./actions";
 export const dynamic="force-dynamic";
 export default async function LearningPage(){
  const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const {data:actor}=await supabase.from("users").select("school_id,role,is_active").eq("id",user.id).maybeSingle();if(!actor?.is_active)notFound();
+ const {data:actor}=await supabase.from("users").select("school_id,role,is_active").eq("id",user.id).maybeSingle();if(!actor?.is_active||!["admin","head","teacher","student","parent"].includes(actor.role))notFound();
  const {data:subjects}=await supabase.from("subjects").select("id,name").eq("school_id",actor.school_id).is("deleted_at",null).order("name").limit(100);
  const {data:resources,error}=await supabase.from("learning_resources").select("id,title,description,resource_url,subject_id,created_at").eq("school_id",actor.school_id).is("deleted_at",null).order("created_at",{ascending:false}).limit(100);
  const canCreate=["admin","head","teacher"].includes(actor.role);

@@ -39,6 +39,13 @@ class WorkspaceNavigationTest {
     }
   }
 
+  @Test fun lessonPlanningIsStaffOnly() {
+    for(role in listOf("admin","head","teacher"))
+      assertTrue(WorkspaceNavigation.canOpen(role,WorkspaceTab.PLANNING))
+    for(role in listOf("student","parent","bursar","unknown"))
+      assertFalse(WorkspaceNavigation.canOpen(role,WorkspaceTab.PLANNING))
+  }
+
   @Test fun unknownRoleCannotSeeOtherUsersRecords() {
     assertEquals(listOf(WorkspaceTab.HOME), WorkspaceNavigation.tabs("unrecognised"))
   }
