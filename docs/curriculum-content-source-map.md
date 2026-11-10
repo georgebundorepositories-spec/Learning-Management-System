@@ -1,7 +1,7 @@
 # ZimSchool — Heritage-Based Curriculum Catalogue (November 2026)
 
 ## Status
-- **47 original lessons**, from **ECD A through Grade 7**, spanning **English Language, Mathematics, Science and Technology, and Indigenous Languages**.
+- **63 original lessons**, from **ECD A through Grade 7**, spanning **English Language, Mathematics, Science and Technology, and Indigenous Languages**.
 - Every lesson includes an objective, two substantive instructional paragraphs, a worked example, a 3-option check question with feedback, **three original practice exercises and a marking guide**, a **10-mark class assignment** with a 4+4+2 rubric, a practical/media suggestion, and the syllabus/topic used.
 - **Web**: `/dashboard/curriculum` allows authorised accounts to browse, filter by grade/subject and open a complete lesson. Staff see answer guides and can publish a template to an appropriately configured school class, with existing coursework RLS used to authorise the publication. Learners do **not** see the staff answer guide on the web lesson page.
 - **Android**: the same `packages/curriculum/catalog.json` is compiled as an asset, so the new lessons, quizzes, exercises and assignments are available **offline**. The app's original 12 starter lessons remain available.
@@ -27,6 +27,14 @@
 - `698036268-PLUS-ONE-GRADE6-ENGLISH.pdf`: scanned Grade 6 English excerpt (49 PDF pages), including formal letters and report writing.
 
 The supplied publisher editions and excerpts are copyrighted; **they are not uploaded to the publicly served LMS, duplicated as lessons, or embedded in the Android APK**. No external media rights were established. The catalogue's `mediaActivity` provides a prompt for original student/teacher diagrams, safe in-class demonstrations, or recordings used only with appropriate consent. Historical syllabus topics are used as curriculum alignment, **not** represented as ministry-approved ZimSchool lesson plans.
+
+## November 2026 extension from newly attached sources
+- Added **16 original teaching units** in `packages/curriculum/extension.json`. Web and Android load this alongside the base 47-unit `catalog.json` (total **63 units**). Android bundles both files in its offline APK.
+- Added ECD A listening instructions; ECD B picture vocabulary and Indigenous-language greetings; Grade 2 water/soil protection; Grade 3 emergency helpers; Grade 4 informal letters and collective nouns; Grade 5 water pollution and solar energy; Grade 6 ratios, tables, balanced diets and factual reports; Grade 7 breathing, safe waste reuse and Indigenous-language folktale summarising.
+- Each unit provides objective, two original instructional explanations, worked example, 3-choice check question and feedback, three exercises with expected answers, teacher publishable 10-mark assignment and practical media suggestion.
+- The supplied publishers' scans include copyright notices; **no publisher images, diagrams, scans or audio were copied into LMS assets**. Media prompts request original teacher-created illustrations or consented school recordings.
+- Curriculum competency is referenced by syllabus titles but not certified as ministry-approved individual lesson plans. Verify the pedagogical fit and local language with school teachers.
+- This update does not auto-assign work or alter school records. Authorised teachers must publish a template to a matched grade/class/subject and Supabase RLS remains active.
 
 ## Teacher workflow
 1. Sign in with an active teacher, head or admin school account.
