@@ -25,8 +25,8 @@ export default async function LearningPage(){
  return <main className="dashboard-page"><header className="topbar"><div className="topbrand"><span className="brand-mark">Z</span><strong>ZimSchool LMS</strong></div><Link href="/dashboard">← Dashboard</Link></header><div className="dash-wrap"><p className="eyebrow">ACADEMIC RESOURCES</p><h1>Learning materials</h1><p className="subhead">Original syllabus-aligned lessons, exercises and teacher-shared resources</p>
  <section className="summary-card" style={{borderLeft:"5px solid var(--green)"}}>
   <p className="eyebrow">NEW · HERITAGE-BASED CURRICULUM</p>
-  <h2>35 complete lessons, exercises and assignment templates</h2>
-  <p>Browse ECD B to Grade 7 by subject and grade. Open worked examples, self-check quizzes and practical classroom tasks. Teachers can publish a selected assignment to an authorised class.</p>
+  <h2>47 complete lessons, exercises and assignment templates</h2>
+  <p>Browse ECD A to Grade 7 by subject and grade. Open worked examples, self-check quizzes and practical classroom tasks. Teachers can publish a selected assignment to an authorised class.</p>
   <Link href="/dashboard/curriculum" className="outline-button">Explore curriculum lessons →</Link>
  </section>
  {canCreate?<section className="summary-card"><h2>Add learning material</h2><form action={addLearningResource} className="resource-form"><label>Subject<select name="subject_id" required>{publishableSubjects.map(s=><option value={s.id} key={s.id}>{s.name}</option>)}</select></label><label>Title<input name="title" required minLength={3} maxLength={180}/></label><label>Secure resource link<input name="resource_url" required type="url" placeholder="https://..." maxLength={2048}/></label><label>Description<textarea name="description" maxLength={3000} rows={3}/></label><button type="submit" className="outline-button" disabled={!publishableSubjects.length}>Publish resource</button></form></section>:null}
