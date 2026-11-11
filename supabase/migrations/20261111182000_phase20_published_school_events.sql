@@ -12,7 +12,7 @@ using (
    is_published = true and approval_status = 'approved'
    and (
     visibility = 'all'
-    or (visibility = 'staff' and (select app_private.current_role()) in ('teacher','bursar','clerk'))
+    or (visibility = 'staff' and (select app_private.current_role()) in ('teacher','bursar'))
     or (visibility = 'students' and (select app_private.current_role()) = 'student')
     or (visibility = 'parents' and (select app_private.current_role()) = 'parent')
    )
