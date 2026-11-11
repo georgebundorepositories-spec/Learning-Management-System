@@ -1,22 +1,21 @@
-# Security baseline (Phase 0)
+# ZimSchool LMS — current security baseline (11 November 2026)
 
-ZimSchool LMS processes children's school records. Default to deny and data minimisation.
+**Development implementation is passing CI; production handling of minors' records is not yet approved.**
 
-## Implemented
-- All 11 current `public` tables have RLS and at least one policy.
-- Default tenant isolation uses `auth.uid()` resolved through helper functions in the unexposed `app_private` schema to prevent recursive RLS evaluation.
-- Profile changes cannot be used by ordinary users to promote themselves to head or admin, or reassign schools.
-- Cross-school relationships are checked on writes to terms, classes, guardian links and teaching assignments.
-- Server secrets are not placed in the frontend environment template.
+- Hosted database: 29 public application tables; all have row-level security, checked 11 November 2026. School identity and subject/guardian permissions are governed by Postgres policies, not by client menu visibility.
+- Previously excessive `anon`/`authenticated` grants for TRUNCATE, REFERENCES, TRIGGER and PostgreSQL MAINTAIN have been revoked. A hosted SQL check returned zero exposed application tables for those privileges.
+- JWT-backed local tests use seven temporary identities to enforce school/subject isolation, grade ceilings, guardian link revocation, disabled-role behaviour and teaching restrictions. The 11 November database workflow passed.
+- No service-role key or signing secret may be compiled into Android, made public through `NEXT_PUBLIC_` web variables or committed to GitHub.
+- The offline PIN uses the device Keystore; the cloud role is verified online before private modules are reopened from PIN unlock. Any cached private marks, family roster, invoices or teacher plans are deliberately **not** persisted in plaintext offline Room tables.
+- The Phase 1 sync backend allowlists calendar events only and protects writes using user JWT and database RPC. More offline entities must have independent tests before inclusion.
+- The public `/demo` route contains fictional school data and no live identities; real private records must never be exposed there.
 
-## Explicit specification deviation
-The uploaded spec stores `offline_pin_hash` in `public.users`. That field is omitted from the cloud-exposed schema: a password/PIN verifier should be derived with a slow KDF and stored in the encrypted local device database/key store. The authenticated cloud session remains the source of identity; offline access is bounded and cached on the device. This reduces exfiltration risk from API-visible columns. The Android implementation and acceptance tests must enforce the offline PIN lockout and freshness rules.
+### Unresolved security and compliance gates
 
-## Not yet verified
-- Cross-school and cross-role policy matrix needs real fixture identities and negative tests.
-- No teacher/parent onboarding flow or JWT session integration yet.
-- No offline 72-hour convergence test yet.
-- Payment provider callbacks, SMS, USSD and external services are not configured.
-- Storage policies, backup/restore and retention are pending later phases.
+1. Hosted Supabase **leaked-password protection is disabled**, per Security Advisor. Enable through Auth settings; the app connector has no supported operation to change that setting.
+2. Hosted `invite-school-member` is still the earlier v1 while the development invitation code requires a **verified HTTPS site** and trusted redirect configuration. No real emailed invite acceptance has been verified.
+3. No confirmed live active school teacher/student/parent accounts. Do not activate dummy accounts or create school recipients without true consent.
+4. No production website, persistent owner-signed Android APK, physical-device 72-hour session/offline acceptance, privacy/retention signoff, or independently tested backup restore.
+5. Payment settlement/receipt verification, SMS/USSD provider security, remote PII storage and long-term reporting controls remain separate work until real providers are configured.
 
-Do not publish student data or enable live transactions until these checks pass.
+See [final-phase release runbook](final-phase-release-runbook.md) and [GitHub draft PR #10](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/10). **Never disable RLS to work around an access error.**

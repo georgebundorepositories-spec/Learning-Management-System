@@ -1,3 +1,27 @@
+# ZimSchool LMS — Deployment status
+
+**Current as of 11 November 2026: DEVELOPMENT BUILD VERIFIED; PRODUCTION LAUNCH BLOCKED.**
+
+This status supersedes the historic 8 November summary retained below. The review branch is `integration/zimschool-web-android-v05`, draft [PR #10](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/10). The repository default branch is `main`; neither merging nor releasing is approved by this status report.
+
+## Actual confirmed evidence
+
+- **Current web, database and Android development code:** v0.17.0 (Phase 15), all four workflow checks passed at commit `dba2684b`. [Android](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992470), [database](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992462), [web](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992653), and [API auth](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992493).
+- **Host:** Supabase `mezbtcdkmvtkjxdmmhbw`, 29 `public` tables with RLS on all 29; last hosted check showed 1 active administrator, zero active teachers/learners/parents.
+- **Functions:** calendar `sync-push`/ `sync-pull` v1 live, `invite-school-member` hosted v1. Invitation source in development has additional verified-origin security but is NOT deployed because no HTTPS site or Auth allow-list is confirmed.
+- **Preview app:** [Android v0.17 debug APK](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992470/artifacts/13852491741), not a stable signing identity.
+- **Security:** Supabase advisor still warns **leaked-password protection disabled**. Other verified hosted application tables retain RLS and no unsafe client TRUNCATE/TRIGGER/REFERENCES/MAINTAIN grants.
+
+## Final release gate (Phase 16)
+
+The automated [final release gate](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/final-release-gate.yml) checks public deployment, deployment/signing configuration and independent release evidence, and **must fail** if any requirement is missing. It does not send mail, activate users, merge, deploy or sign by itself. The [release runbook](docs/final-phase-release-runbook.md) explains every remaining action and the distinction between a limited pilot and full commercial rollout.
+
+**Unverified external dependencies:** actual Vercel site; authenticated invite email, redirects and real role sign-in; guardian consent and school data policy; 72-hour two-device and 2G testing; restored backup; permanent Android signing; messaging/USSD/payment providers and reconciliation; owner sign-off. Payments are not working, invoice views are not receipts, and calendar-only offline sync is not universal offline data synchronization.
+
+---
+
+## Historic 8 November engineering log — superseded for release status
+
 # ZimSchool LMS — deployment status
 
 Last verified: 8 November 2026.
@@ -51,3 +75,4 @@ Web IndexedDB/calendar queue, PWA app-shell cache, Android Room/transport, and s
 - Do not collect actual student or guardian personal information until release gates pass.
 
 [Phase 0 status](docs/phase0-status.md) · [Public demo release](docs/public-demo-release.md) · [Phase 1 PR](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/1)
+
