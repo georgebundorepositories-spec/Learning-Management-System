@@ -31,7 +31,7 @@ insert into public.staff_profiles(user_id) values ('d0000000-0000-4000-8000-0000
 insert into public.student_guardian_link(student_user_id,guardian_user_id)
 values('d0000000-0000-4000-8000-000000000003','d0000000-0000-4000-8000-000000000005');
 
-select plan(20);
+select plan(21);
 select ok(exists(select 1 from pg_trigger
  where tgrelid='public.users'::regclass and tgname='trg_users_designation_change'
  and not tgisinternal),'role update trigger installed');
@@ -45,6 +45,13 @@ select ok((select relrowsecurity from pg_class where oid='public.users'::regclas
  'users table RLS remains enabled');
 
 set local role authenticated;
+select set_config('request.jwt.claim.sub','',true);
+select throws_ok(
+ $insert into public.users(id,school_id,phone,full_name,role)
+ values('d0000000-0000-4000-8000-000000000077',
+  'a1111111-1111-4111-8111-111111111111',
+  '+263771900077','Unverified Account','admin')$,
+ '42501',null,'missing actor JWT cannot provision roles');
 select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000002',true);
 select throws_ok(
  $$update public.users set role='admin' where id='d0000000-0000-4000-8000-000000000004'$$,
