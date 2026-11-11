@@ -1,4 +1,4 @@
-name: ZimSchool Vercel preview deployment
+name: ZimSchool Vercel verified preview deployment
 on:
   workflow_dispatch:
   push:
@@ -49,6 +49,14 @@ jobs:
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # A skipped deployment must never show a misleading green release check.
+      - name: Require deployment credentials before claiming a preview
+        if: steps.credentials.outputs.ready != 'true'
+        shell: bash
+        run: |
+          echo "::error::No Vercel preview was deployed. Configure VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID in repository secrets."
+          exit 1
+
       - name: Install Vercel CLI
         if: steps.credentials.outputs.ready == 'true'
         run: npm install --global vercel@latest
@@ -92,6 +100,9 @@ jobs:
           curl --fail --silent --show-error --location --retry 3 --max-time 35 \
             "$deploy_url/login" > /tmp/zimschool-login.html
           test -s /tmp/zimschool-login.html
+          curl --fail --silent --show-error --location --retry 3 --max-time 35 \
+            "$deploy_url/accept-invite" > /tmp/zimschool-invite.html
+          grep -q 'Accept your school invitation' /tmp/zimschool-invite.html
           {
             echo "### Verified ZimSchool preview"
             echo "Deployment: $deploy_url"
