@@ -46,6 +46,13 @@ class WorkspaceNavigationTest {
       assertFalse(WorkspaceNavigation.canOpen(role,WorkspaceTab.PLANNING))
   }
 
+  @Test fun onlyAdministratorCanManageMemberRelationships(){
+    assertTrue(WorkspaceNavigation.canOpen("admin",WorkspaceTab.MEMBERS))
+    for(role in listOf("head","teacher","student","parent","bursar","unknown")){
+      assertFalse(WorkspaceNavigation.canOpen(role,WorkspaceTab.MEMBERS))
+    }
+  }
+
   @Test fun unknownRoleCannotSeeOtherUsersRecords() {
     assertEquals(listOf(WorkspaceTab.HOME), WorkspaceNavigation.tabs("unrecognised"))
   }

@@ -80,7 +80,9 @@ fun SchoolMembershipPage(
  var learnerChoice by remember(directory){mutableStateOf(students.firstOrNull()?.id.orEmpty())}
  var classChoice by remember(directory){mutableStateOf("")}
  var classForTeacher by remember(directory){mutableStateOf(classes.firstOrNull()?.id.orEmpty())}
- var teacherChoice by remember(directory){mutableStateOf("")}
+ var teacherChoice by remember(directory){
+  mutableStateOf(classes.firstOrNull()?.teacherId.orEmpty())
+ }
  var linkStudent by remember(directory){mutableStateOf(students.firstOrNull()?.id.orEmpty())}
  var linkParent by remember(directory){mutableStateOf(parents.firstOrNull()?.id.orEmpty())}
  var verifiedRelationship by remember(profile.userId){mutableStateOf(false)}
@@ -95,7 +97,11 @@ fun SchoolMembershipPage(
   }else{
    refreshing=true
    runCatching{repo.load(profile,directory)}.fold(
-    onSuccess={snapshot=it;notice=null},
+    onSuccess={
+      snapshot=it
+      classChoice=it.enrolledClasses[learnerChoice].orEmpty()
+      notice=null
+    },
     onFailure={
      snapshot=null
      notice="Unable to load member relationships. Reconnect and refresh."

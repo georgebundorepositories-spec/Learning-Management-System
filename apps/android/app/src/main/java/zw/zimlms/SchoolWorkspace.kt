@@ -420,6 +420,8 @@ fun SchoolWorkspace(
         WorkspaceTab.PARENTS -> PeoplePage(directory,"parent",
           "Parent & guardian directory","School families",
           Modifier.padding(insets))
+        WorkspaceTab.MEMBERS -> SchoolMembershipPage(
+          profile,directory,Modifier.padding(insets),onSaved={retryNumber++})
         WorkspaceTab.CLASSES -> ClassPage(directory,Modifier.padding(insets))
         WorkspaceTab.ASSIGNMENTS -> SchoolAssignmentPage(
           profile,directory,Modifier.padding(insets),onSaved={retryNumber++})
@@ -611,6 +613,7 @@ private fun DashboardModule(
           WorkspaceTab.LEARNERS -> "Learner register"
           WorkspaceTab.TEACHERS -> "Staff directory"
           WorkspaceTab.PARENTS -> "Family register"
+          WorkspaceTab.MEMBERS -> "Enrolments and guardian links"
           WorkspaceTab.CLASSES -> "Class and subjects"
           WorkspaceTab.ASSIGNMENTS -> "Manage teaching links"
           WorkspaceTab.ATTENDANCE -> "Mark today's register"

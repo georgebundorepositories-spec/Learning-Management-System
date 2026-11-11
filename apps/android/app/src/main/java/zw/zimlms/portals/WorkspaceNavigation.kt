@@ -5,6 +5,7 @@ enum class WorkspaceTab(val label: String) {
   LEARNERS("Learners"),
   TEACHERS("Teachers"),
   PARENTS("Parents"),
+  MEMBERS("School memberships"),
   CLASSES("Classes"),
   ASSIGNMENTS("Teaching assignments"),
   ATTENDANCE("Attendance"),
@@ -29,12 +30,12 @@ object WorkspaceNavigation {
   fun tabs(role: String): List<WorkspaceTab> = when (role) {
     "admin", "head" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS,
-      WorkspaceTab.PARENTS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
+      WorkspaceTab.PARENTS, WorkspaceTab.MEMBERS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
       WorkspaceTab.ATTENDANCE, WorkspaceTab.PLANNING,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR,
       WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES,
       WorkspaceTab.COURSEWORK
-    )
+    ).filter { role=="admin" || it!=WorkspaceTab.MEMBERS }
     "teacher" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
       WorkspaceTab.PLANNING, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,

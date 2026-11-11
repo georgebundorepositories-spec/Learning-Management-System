@@ -166,6 +166,19 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithText("My learners").assertDoesNotExist()
   }
 
+  @Test fun adminCanOpenMemberManagementAndOtherRolesCannot(){
+    compose.setContent {
+      ZimSchoolTheme { SchoolWorkspace(profile("admin"),onSignOut={}) }
+    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-members"))
+    compose.onNodeWithTag("home-tool-members")
+      .performTouchInput { click() }
+    compose.onNodeWithTag("module-screen-members").assertExists()
+    compose.onNodeWithTag("school-membership-screen").assertExists()
+    compose.onNodeWithText("School memberships").assertExists()
+  }
+
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
