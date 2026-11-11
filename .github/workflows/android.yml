@@ -10,7 +10,9 @@ on:
 # Older pushes and draft-PR runs from the same branch should not consume
 # multiple emulators while a newer commit is ready to validate.
 concurrency:
-  group: android-${{ github.event.pull_request.head.ref || github.ref_name }}
+  # One group per pull request; distinct from legacy push/PR groups to avoid
+  # a previously cancelled run indefinitely occupying the same queue slot.
+  group: zimschool-android-pr-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
