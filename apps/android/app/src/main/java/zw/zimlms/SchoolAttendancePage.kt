@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +36,7 @@ import zw.zimlms.portals.AttendanceLearner
 import zw.zimlms.portals.AttendanceMark
 import zw.zimlms.portals.AttendanceRepository
 import zw.zimlms.portals.SchoolDirectory
+import zw.zimlms.portals.filterSchoolClasses
 import zw.zimlms.ui.AppPanel
 import zw.zimlms.ui.Eyebrow
 import zw.zimlms.ui.MiniStat
@@ -62,6 +64,10 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
   }
   var selectedClass by remember(availableClasses) {
     mutableStateOf(availableClasses.firstOrNull()?.id.orEmpty())
+  }
+  var classQuery by remember(availableClasses){mutableStateOf("")}
+  val filteredClasses=remember(availableClasses,classQuery){
+    filterSchoolClasses(availableClasses,classQuery)
   }
   var roster by remember(selectedClass) { mutableStateOf<List<AttendanceLearner>>(emptyList()) }
   var marks by remember(selectedClass) { mutableStateOf<List<AttendanceMark>>(emptyList()) }
@@ -119,13 +125,26 @@ fun SchoolAttendancePage(profile:CachedProfile,directory:SchoolDirectory?,
         "Attendance needs your online, verified school staff session.") }
     }else {
       item {
-        SectionTitle("Choose class","Only your authorised school classes")
-        androidx.compose.foundation.layout.Column(
-          verticalArrangement=Arrangement.spacedBy(5.dp)) {
-          availableClasses.forEach { klass ->
-            FilterChip(selected=klass.id==selectedClass,
-              onClick={selectedClass=klass.id},
-              label={Text(klass.name)})
+        Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
+          SectionTitle("Choose class","Only your authorised school classes")
+          if(availableClasses.size>4){
+            OutlinedTextField(
+              value=classQuery,onValueChange={if(it.length<=80)classQuery=it},
+              label={Text("Find a class")},
+              singleLine=true,
+              modifier=Modifier.fillMaxWidth()
+            )
+          }
+          if(filteredClasses.isEmpty()){
+            StateNotice("No matching classes","Try another class name or clear your filter.")
+          }else{
+            LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+              items(filteredClasses,key={it.id}){klass->
+                FilterChip(selected=klass.id==selectedClass,
+                  onClick={selectedClass=klass.id},
+                  label={Text(klass.name)})
+              }
+            }
           }
         }
       }

@@ -34,6 +34,15 @@ class WorkspaceDiscoveryTest{
   assertEquals(2,workspaceColumnCount(899f))
   assertEquals(3,workspaceColumnCount(900f))
  }
+ @Test fun longClassSelectorsRemainSearchableWithoutDroppingMatches(){
+  val classes=(1..500).map{
+   PortalClass("class-$it","Grade 4 — Stream $it","Grade Four")
+  }
+  assertEquals(500,filterSchoolClasses(classes,"").size)
+  assertEquals(1,filterSchoolClasses(classes,"stream 327").size)
+  assertEquals("class-327",filterSchoolClasses(classes,"STREAM 327").single().id)
+  assertTrue(filterSchoolClasses(classes,"nonexistent").isEmpty())
+ }
  @Test fun staffDirectorySearchHandlesManyNamesAndNeverChangesOriginalList(){
   val role="student"
   val students=listOf(

@@ -74,3 +74,12 @@ fun workspaceColumnCount(availableWidthDp:Float):Int=when{
  availableWidthDp>=600f->2
  else->1
 }
+
+/** Returns only known classes, matching names/grade labels without network or cache. */
+fun filterSchoolClasses(classes:List<PortalClass>,query:String):List<PortalClass>{
+ val terms=query.trim().lowercase(Locale.ROOT).split(Regex("\\s+")).filter{it.isNotBlank()}
+ return classes.filter{schoolClass->
+  val searchable=(schoolClass.name+" "+schoolClass.grade).lowercase(Locale.ROOT)
+  terms.all{searchable.contains(it)}
+ }
+}
