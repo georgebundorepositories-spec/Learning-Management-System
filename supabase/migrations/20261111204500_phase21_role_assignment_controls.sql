@@ -67,7 +67,9 @@ begin
      using errcode='23514';
  end if;
 
- -- Preserve history; refuse to silently transfer a teacher's live classes.
+ -- Preserve history. School admins must first unassign teaching duties;
+ -- trusted provisioning may immediately revoke a teacher role while dormant
+ -- class links remain, with RLS denying teacher access until restored.
  -- An authenticated school admin must clear teaching duties first.
  -- Trusted provisioning can revoke/restore a role immediately, without
  -- retaining teacher access while the account has a different role.
