@@ -33,7 +33,8 @@ data class PrivateAssessmentResult(
   val subjectId: String,
   val assessmentDate: String,
   val score: String,
-  val maximum: String
+  val maximum: String,
+  val feedback: String = ""
 )
 
 class SchoolAcademicRepository(
@@ -89,7 +90,7 @@ class SchoolAcademicRepository(
   suspend fun privateResults(actor: CachedProfile): List<PrivateAssessmentResult> {
     require(actor.role in setOf("student", "parent"))
     val marks = rows(actor,
-      "assessment_results?select=id,assessment_id,student_user_id,score" +
+      "assessment_results?select=id,assessment_id,student_user_id,score,feedback" +
       "&order=created_at.desc&limit=100")
     if (marks.isEmpty()) return emptyList()
 
@@ -111,7 +112,8 @@ class SchoolAcademicRepository(
         mark.getString("id"), assessmentId, learnerId,
         assessment.getString("title"), assessment.getString("subject_id"),
         assessment.getString("assessment_date"),
-        mark.getString("score"), assessment.getString("max_score")
+        mark.getString("score"), assessment.getString("max_score"),
+        mark.optString("feedback","")
       )
     }
   }

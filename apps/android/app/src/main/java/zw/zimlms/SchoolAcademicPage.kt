@@ -170,6 +170,10 @@ fun SchoolPrivateResultsPage(profile:CachedProfile,directory:SchoolDirectory?,
           Text("Assessment date: "+result.assessmentDate,
             style=MaterialTheme.typography.bodySmall,
             color=MaterialTheme.colorScheme.onSurfaceVariant)
+          if(result.feedback.isNotBlank()) {
+            Text("Teacher feedback: "+result.feedback,
+              style=MaterialTheme.typography.bodyMedium)
+          }
         }
       }
     }
