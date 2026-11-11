@@ -38,15 +38,25 @@ import zw.zimlms.ui.StateNotice
 fun SchoolNoticesPage(profile:CachedProfile,modifier:Modifier=Modifier){
   val context=LocalContext.current.applicationContext
   val repo=remember(profile.userId) {
-    SchoolOperationsRepository(BuildConfig.SUPABASE_URL,
-      BuildConfig.SUPABASE_PUBLISHABLE_KEY,
-      SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    // A QA build, a device without an active server configuration, or a
+    // revoked session must display an actionable state rather than crash.
+    runCatching {
+      SchoolOperationsRepository(BuildConfig.SUPABASE_URL,
+        BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+        SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    }.getOrNull()
   }
   var notices by remember(profile.userId){ mutableStateOf<List<PortalNotice>>(emptyList()) }
   var loading by remember(profile.userId){mutableStateOf(false)}
   var error by remember(profile.userId){mutableStateOf<String?>(null)}
   var refresh by remember(profile.userId){mutableIntStateOf(0)}
   LaunchedEffect(profile.userId,refresh) {
+    if(repo==null){
+      notices=emptyList()
+      error="This build has no configured school connection. The offline learning library remains available."
+      loading=false
+      return@LaunchedEffect
+    }
     loading=true
     val result=runCatching{withContext(Dispatchers.IO){repo.notices(profile)}}
     result.fold(onSuccess={notices=it;error=null},onFailure={
@@ -66,7 +76,7 @@ fun SchoolNoticesPage(profile:CachedProfile,modifier:Modifier=Modifier){
     }
     item {
       StateNotice("In-app only","Messages on this screen have not been sent as SMS or push notifications.")
-      OutlinedButton(onClick={refresh++},enabled=!loading,modifier=Modifier.fillMaxWidth()){
+      OutlinedButton(onClick={refresh++},enabled=!loading&&repo!=null,modifier=Modifier.fillMaxWidth()){
         Text(if(loading)"Loading notices…" else "Refresh notices")
       }
     }
@@ -92,15 +102,25 @@ fun SchoolNoticesPage(profile:CachedProfile,modifier:Modifier=Modifier){
 fun SchoolFeesPage(profile:CachedProfile,modifier:Modifier=Modifier){
   val context=LocalContext.current.applicationContext
   val repo=remember(profile.userId) {
-    SchoolOperationsRepository(BuildConfig.SUPABASE_URL,
-      BuildConfig.SUPABASE_PUBLISHABLE_KEY,
-      SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    // A QA build, a device without an active server configuration, or a
+    // revoked session must display an actionable state rather than crash.
+    runCatching {
+      SchoolOperationsRepository(BuildConfig.SUPABASE_URL,
+        BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+        SessionBroker(context,BuildConfig.SUPABASE_URL,BuildConfig.SUPABASE_PUBLISHABLE_KEY))
+    }.getOrNull()
   }
   var invoices by remember(profile.userId){mutableStateOf<List<PortalInvoice>>(emptyList())}
   var loading by remember(profile.userId){mutableStateOf(false)}
   var error by remember(profile.userId){mutableStateOf<String?>(null)}
   var refresh by remember(profile.userId){mutableIntStateOf(0)}
   LaunchedEffect(profile.userId,refresh) {
+    if(repo==null){
+      invoices=emptyList()
+      error="This build has no configured school connection. No invoices can be loaded offline."
+      loading=false
+      return@LaunchedEffect
+    }
     loading=true
     val result=runCatching{withContext(Dispatchers.IO){repo.invoices(profile)}}
     result.fold(onSuccess={invoices=it;error=null},onFailure={

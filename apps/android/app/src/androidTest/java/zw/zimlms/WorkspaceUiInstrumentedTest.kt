@@ -111,8 +111,10 @@ class WorkspaceUiInstrumentedTest {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("teacher"),onSignOut={}) }
     }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-my_classes"))
     compose.onNodeWithTag("home-tool-my_classes")
-      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+      .assertIsDisplayed().performTouchInput { click() }
     compose.onNodeWithTag("module-screen-my_classes").assertExists()
     compose.onNodeWithContentDescription("Back to dashboard").assertExists()
   }
@@ -121,8 +123,10 @@ class WorkspaceUiInstrumentedTest {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
     }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-my_classes"))
     compose.onNodeWithTag("home-tool-my_classes")
-      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+      .assertIsDisplayed().performTouchInput { click() }
     compose.onNodeWithTag("module-screen-my_classes").assertExists()
   }
 
@@ -130,8 +134,10 @@ class WorkspaceUiInstrumentedTest {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("parent"),onSignOut={}) }
     }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-children"))
     compose.onNodeWithTag("home-tool-children")
-      .performScrollTo().assertIsDisplayed().performTouchInput { click() }
+      .assertIsDisplayed().performTouchInput { click() }
     compose.onNodeWithTag("module-screen-children").assertExists()
   }
 
