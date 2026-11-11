@@ -49,7 +49,7 @@ export async function changeSchoolMemberRole(
    return {status:"error",message:"Role not changed. Refresh the list and try again."};
   revalidatePath("/dashboard/users");
   revalidatePath("/dashboard/admin");
-  return {status:"success",message:"Role saved. The member will see the new portal when they open or refresh the app. Reassign class or guardian links if needed."};
+  return {status:"success",message:"Role saved. Ask the member to sign out and sign in online again to load the new portal. Reassign class or guardian links if needed."};
  }catch{
   return {status:"error",message:"Unable to change the role. Check the school connection and try again."};
  }
