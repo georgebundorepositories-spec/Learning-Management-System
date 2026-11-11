@@ -127,7 +127,7 @@
 .demo-roster p{font-size:.72rem;line-height:1.5;color:#718678;margin:1rem 0 0}
 
 /* Authenticated school workspaces */
-.workspace-tabs{display:flex;gap:.75rem;flex-wrap:wrap;margin:1.25rem 0}.workspace-tabs a{display:inline-flex;background:white;border:1px solid var(--border);padding:.7rem 1rem;border-radius:9px;text-decoration:none;font-weight:700}.workspace-tabs a:hover{background:#e9f4ed}.attendance-form{display:grid;grid-template-columns:minmax(130px,1fr) minmax(140px,1fr) minmax(120px,1fr) auto;gap:.65rem;align-items:end;border-top:1px solid var(--border);padding:1rem 0}.attendance-form label{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.25rem}.attendance-form input,.attendance-form select{width:100%;min-height:42px;border:1px solid var(--border);border-radius:8px;padding:.5rem;background:white;color:var(--ink)}.attendance-form strong{font-size:.9rem;overflow-wrap:anywhere}.attendance-form button{min-height:42px}@media(max-width:750px){.attendance-form{grid-template-columns:1fr 1fr}.attendance-form strong{grid-column:1/-1}}
+.workspace-tabs{display:flex;gap:.75rem;flex-wrap:wrap;margin:1.25rem 0}.workspace-tabs a{display:inline-flex;background:white;border:1px solid var(--border);padding:.7rem 1rem;border-radius:9px;text-decoration:none;font-weight:700}.workspace-tabs a:hover{background:#e9f4ed}.attendance-form{display:grid;grid-template-columns:minmax(160px,1.4fr) minmax(150px,1fr) auto;gap:.65rem;align-items:end;border-top:1px solid var(--border);padding:1rem 0}.attendance-form label{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.25rem}.attendance-form input,.attendance-form select{width:100%;min-height:42px;border:1px solid var(--border);border-radius:8px;padding:.5rem;background:white;color:var(--ink)}.attendance-form strong{font-size:.9rem;overflow-wrap:anywhere}.attendance-form button{min-height:42px}@media(max-width:750px){.attendance-form{grid-template-columns:1fr 1fr}.attendance-form strong{grid-column:1/-1}}
 
 .resource-form{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.resource-form label{display:flex;flex-direction:column;gap:.4rem;font-size:.88rem;font-weight:600}.resource-form input,.resource-form select,.resource-form textarea{min-height:44px;padding:.65rem;border:1px solid var(--border);border-radius:9px;background:white;color:var(--ink);font:inherit}.resource-form label:has(textarea){grid-column:1/-1}.resource-form button{justify-self:start}@media(max-width:650px){.resource-form{grid-template-columns:1fr}}
 
@@ -219,3 +219,16 @@
 .guardian-revoke-item .guardian-confirm-check{width:100%}
 .guardian-revoke-item button{min-height:44px}
 @media(max-width:860px){.membership-management-grid{grid-template-columns:1fr}.membership-management-grid>.summary-card:last-child{grid-column:auto}}
+
+.attendance-date-picker{display:flex;align-items:end;gap:.75rem;flex-wrap:wrap;margin:1.2rem 0}
+.attendance-date-picker label{display:flex;flex-direction:column;gap:.35rem;font-weight:650}
+.attendance-date-picker input{min-height:44px;border:1px solid var(--border);border-radius:8px;padding:.5rem;background:#fff;color:var(--ink);font:inherit}
+.attendance-date-picker button{min-height:44px}
+.attendance-class-list{display:grid;gap:1rem}
+.attendance-class{padding:clamp(1rem,2vw,1.6rem)}
+.attendance-class-header{display:flex;gap:1rem;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.attendance-class-header h2{margin:0}
+.attendance-learner{display:flex;flex-direction:column;gap:.2rem}
+.attendance-learner strong{font-size:1rem}
+.attendance-learner small{color:var(--muted)}
+@media(max-width:520px){.attendance-form{grid-template-columns:minmax(0,1fr)}.attendance-form .outline-button{justify-self:stretch}}
