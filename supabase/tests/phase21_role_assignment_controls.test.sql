@@ -60,11 +60,13 @@ select throws_ok(
 select throws_ok(
  $$update public.users set role='head' where id='d0000000-0000-4000-8000-000000000003'$$,
  '42501',null,'school admin cannot manufacture a school head');
-select is((with_updated.count)::bigint,0::bigint,'cross school update blocked by RLS')
- from (with with_updated as (
-   update public.users set role='teacher'
-   where id='d0000000-0000-4000-8000-000000000006'
-   returning id) select count(*) as count from with_updated) with_updated;
+with attempted_cross_school_update as (
+ update public.users set role='teacher'
+ where id='d0000000-0000-4000-8000-000000000006'
+ returning id
+)
+select is((select count(*) from attempted_cross_school_update),0::bigint,
+ 'cross school update blocked by RLS');
 select lives_ok(
  $$update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000003'$$,
  'admin can change an unassigned learner into teacher');
