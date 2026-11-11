@@ -202,3 +202,20 @@
 @media(max-width:680px){.dashboard-context-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-context-card:last-child{grid-column:1/-1}.workspace-tool-grid{grid-template-columns:1fr}.workspace-tool-card{min-height:0;padding:1.2rem}.workspace-launcher-header{align-items:flex-start}.workspace-search-control input{font-size:16px}.dash-wrap.dashboard-home{padding:0 1rem}}
 @media(max-width:360px){.dashboard-context-grid{grid-template-columns:1fr}.dashboard-context-card:last-child{grid-column:auto}.topbrand-link strong{font-size:.9rem}}
 @media(prefers-reduced-motion:reduce){.workspace-tool-card{transition:none}.workspace-tool-card:hover{transform:none}}
+
+
+/* Guardian links and enrolment changes use real forms, explicit confirmations and responsive controls. */
+.membership-management-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.3rem 0}
+.membership-management-grid>.summary-card{margin:0;min-width:0}
+.membership-management-grid>.summary-card:last-child{grid-column:1/-1}
+.membership-management-grid .resource-form{grid-template-columns:minmax(0,1fr)}
+.membership-management-grid .resource-form label{min-width:0}
+.membership-management-grid .resource-form .form-full{grid-column:auto}
+.guardian-confirm-check{display:flex!important;flex-direction:row!important;gap:.8rem;align-items:flex-start;cursor:pointer;line-height:1.5;color:var(--ink);font-weight:500!important}
+.guardian-confirm-check input[type=checkbox]{width:21px;height:21px;min-height:21px;flex-shrink:0;accent-color:var(--green);margin:.08rem 0 0}
+.guardian-revoke-item{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;padding:1rem 0;border-top:1px solid var(--border)}
+.guardian-revoke-description{min-width:0;flex:1 1 180px;display:grid;gap:.2rem}
+.guardian-revoke-description span{color:var(--muted);font-size:.84rem}
+.guardian-revoke-item .guardian-confirm-check{width:100%}
+.guardian-revoke-item button{min-height:44px}
+@media(max-width:860px){.membership-management-grid{grid-template-columns:1fr}.membership-management-grid>.summary-card:last-child{grid-column:auto}}

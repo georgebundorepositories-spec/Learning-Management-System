@@ -2,6 +2,7 @@
 
 import {revalidatePath} from "next/cache";
 import {createClient} from "@/lib/supabase/server";
+import {confirmedGuardianAction} from "@/lib/membership-guard";
 
 export type MemberActionState={status:"idle"|"success"|"error";message:string};
 const uuid=/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i;
@@ -74,6 +75,8 @@ export async function updateSchoolMembership(_prev:MemberActionState,form:FormDa
   }
 
   if(op==="link_parent"){
+   if(!confirmedGuardianAction(form,"link"))
+    return {status:"error",message:"Confirm that this guardian relationship and required school consent have been verified."};
    const studentId=get(form,"student_id");
    const parentId=get(form,"parent_id");
    if(!uuid.test(studentId)||!uuid.test(parentId))
@@ -102,6 +105,8 @@ export async function updateSchoolMembership(_prev:MemberActionState,form:FormDa
   }
 
   if(op==="unlink_parent"){
+   if(!confirmedGuardianAction(form,"revoke"))
+    return {status:"error",message:"Confirm the guardian relationship must be revoked before submitting."};
    const id=get(form,"link_id");
    if(!uuid.test(id))return {status:"error",message:"Invalid guardian link."};
    const {data:link}=await db.from("student_guardian_link")
