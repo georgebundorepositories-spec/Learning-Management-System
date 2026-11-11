@@ -75,7 +75,7 @@ begin
    select 1 from public.class_subject_teacher a
    where a.teacher_id=old.id and a.deleted_at is null
  ) then
-   raise exception 'Reassign current teaching duties before changing this user's designation'
+   raise exception 'Reassign current teaching duties before changing this user''s designation'
      using errcode='23514';
  end if;
 
