@@ -1,6 +1,9 @@
 name: Web authentication foundation
 on:
+  # Avoid duplicate push + pull_request builds for the same development commit.
+  # Main has push protection; active feature branches are checked through PRs.
   push:
+    branches: [main]
     paths: ['apps/web/**', 'apps/android/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
   pull_request:
     paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
