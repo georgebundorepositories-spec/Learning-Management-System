@@ -131,7 +131,14 @@ fun SchoolWorkspace(
   // invalidate an old offline PIN's staff/family access promptly.
   DisposableEffect(lifecycleOwner,enforceOnlineRoleVerification) {
     val observer=LifecycleEventObserver{_,event->
-      if(event==Lifecycle.Event.ON_RESUME&&enforceOnlineRoleVerification)roleAttempt++
+      if(event==Lifecycle.Event.ON_RESUME&&enforceOnlineRoleVerification){
+        // Hide private modules before starting the asynchronous role refresh.
+        // A revoked guardian or deactivated staff member must not see stale
+        // in-memory school data during a slow 2G re-verification.
+        verifiedRole=false
+        roleStatusMessage="Checking your current school access…"
+        roleAttempt++
+      }
     }
     lifecycleOwner.lifecycle.addObserver(observer)
     onDispose{lifecycleOwner.lifecycle.removeObserver(observer)}
