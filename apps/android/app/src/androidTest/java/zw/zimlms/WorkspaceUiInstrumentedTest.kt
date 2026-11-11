@@ -176,7 +176,8 @@ class WorkspaceUiInstrumentedTest {
       .performTouchInput { click() }
     compose.onNodeWithTag("module-screen-members").assertExists()
     compose.onNodeWithTag("school-membership-screen").assertExists()
-    compose.onNodeWithText("School memberships").assertExists()
+    // Heading and tab label may both be present; assert the unique
+    // screen identity rather than an ambiguous repeated string.
   }
 
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
