@@ -118,6 +118,7 @@ try {
   const linkedGuardian = await createPerson("CI Linked Guardian","parent",schoolA,4);
   const unrelatedGuardian = await createPerson("CI Unrelated Guardian","parent",schoolA,5);
   const foreignTeacher = await createPerson("CI Other School Teacher","teacher",schoolB,6);
+  const schoolAdmin = await createPerson("CI School Administrator","admin",schoolA,7);
 
   const math = await makeRow("subjects",{school_id:schoolA,name:"CI Mathematics "+unique},
     "Create mathematics subject"); cleanup.subjects.push(math);
@@ -350,6 +351,56 @@ try {
   assert.equal(Number(guardianFeedback.score),19);
   assert.equal(guardianFeedback.feedback,"Excellent.");
 
+  // Phase 13: exercise the actual administrator membership UI's RLS writes,
+  // not the service-role bootstrap client used to create synthetic fixtures.
+  const spareClass=await makeRow("classes",{
+    school_id:schoolA,name:"CI Spare Grade 3 "+unique,teacher_id:null
+  },"Create extra class for live-admin permission checks");
+  cleanup.classes.push(spareClass);
+  const assignedClassTeacher=await ok(schoolAdmin.client.from("classes")
+    .update({teacher_id:teacherMath.id}).eq("id",spareClass)
+    .eq("school_id",schoolA).select("teacher_id").single(),
+    "School administrator assigns homeroom teacher");
+  assert.equal(assignedClassTeacher.teacher_id,teacherMath.id);
+  const wrongTenantTeacher=await schoolAdmin.client.from("classes")
+    .update({teacher_id:foreignTeacher.id}).eq("id",spareClass)
+    .eq("school_id",schoolA).select("id");
+  assert.ok(wrongTenantTeacher.error||!wrongTenantTeacher.data?.length,
+    "Even administrators cannot assign a teacher from a different school");
+  const blockedClassChange=await learner.client.from("classes")
+    .update({teacher_id:null}).eq("id",spareClass).select("id");
+  assert.ok(blockedClassChange.error||!blockedClassChange.data?.length,
+    "Learner cannot update teaching assignment");
+  const enrolledElsewhere=await ok(schoolAdmin.client.from("student_profiles")
+    .update({class_id:spareClass}).eq("user_id",learner.id)
+    .select("class_id").single(),"School admin enrols learner into selected class");
+  assert.equal(enrolledElsewhere.class_id,spareClass);
+  const restoredClass=await ok(schoolAdmin.client.from("student_profiles")
+    .update({class_id:klass}).eq("user_id",learner.id)
+    .select("class_id").single(),"School admin restores learner's initial class");
+  assert.equal(restoredClass.class_id,klass);
+  const illegalEnrolment=await foreignTeacher.client.from("student_profiles")
+    .update({class_id:spareClass}).eq("user_id",learner.id).select("id");
+  assert.ok(illegalEnrolment.error||!illegalEnrolment.data?.length,
+    "Different school teacher cannot modify learner enrolment");
+
+  // Real admin JWT inserts a same-school guardian relationship and later
+  // revokes it, proving that RLS changes private visibility immediately.
+  const newGuardianLink=await ok(schoolAdmin.client.from("student_guardian_link").insert({
+    student_user_id:learner.id,guardian_user_id:unrelatedGuardian.id,
+    is_primary:false,can_pay_fees:false
+  }).select("id").single(),"School admin adds a guardian relationship");
+  cleanup.guardians.push(newGuardianLink.id);
+  assert.equal((await lessonIds(unrelatedGuardian)).has(lessonId),true,
+    "Linked parent gains only the related learner's progress");
+  const revokedNewLink=await ok(schoolAdmin.client.from("student_guardian_link")
+    .delete().eq("id",newGuardianLink.id).select("id").single(),
+    "School admin revokes a linked guardian");
+  assert.equal(revokedNewLink.id,newGuardianLink.id);
+  cleanup.guardians=cleanup.guardians.filter(id=>id!==newGuardianLink.id);
+  assert.equal((await lessonIds(unrelatedGuardian)).has(lessonId),false,
+    "Revoked parent loses lesson access without re-login");
+
   const failedCrossSchool = await foreignTeacher.client.from("assignment_submissions")
     .select("id").eq("id",submission.id);
   assert.equal(failedCrossSchool.error,null);
@@ -368,15 +419,17 @@ try {
     "Restored parent relationship still works before link removal");
   // Revocation test: a previous guardian must immediately lose visibility
   // after the school administrator removes the learner relationship.
-  await ok(server.from("student_guardian_link").delete().eq("id",guardianLink),
-    "Revoke synthetic parent-learner relationship");
+  const revokedOriginal=await ok(schoolAdmin.client.from("student_guardian_link")
+    .delete().eq("id",guardianLink).select("id").single(),
+    "School administrator revokes existing parent-learner relationship");
+  assert.equal(revokedOriginal.id,guardianLink);
   cleanup.guardians=cleanup.guardians.filter(id=>id!==guardianLink);
   assert.equal((await lessonIds(linkedGuardian)).has(lessonId),false,
     "Revoked guardian must lose lesson progress visibility");
   assert.equal((await readIds(linkedGuardian.client,"assignment_reviews")).has(review.id),false,
     "Revoked guardian must lose private grade feedback visibility");
 
-  console.log("PASS: six JWT accounts; teacher-only planning, coursework and grades, parent-link revocation, lesson sync and tenant RLS; synthetic records cleaned.");
+  console.log("PASS: seven JWT accounts; role-specific planning, coursework and grades, admin class/teacher/guardian management, role revocation and tenant RLS; synthetic fixtures cleaned.");
 } catch (error) {
   testError=error;
 } finally {
