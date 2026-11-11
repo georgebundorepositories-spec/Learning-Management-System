@@ -24,3 +24,6 @@ using (
   )
  )
 );
+
+-- Defence in depth: no anonymous Data API reads, regardless of RLS.
+revoke select on public.calendar_events from anon, public;
