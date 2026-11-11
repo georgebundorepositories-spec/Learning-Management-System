@@ -13,8 +13,8 @@ android {
     applicationId = "zw.zimlms"
     minSdk = 26
     targetSdk = 35
-    versionCode = 14
-    versionName = "0.14.0-teacher-planning-preview"
+    versionCode = 15
+    versionName = "0.15.0-role-verification-preview"
     manifestPlaceholders["applicationLabel"] = "ZimSchool LMS"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,9 +41,9 @@ android {
     debug {
       // Side-by-side test install protects earlier offline queues when CI's
       // ephemeral debug signing certificate differs between workflow runs.
-      applicationIdSuffix = ".preview.plans14"
+      applicationIdSuffix = ".preview.rolecheck15"
       versionNameSuffix = "-test"
-      manifestPlaceholders["applicationLabel"] = "ZimSchool Teacher Planning Preview"
+      manifestPlaceholders["applicationLabel"] = "ZimSchool Role Verification Preview"
     }
     release {
       isMinifyEnabled = true
@@ -60,6 +60,7 @@ dependencies {
   implementation("androidx.activity:activity-compose:1.9.2")
   implementation("androidx.core:core-ktx:1.13.1")
   implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
+  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.5")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
   implementation("com.squareup.okhttp3:okhttp:4.12.0")
   implementation("androidx.room:room-runtime:2.8.5")

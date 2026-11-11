@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -65,11 +66,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import zw.zimlms.core.auth.CachedProfile
 import zw.zimlms.core.auth.SessionBroker
+import zw.zimlms.core.auth.SchoolRoleVerifier
+import zw.zimlms.core.auth.SchoolRoleStatus
 import zw.zimlms.learning.HeritageCurriculum
 import zw.zimlms.learning.StarterLesson
 import zw.zimlms.learning.StarterLessons
@@ -99,9 +105,80 @@ import java.time.format.DateTimeFormatter
  * All school directory requests are server-JWT + row-level-security scoped.
  */
 @Composable
-fun SchoolWorkspace(profile: CachedProfile, onSignOut: () -> Unit) {
+fun SchoolWorkspace(
+ profile: CachedProfile,onSignOut:()->Unit,
+ enforceOnlineRoleVerification:Boolean=false,onlineVerifiedAtLogin:Boolean=true
+) {
   val context = LocalContext.current.applicationContext
   val scope = rememberCoroutineScope()
+  val lifecycleOwner=LocalLifecycleOwner.current
+  var verifiedRole by remember(profile.userId,profile.schoolId,profile.role){
+    mutableStateOf(!enforceOnlineRoleVerification||onlineVerifiedAtLogin)
+  }
+  var roleAttempt by remember(profile.userId){mutableIntStateOf(0)}
+  var roleStatusMessage by remember(profile.userId){
+    mutableStateOf("Connect to your school to confirm your current designation.")
+  }
+
+  // Check again whenever the app resumes; a server-side role change must
+  // invalidate an old offline PIN's staff/family access promptly.
+  DisposableEffect(lifecycleOwner,enforceOnlineRoleVerification) {
+    val observer=LifecycleEventObserver{_,event->
+      if(event==Lifecycle.Event.ON_RESUME&&enforceOnlineRoleVerification)roleAttempt++
+    }
+    lifecycleOwner.lifecycle.addObserver(observer)
+    onDispose{lifecycleOwner.lifecycle.removeObserver(observer)}
+  }
+  LaunchedEffect(profile.userId,profile.schoolId,profile.role,
+    roleAttempt,enforceOnlineRoleVerification){
+    if(!enforceOnlineRoleVerification)return@LaunchedEffect
+    val result=runCatching {
+      withContext(Dispatchers.IO){
+        SchoolRoleVerifier(BuildConfig.SUPABASE_URL,
+          BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+          SessionBroker(context,BuildConfig.SUPABASE_URL,
+            BuildConfig.SUPABASE_PUBLISHABLE_KEY)).verify(profile)
+      }
+    }
+    result.fold(
+      onSuccess={status->
+        verifiedRole=status==SchoolRoleStatus.VERIFIED
+        roleStatusMessage=when(status){
+          SchoolRoleStatus.VERIFIED->"School designation confirmed"
+          SchoolRoleStatus.CHANGED->
+            "Your school designation has changed. Sign out and sign in online to refresh your portal."
+          SchoolRoleStatus.DEACTIVATED->
+            "Your school membership is inactive or your session has expired. Sign in online again."
+        }
+      },
+      onFailure={
+        // Fail closed for private portal tools, but keep original public
+        // offline curriculum available without exposing school records.
+        verifiedRole=false
+        roleStatusMessage="Your role could not be checked online. Downloaded lessons are still available. Connect and retry to open school-specific workspaces."
+      }
+    )
+  }
+  if(enforceOnlineRoleVerification&&!verifiedRole) {
+    Column(Modifier.fillMaxSize().testTag("unverified-school-role")) {
+      Column(Modifier.fillMaxWidth().padding(horizontal=18.dp,vertical=13.dp),
+        verticalArrangement=Arrangement.spacedBy(9.dp)){
+        Eyebrow("CURRENT SCHOOL ROLE REQUIRED")
+        Text("Verify school access",style=MaterialTheme.typography.titleLarge)
+        StateNotice("Role verification needed",roleStatusMessage)
+        Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+          OutlinedButton(onClick={roleAttempt++}){Text("Retry online check")}
+          OutlinedButton(onClick=onSignOut){Text("Sign out")}
+        }
+        Text("Offline curriculum remains accessible. Class records, family records and teacher-only answers require current school authorisation.",
+          style=MaterialTheme.typography.bodySmall)
+      }
+      // Never reuse a previously cached staff role to expose private modules
+      // or teacher-answer guides after an offline PIN unlock.
+      LearningPage(profile.copy(role="unverified"),Modifier.weight(1f))
+    }
+    return
+  }
   val drawer = rememberDrawerState(DrawerValue.Closed)
   val tabs = remember(profile.role) { WorkspaceNavigation.tabs(profile.role) }
   val mainTabs = remember(profile.role) {

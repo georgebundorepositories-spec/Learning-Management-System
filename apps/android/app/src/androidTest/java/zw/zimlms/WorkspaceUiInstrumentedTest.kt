@@ -145,6 +145,27 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("teacher-planning-screen").assertExists()
   }
 
+  @Test fun offlinePinCannotOpenPreviouslyCachedTeacherPortal(){
+    compose.setContent {
+      ZimSchoolTheme {SchoolWorkspace(profile("teacher"),onSignOut={},
+        enforceOnlineRoleVerification=true,onlineVerifiedAtLogin=false)}
+    }
+    compose.onNodeWithTag("unverified-school-role").assertExists()
+    compose.onNodeWithTag("learning-library-list").assertExists()
+    compose.onNodeWithText("Lesson planning").assertDoesNotExist()
+    compose.onNodeWithText("Retry online check").assertExists()
+  }
+
+  @Test fun offlinePinCannotOpenPreviouslyCachedParentRecords(){
+    compose.setContent {
+      ZimSchoolTheme {SchoolWorkspace(profile("parent"),onSignOut={},
+        enforceOnlineRoleVerification=true,onlineVerifiedAtLogin=false)}
+    }
+    compose.onNodeWithTag("unverified-school-role").assertExists()
+    compose.onNodeWithTag("learning-library-list").assertExists()
+    compose.onNodeWithText("My learners").assertDoesNotExist()
+  }
+
   @Test fun learnerCannotSeeAdministrativeDirectoryMenus() {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }

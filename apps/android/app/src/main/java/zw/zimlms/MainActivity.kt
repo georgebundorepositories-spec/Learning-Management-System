@@ -82,12 +82,16 @@ private fun ZimSchoolApp() {
   var pendingProfile by remember { mutableStateOf<CachedProfile?>(null) }
   var pendingSession by remember { mutableStateOf<AuthenticatedSchoolLogin?>(null) }
   var loggedInProfile by remember { mutableStateOf<CachedProfile?>(null) }
+  // True only after a server-confirmed password login. An offline PIN does
+  // not attest that this account's designation is still valid at school.
+  var roleCheckedOnline by remember { mutableStateOf(false) }
 
   val current = loggedInProfile
   if (current!=null) {
     // The authenticated workspace owns the entire screen. It is no longer
     // nested in the old LoginScreen Column/verticalScroll.
-    SchoolWorkspace(profile=current, onSignOut={
+    SchoolWorkspace(profile=current, enforceOnlineRoleVerification=true,
+      onlineVerifiedAtLogin=roleCheckedOnline, onSignOut={
       if(!busy) {
         busy=true
         CalendarSyncScheduler.cancel(context)
@@ -104,6 +108,7 @@ private fun ZimSchoolApp() {
           if(removed.isSuccess) {
             vault.clear()
             loggedInProfile=null
+            roleCheckedOnline=false
             pendingProfile=null
             pendingSession=null
             identifier=""
@@ -199,6 +204,7 @@ private fun ZimSchoolApp() {
                 result.fold(
                   onSuccess={
                     loggedInProfile=profileToEnroll
+                    roleCheckedOnline=true
                     pendingProfile=null
                     pendingSession=null
                     pin=""
@@ -293,6 +299,7 @@ private fun ZimSchoolApp() {
                 when(result) {
                   is OfflineLogin.Success -> {
                     loggedInProfile=result.profile
+                    roleCheckedOnline=false
                     val session=SessionVault(context).load()
                     if(session?.profile?.userId==result.profile.userId &&
                       session.profile.schoolId==result.profile.schoolId) {
