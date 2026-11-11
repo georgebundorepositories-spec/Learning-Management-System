@@ -18,7 +18,7 @@ begin
  -- SQL Editor (postgres) or a verified server-side service-role client only.
  -- The ordinary browser uses a signed-in user JWT and goes through checks.
  v_trusted := v_actor is null and (
-   v_jwt_role='service_role' or
+   coalesce(v_jwt_role='service_role',false) or
    (coalesce(current_setting('role',true),'')='service_role' and session_user='authenticator') or
    (session_user in ('postgres','supabase_admin')
      and coalesce(current_setting('role',true),'none') in ('none','postgres'))
