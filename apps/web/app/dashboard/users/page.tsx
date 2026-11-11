@@ -3,6 +3,7 @@ import {notFound,redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import InviteForm from "./InviteForm";
 import MembershipManager from "./MembershipManager";
+import RoleAssignmentForm from "./RoleAssignmentForm";
 
 export const dynamic="force-dynamic";
 export default async function SchoolMemberInvitations(){
@@ -16,8 +17,8 @@ export default async function SchoolMemberInvitations(){
   db.from("classes").select("id,name,teacher_id").eq("school_id",actor.school_id).is("deleted_at",null).order("name").limit(150),
   db.from("users").select("id,full_name").eq("school_id",actor.school_id)
    .eq("role","student").eq("is_active",true).is("deleted_at",null).limit(150),
-  db.from("users").select("id,role,is_active").eq("school_id",actor.school_id)
-   .is("deleted_at",null).limit(500),
+  db.from("users").select("id,full_name,role,is_active").eq("school_id",actor.school_id)
+   .is("deleted_at",null).order("full_name").limit(500),
   db.from("users").select("id,full_name").eq("school_id",actor.school_id)
    .eq("role","parent").eq("is_active",true).is("deleted_at",null).limit(150),
   db.from("users").select("id,full_name").eq("school_id",actor.school_id)
@@ -32,8 +33,8 @@ export default async function SchoolMemberInvitations(){
   <header className="topbar"><div className="topbrand"><span className="brand-mark">Z</span><strong>ZimSchool LMS</strong></div><Link href="/dashboard" className="outline-button">← Dashboard</Link></header>
   <div className="dash-wrap">
    <p className="eyebrow">ADMINISTRATION · CONTROLLED INVITATIONS</p>
-   <h1>Invite two school members</h1>
-   <p className="subhead">Invite a teacher, learner or parent one account at a time using their real email and unique Zimbabwe mobile number. The designation controls which portals they see after sign-in.</p>
+   <h1>School members</h1>
+   <p className="subhead">Invite people or change an existing member’s role. Each person sees the tools for their school designation.</p>
    <div className="summary-cards">
     <article className="summary-card"><span>Active teachers</span><strong>{counts.teacher??0}</strong></article>
     <article className="summary-card"><span>Active learners</span><strong>{counts.student??0}</strong></article>
@@ -41,11 +42,16 @@ export default async function SchoolMemberInvitations(){
    </div>
    {classes.error||learners.error||members.error?<p className="notice-panel" role="alert">School roster could not be verified; retry later.</p>:
     <section className="summary-card">
-      <h2>Send a secure invitation</h2>
-      <p>Complete this form twice for two additional members. Invitations are emailed; passwords are never displayed or stored in the LMS administrator's browser.</p>
+      <h2>Invite a school member</h2>
+      <p>Invitations use email verification. Passwords are never displayed or stored in the school administrator’s browser.</p>
       <InviteForm classes={(classes.data??[]).map(c=>({id:c.id,name:c.name}))}
        learners={(learners.data??[]).map(s=>({id:s.id,name:s.full_name}))}/>
     </section>}
+   {members.error?<p className="notice-panel" role="alert">Unable to load school roles.</p>:
+    <RoleAssignmentForm members={(members.data??[]).map(member=>({
+     id:member.id,full_name:member.full_name,role:member.role,is_active:member.is_active
+    }))}/>}
+   {(members.data?.length??0)===500?<p className="privacy-note">Showing the first 500 members. Larger schools can manage additional accounts through the Supabase Table Editor until search is available.</p>:null}
    <h2>Manage enrolled members and family access</h2>
    {classes.error||learners.error||parents.error||teachers.error||enrolments.error||guardianLinks.error
     ?<p role="alert" className="notice-panel">Unable to verify class and guardian relationships.</p>
