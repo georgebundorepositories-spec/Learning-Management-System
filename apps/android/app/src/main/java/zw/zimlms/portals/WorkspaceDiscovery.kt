@@ -67,3 +67,10 @@ fun filterPortalPeople(people:List<PortalPerson>,role:String,query:String):List<
   words.all{name.contains(it)}
  }.toList()
 }
+
+/** 1 column on narrow handsets, 2 on regular tablets, 3 on wide landscape. */
+fun workspaceColumnCount(availableWidthDp:Float):Int=when{
+ availableWidthDp>=900f->3
+ availableWidthDp>=600f->2
+ else->1
+}

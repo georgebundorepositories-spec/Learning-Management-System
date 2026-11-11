@@ -10,6 +10,8 @@ import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -142,6 +144,36 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("home-tool-assessments").performTouchInput{click()}
     compose.onNodeWithTag("module-screen-assessments").assertExists()
     compose.onNodeWithTag("staff-assessments-screen").assertExists()
+  }
+
+  @Test fun teacherSearchOpensMatchingToolInsteadOfDecorativeCard(){
+    compose.setContent{
+      ZimSchoolTheme{SchoolWorkspace(profile("teacher"),onSignOut={})}
+    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-module-search"))
+    compose.onNodeWithTag("home-module-search").performTextInput("notices")
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-notices"))
+    compose.onNodeWithTag("home-tool-notices").assertIsDisplayed()
+      .performTouchInput{click()}
+    compose.onNodeWithTag("module-screen-notices").assertExists()
+  }
+
+  @Test fun unmatchedSearchShowsHelpfulEmptyStateAndClears(){
+    compose.setContent{
+      ZimSchoolTheme{SchoolWorkspace(profile("student"),onSignOut={})}
+    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-module-search"))
+    compose.onNodeWithTag("home-module-search").performTextInput("no-tool-12345")
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("no-module-match"))
+    compose.onNodeWithTag("no-module-match").assertExists()
+    compose.onNodeWithText("Clear tool search").performClick()
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-learning"))
+    compose.onNodeWithTag("home-tool-learning").assertExists()
   }
 
   @Test fun teacherCanOpenLessonPlanning() {

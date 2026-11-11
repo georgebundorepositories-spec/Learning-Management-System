@@ -27,6 +27,13 @@ class WorkspaceDiscoveryTest{
   assertTrue(filterWorkspaceModules("parent","maths").isEmpty())
   assertTrue(filterWorkspaceModules("admin","  SCHOOL  ").isNotEmpty())
  }
+ @Test fun adaptiveColumnsUseAvailableDpNotPhysicalPixels(){
+  assertEquals(1,workspaceColumnCount(320f))
+  assertEquals(1,workspaceColumnCount(599f))
+  assertEquals(2,workspaceColumnCount(600f))
+  assertEquals(2,workspaceColumnCount(899f))
+  assertEquals(3,workspaceColumnCount(900f))
+ }
  @Test fun staffDirectorySearchHandlesManyNamesAndNeverChangesOriginalList(){
   val role="student"
   val students=listOf(

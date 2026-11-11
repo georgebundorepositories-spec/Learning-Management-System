@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -86,6 +88,11 @@ import zw.zimlms.portals.PortalPerson
 import zw.zimlms.portals.SchoolDirectory
 import zw.zimlms.portals.SchoolDirectoryRepository
 import zw.zimlms.portals.WorkspaceNavigation
+import zw.zimlms.portals.WorkspaceGroup
+import zw.zimlms.portals.filterWorkspaceModules
+import zw.zimlms.portals.filterPortalPeople
+import zw.zimlms.portals.workspaceModuleDescription
+import zw.zimlms.portals.workspaceColumnCount
 import zw.zimlms.portals.WorkspaceTab
 import zw.zimlms.ui.AppPanel
 import zw.zimlms.ui.BrandMark
@@ -454,90 +461,152 @@ private fun HomePage(
   onSignOut: ()->Unit
 ) {
   val admin=profile.role in setOf("admin","head")
-  val modules=WorkspaceNavigation.tabs(profile.role).filter { it!=WorkspaceTab.HOME }
+  var moduleQuery by rememberSaveable(profile.userId) { mutableStateOf("") }
+  var activeGroup by rememberSaveable(profile.userId) {
+    mutableStateOf(WorkspaceGroup.ALL.name)
+  }
+  val group=WorkspaceGroup.entries.firstOrNull{it.name==activeGroup}
+    ?:WorkspaceGroup.ALL
+  val modules=filterWorkspaceModules(profile.role,moduleQuery,group)
+  val availableGroups=remember(profile.role) {
+    WorkspaceGroup.entries.filter { candidate ->
+      candidate==WorkspaceGroup.ALL ||
+        filterWorkspaceModules(profile.role,group=candidate).isNotEmpty()
+    }
+  }
   val date=remember { LocalDate.now(ZoneId.of("Africa/Harare"))
     .format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")) }
-  LazyColumn(
-    modifier=modifier.fillMaxSize().testTag("home-module-list"),
-    contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
-    verticalArrangement=Arrangement.spacedBy(19.dp)
-  ) {
-    item(key="hello") {
-      Column(verticalArrangement=Arrangement.spacedBy(5.dp)) {
-        Eyebrow(date)
-        Text("Welcome back, ${profile.fullName.trim().substringBefore(' ')}",
-          style=MaterialTheme.typography.headlineMedium)
-        Text(WorkspaceNavigation.heading(profile.role),
-          style=MaterialTheme.typography.bodyMedium,
-          color=MaterialTheme.colorScheme.onSurfaceVariant)
+  // Calculate tile count using actual available width in dp, not pixels.
+  // 320–599dp phones receive full-width tappable cards; tablets get more.
+  BoxWithConstraints(modifier=modifier.fillMaxSize()) {
+    val columns=workspaceColumnCount(maxWidth.value)
+    LazyColumn(
+      modifier=Modifier.fillMaxSize().testTag("home-module-list"),
+      contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
+      verticalArrangement=Arrangement.spacedBy(16.dp)
+    ) {
+      item(key="hello") {
+        Column(verticalArrangement=Arrangement.spacedBy(5.dp)) {
+          Eyebrow(date)
+          Text("Welcome back, ${profile.fullName.trim().substringBefore(' ')}",
+            style=MaterialTheme.typography.headlineMedium)
+          Text(WorkspaceNavigation.heading(profile.role),
+            style=MaterialTheme.typography.bodyMedium,
+            color=MaterialTheme.colorScheme.onSurfaceVariant)
+        }
       }
-    }
-    item(key="hero") { HomeHero(profile,directory) }
-    item(key="online-status") {
-      StateNotice(if(loading) "Connecting to school…" else
-        if(directory!=null) "School connection ready" else "Offline mode",
-        status,if(directory!=null) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.tertiary)
-    }
-    if (directory!=null) {
-      item(key="metrics") {
-        Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
-          SectionTitle("School at a glance","Authorised records in your school")
-          Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
-            MiniStat("Classes",directory.classes.size.toString(),"Academic groups",
-              Modifier.weight(1f))
-            MiniStat("Subjects",directory.subjects.size.toString(),"Available subjects",
-              Modifier.weight(1f))
-          }
-          if (admin) {
+      item(key="hero") { HomeHero(profile,directory) }
+      item(key="online-status") {
+        StateNotice(if(loading) "Connecting to school…" else
+          if(directory!=null) "School connection ready" else "Offline mode",
+          status,if(directory!=null) MaterialTheme.colorScheme.primary
+          else MaterialTheme.colorScheme.tertiary)
+      }
+      if (directory!=null) {
+        item(key="metrics") {
+          Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
+            SectionTitle("School at a glance","Authorised records in your school")
             Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
-              MiniStat("Learners",directory.peopleByRole("student").size.toString(),
-                "Registered profiles",Modifier.weight(1f))
-              MiniStat("Teachers",directory.peopleByRole("teacher").size.toString(),
-                "Teaching profiles",Modifier.weight(1f))
+              MiniStat("Classes",directory.classes.size.toString(),"Academic groups",
+                Modifier.weight(1f))
+              MiniStat("Subjects",directory.subjects.size.toString(),"Available subjects",
+                Modifier.weight(1f))
+            }
+            if (admin) {
+              Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
+                MiniStat("Learners",directory.peopleByRole("student").size.toString(),
+                  "Registered profiles",Modifier.weight(1f))
+                MiniStat("Teachers",directory.peopleByRole("teacher").size.toString(),
+                  "Teaching profiles",Modifier.weight(1f))
+              }
             }
           }
         }
       }
-    }
-    item(key="modules-header") {
-      SectionTitle("Explore your workspace",
-        "Choose a tool to open a full-screen module")
-    }
-    items(modules.chunked(2),key={row->row.joinToString("-"){it.name}}) { row ->
-      Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
-        row.forEach { tab ->
-          DashboardModule(
-            tab=tab,
-            modifier=Modifier.weight(1f),
-            onClick=onNavigate
+      item(key="modules-header") {
+        SectionTitle("Find a school tool",
+          "Type a task or filter the tools available to your role")
+      }
+      item(key="module-search"){
+        Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
+          OutlinedTextField(
+            value=moduleQuery,
+            onValueChange={if(it.length<=80)moduleQuery=it},
+            singleLine=true,
+            label={Text("Search workspaces")},
+            placeholder={Text("e.g. lesson, marks or attendance")},
+            modifier=Modifier.fillMaxWidth().testTag("home-module-search")
           )
+          LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+            items(availableGroups,key={it.name}){option->
+              FilterChip(
+                selected=option==group,
+                onClick={activeGroup=option.name},
+                label={Text(option.label)}
+              )
+            }
+          }
+          Row(
+            modifier=Modifier.fillMaxWidth(),
+            verticalAlignment=Alignment.CenterVertically,
+            horizontalArrangement=Arrangement.SpaceBetween
+          ) {
+            Text("${modules.size} available ${if(modules.size==1) "tool" else "tools"}",
+              style=MaterialTheme.typography.labelMedium,
+              color=MaterialTheme.colorScheme.onSurfaceVariant)
+            if(moduleQuery.isNotBlank()||group!=WorkspaceGroup.ALL){
+              TextButton(onClick={moduleQuery="";activeGroup=WorkspaceGroup.ALL.name}){
+                Text("Clear tool search")
+              }
+            }
+          }
         }
-        if(row.size==1) Spacer(Modifier.weight(1f))
       }
-    }
-    item(key="refresh") {
-      OutlinedButton(enabled=!loading,onClick=onRefresh,
-        modifier=Modifier.fillMaxWidth()) {
-        Text(if(loading) "Checking school connection…" else "Refresh school information")
+      if(modules.isEmpty()){
+        item(key="empty-modules"){
+          Box(Modifier.testTag("no-module-match")){
+            StateNotice("No matching tools",
+              "Try a different keyword or clear your filters. Only school-authorised tools can be opened.")
+          }
+        }
+      }else{
+        items(modules.chunked(columns),
+          key={row->row.joinToString("-"){it.name}}) { row ->
+          Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+            row.forEach { tab ->
+              DashboardModule(
+                tab=tab,
+                modifier=Modifier.weight(1f),
+                onClick=onNavigate
+              )
+            }
+            repeat(columns-row.size){Spacer(Modifier.weight(1f))}
+          }
+        }
       }
-    }
-    item(key="sign-out") {
-      OutlinedButton(
-        onClick=onSignOut,
-        modifier=Modifier.fillMaxWidth().testTag("home-sign-out"),
-        shape=RoundedCornerShape(14.dp)
-      ) {
-        Text("Sign out of this device")
+      item(key="refresh") {
+        OutlinedButton(enabled=!loading,onClick=onRefresh,
+          modifier=Modifier.fillMaxWidth()) {
+          Text(if(loading) "Checking school connection…" else "Refresh school information")
+        }
       }
-    }
-    item(key="footer") {
-      Text(
-        "ZimSchool preview • Directories are read-only and require an online session. " +
-        "Bundled lessons are available offline. No learner data is stored in the app's directory cache.",
-        style=MaterialTheme.typography.bodySmall,
-        color=MaterialTheme.colorScheme.onSurfaceVariant
-      )
+      item(key="sign-out") {
+        OutlinedButton(
+          onClick=onSignOut,
+          modifier=Modifier.fillMaxWidth().testTag("home-sign-out"),
+          shape=RoundedCornerShape(14.dp)
+        ) {
+          Text("Sign out of this device")
+        }
+      }
+      item(key="footer") {
+        Text(
+          "ZimSchool preview • School records are authorised online and are not stored in the directory cache. " +
+          "Bundled lessons remain available offline.",
+          style=MaterialTheme.typography.bodySmall,
+          color=MaterialTheme.colorScheme.onSurfaceVariant
+        )
+      }
     }
   }
 }
@@ -597,7 +666,7 @@ private fun DashboardModule(
       1.dp, MaterialTheme.colorScheme.outlineVariant)
   ) {
     Column(
-      modifier=Modifier.fillMaxWidth().padding(18.dp).height(119.dp),
+      modifier=Modifier.fillMaxWidth().padding(18.dp).heightIn(min=124.dp),
       verticalArrangement=Arrangement.SpaceBetween
     ) {
       Box(
@@ -610,30 +679,10 @@ private fun DashboardModule(
       }
       Column(verticalArrangement=Arrangement.spacedBy(3.dp)) {
         Text(tab.label,style=MaterialTheme.typography.titleSmall,
-          maxLines=1,overflow=TextOverflow.Ellipsis)
-        Text(when(tab) {
-          WorkspaceTab.LEARNERS -> "Learner register"
-          WorkspaceTab.TEACHERS -> "Staff directory"
-          WorkspaceTab.PARENTS -> "Family register"
-          WorkspaceTab.MEMBERS -> "Enrolments and guardian links"
-          WorkspaceTab.CLASSES -> "Class and subjects"
-          WorkspaceTab.ASSIGNMENTS -> "Manage teaching links"
-          WorkspaceTab.ATTENDANCE -> "Mark today's register"
-          WorkspaceTab.ASSESSMENTS -> "Prepare tests and record marks"
-          WorkspaceTab.MY_CLASSES -> "Your assigned groups"
-          WorkspaceTab.CHILDREN -> "Linked learners"
-          WorkspaceTab.LEARNING -> "Offline lessons and practice"
-          WorkspaceTab.PLANNING -> "Staff lesson preparation"
-          WorkspaceTab.CALENDAR -> "School events"
-          WorkspaceTab.NOTICES -> "School announcements"
-          WorkspaceTab.FEES -> "Private school charges"
-          WorkspaceTab.RESOURCES -> "Teacher-shared materials"
-          WorkspaceTab.RESULTS -> "Private assessment marks"
-          WorkspaceTab.COURSEWORK -> "Class tasks and submissions"
-          WorkspaceTab.HOME -> "Overview"
-        },style=MaterialTheme.typography.bodySmall,
+          maxLines=2,overflow=TextOverflow.Ellipsis)
+        Text(workspaceModuleDescription(tab),style=MaterialTheme.typography.bodySmall,
           color=MaterialTheme.colorScheme.onSurfaceVariant,
-          maxLines=1,overflow=TextOverflow.Ellipsis)
+          maxLines=2,overflow=TextOverflow.Ellipsis)
       }
     }
   }
@@ -648,6 +697,9 @@ private fun PeoplePage(
   modifier: Modifier=Modifier
 ) {
   val people=remember(directory,role) { directory?.peopleByRole(role).orEmpty() }
+  // Search text stays in memory; do not persist private names to saved state.
+  var query by remember(directory,role){mutableStateOf("")}
+  val matching=remember(people,role,query){filterPortalPeople(people,role,query)}
   LazyColumn(
     modifier=modifier.fillMaxSize().testTag("people-directory-${role}"),
     contentPadding=PaddingValues(horizontal=18.dp,vertical=22.dp),
@@ -662,8 +714,8 @@ private fun PeoplePage(
         color=MaterialTheme.colorScheme.onSurfaceVariant)
     }}
     item(key="notice") {
-      StateNotice("Protected and read-only",
-        "This register shows only permitted school records. Enrolment and invitation management are not yet available in this version.")
+      StateNotice("Protected school register",
+        "Only permitted school records appear here. Administrators can manage enrolment and guardian links using School memberships.")
     }
     if(directory==null) {
       item(key="offline") { OfflineDirectory() }
@@ -671,8 +723,32 @@ private fun PeoplePage(
       item(key="empty") { StateNotice("No records yet",
         "No $label are available to your authorised account.") }
     } else {
-      items(people,key={it.id},contentType={"person"}) { person ->
-        PersonRow(person,directory.isDemo)
+      item(key="directory-search"){
+        OutlinedTextField(
+          value=query,onValueChange={if(it.length<=100)query=it},
+          label={Text("Search $label")},
+          placeholder={Text("Type a name")},
+          singleLine=true,
+          modifier=Modifier.fillMaxWidth().testTag("people-search-$role")
+        )
+      }
+      item(key="search-count"){
+        Row(modifier=Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically,
+          horizontalArrangement=Arrangement.SpaceBetween){
+          Text("${matching.size} of ${people.size} matches",
+            style=MaterialTheme.typography.bodySmall)
+          if(query.isNotBlank()){
+            TextButton(onClick={query=""}){Text("Clear name search")}
+          }
+        }
+      }
+      if(matching.isEmpty()){
+        item(key="no-match"){StateNotice("No matching name",
+          "Try another spelling or clear the search to see all permitted people.")}
+      }else{
+        items(matching,key={it.id},contentType={"person"}) { person ->
+          PersonRow(person,directory.isDemo)
+        }
       }
     }
   }
