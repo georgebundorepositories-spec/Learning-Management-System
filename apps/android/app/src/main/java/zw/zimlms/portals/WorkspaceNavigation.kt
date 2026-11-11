@@ -17,6 +17,7 @@ enum class WorkspaceTab(val label: String) {
   NOTICES("Notices"),
   FEES("Fee invoices"),
   RESOURCES("School resources"),
+  ASSESSMENTS("Assessments & marks"),
   RESULTS("Assessment results"),
   COURSEWORK("Assignments")
 }
@@ -31,14 +32,14 @@ object WorkspaceNavigation {
     "admin", "head" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.LEARNERS, WorkspaceTab.TEACHERS,
       WorkspaceTab.PARENTS, WorkspaceTab.MEMBERS, WorkspaceTab.CLASSES, WorkspaceTab.ASSIGNMENTS,
-      WorkspaceTab.ATTENDANCE, WorkspaceTab.PLANNING,
+      WorkspaceTab.ATTENDANCE, WorkspaceTab.ASSESSMENTS, WorkspaceTab.PLANNING,
       WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR,
       WorkspaceTab.NOTICES, WorkspaceTab.FEES, WorkspaceTab.RESOURCES,
       WorkspaceTab.COURSEWORK
     ).filter { role=="admin" || it!=WorkspaceTab.MEMBERS }
     "teacher" -> listOf(
       WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES, WorkspaceTab.ATTENDANCE,
-      WorkspaceTab.PLANNING, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,
+      WorkspaceTab.ASSESSMENTS, WorkspaceTab.PLANNING, WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR, WorkspaceTab.NOTICES,
       WorkspaceTab.RESOURCES, WorkspaceTab.COURSEWORK
     )
     "student" -> listOf(

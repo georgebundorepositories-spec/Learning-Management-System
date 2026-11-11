@@ -39,6 +39,13 @@ class WorkspaceNavigationTest {
     }
   }
 
+  @Test fun assessmentRecordingIsStaffOnly(){
+    for(role in listOf("admin","head","teacher"))
+      assertTrue(WorkspaceNavigation.canOpen(role,WorkspaceTab.ASSESSMENTS))
+    for(role in listOf("student","parent","bursar","clerk","unknown"))
+      assertFalse(WorkspaceNavigation.canOpen(role,WorkspaceTab.ASSESSMENTS))
+  }
+
   @Test fun lessonPlanningIsStaffOnly() {
     for(role in listOf("admin","head","teacher"))
       assertTrue(WorkspaceNavigation.canOpen(role,WorkspaceTab.PLANNING))

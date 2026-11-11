@@ -177,7 +177,7 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         rect(4f,4f,16f,16f)
         line(7f,9f,17f,9f);line(7f,13f,17f,13f);line(7f,17f,13f,17f)
       }
-      WorkspaceTab.RESULTS -> {
+      WorkspaceTab.ASSESSMENTS,WorkspaceTab.RESULTS -> {
         rect(4f,3f,16f,18f)
         line(8f,9f,11f,12f);line(11f,12f,17f,7f)
         line(8f,17f,16f,17f)

@@ -133,6 +133,17 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("module-screen-children").assertExists()
   }
 
+  @Test fun teacherCanOpenAssessmentMarking(){
+    compose.setContent {
+      ZimSchoolTheme {SchoolWorkspace(profile("teacher"),onSignOut={})}
+    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-assessments"))
+    compose.onNodeWithTag("home-tool-assessments").performTouchInput{click()}
+    compose.onNodeWithTag("module-screen-assessments").assertExists()
+    compose.onNodeWithTag("staff-assessments-screen").assertExists()
+  }
+
   @Test fun teacherCanOpenLessonPlanning() {
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("teacher"),onSignOut={}) }

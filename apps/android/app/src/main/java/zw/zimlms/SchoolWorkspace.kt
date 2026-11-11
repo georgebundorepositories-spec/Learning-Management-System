@@ -427,6 +427,8 @@ fun SchoolWorkspace(
           profile,directory,Modifier.padding(insets),onSaved={retryNumber++})
         WorkspaceTab.ATTENDANCE -> SchoolAttendancePage(
           profile,directory,Modifier.padding(insets))
+        WorkspaceTab.ASSESSMENTS -> SchoolAssessmentsPage(
+          profile,directory,Modifier.padding(insets))
         WorkspaceTab.NOTICES -> SchoolNoticesPage(profile,Modifier.padding(insets))
         WorkspaceTab.FEES -> SchoolFeesPage(profile,Modifier.padding(insets))
         WorkspaceTab.RESOURCES -> SchoolResourcesPage(profile,directory,Modifier.padding(insets))
@@ -617,6 +619,7 @@ private fun DashboardModule(
           WorkspaceTab.CLASSES -> "Class and subjects"
           WorkspaceTab.ASSIGNMENTS -> "Manage teaching links"
           WorkspaceTab.ATTENDANCE -> "Mark today's register"
+          WorkspaceTab.ASSESSMENTS -> "Prepare tests and record marks"
           WorkspaceTab.MY_CLASSES -> "Your assigned groups"
           WorkspaceTab.CHILDREN -> "Linked learners"
           WorkspaceTab.LEARNING -> "Offline lessons and practice"

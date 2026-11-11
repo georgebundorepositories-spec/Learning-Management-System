@@ -110,7 +110,7 @@ fun SchoolAssessmentsPage(
   }
  }
  val selected=assessments.firstOrNull{it.id==selectedId}
- LaunchedEffect(profile.userId,selectedId,rosterReload){
+ LaunchedEffect(profile.userId,selectedId,selected,rosterReload){
   roster=null
   rosterError=null
   if(selected==null||repo==null||directory==null)return@LaunchedEffect
