@@ -13,8 +13,8 @@ android {
     applicationId = "zw.zimlms"
     minSdk = 26
     targetSdk = 35
-    versionCode = 18
-    versionName = "0.18.0-responsive-workspaces-preview"
+    versionCode = 19
+    versionName = "0.19.0-simple-school-home-preview"
     manifestPlaceholders["applicationLabel"] = "ZimSchool LMS"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,9 +41,9 @@ android {
     debug {
       // Side-by-side test install protects earlier offline queues when CI's
       // ephemeral debug signing certificate differs between workflow runs.
-      applicationIdSuffix = ".preview.fluid18"
+      applicationIdSuffix = ".preview.schoolhome19"
       versionNameSuffix = "-test"
-      manifestPlaceholders["applicationLabel"] = "ZimSchool Fluid Workspace Preview"
+      manifestPlaceholders["applicationLabel"] = "ZimSchool Simple Home Preview"
     }
     release {
       isMinifyEnabled = true

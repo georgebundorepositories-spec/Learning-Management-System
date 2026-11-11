@@ -120,7 +120,7 @@ class WorkspaceUiInstrumentedTest {
       .performScrollToNode(hasTestTag("home-tool-careers"))
     compose.onNodeWithTag("home-tool-careers").performTouchInput{click()}
     compose.onNodeWithTag("module-screen-careers").assertExists()
-    compose.onNodeWithText("My future").assertExists()
+    compose.onNodeWithText("Explore your interests. You do not need to choose a career today.").assertExists()
   }
 
   @Test fun parentToolOpensLinkedLearnersModule() {
