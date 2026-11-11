@@ -47,10 +47,10 @@ select ok((select relrowsecurity from pg_class where oid='public.users'::regclas
 set local role authenticated;
 select set_config('request.jwt.claim.sub','',true);
 select throws_ok(
- $insert into public.users(id,school_id,phone,full_name,role)
+ $$insert into public.users(id,school_id,phone,full_name,role)
  values('d0000000-0000-4000-8000-000000000077',
   'a1111111-1111-4111-8111-111111111111',
-  '+263771900077','Unverified Account','admin')$,
+  '+263771900077','Unverified Account','admin')$$,
  '42501',null,'missing actor JWT cannot provision roles');
 select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000002',true);
 select throws_ok(
