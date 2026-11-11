@@ -68,12 +68,17 @@ begin
  end if;
 
  -- Preserve history; refuse to silently transfer a teacher's live classes.
- if exists(
-   select 1 from public.classes c
-   where c.teacher_id=old.id and c.deleted_at is null
- ) or exists(
-   select 1 from public.class_subject_teacher a
-   where a.teacher_id=old.id and a.deleted_at is null
+ -- An authenticated school admin must clear teaching duties first.
+ -- Trusted provisioning can revoke/restore a role immediately, without
+ -- retaining teacher access while the account has a different role.
+ if not v_trusted and (
+   exists(
+     select 1 from public.classes c
+     where c.teacher_id=old.id and c.deleted_at is null
+   ) or exists(
+     select 1 from public.class_subject_teacher a
+     where a.teacher_id=old.id and a.deleted_at is null
+   )
  ) then
    raise exception 'Reassign current teaching duties before changing this user''s designation'
      using errcode='23514';
