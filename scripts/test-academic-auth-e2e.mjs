@@ -21,7 +21,8 @@ const password = "CI!" + randomBytes(22).toString("hex");
 const cleanup = {
   schools: [], authUsers: [], users: [], academicYears: [], terms: [],
   classes: [], subjects: [], classAssignments: [], guardians: [], profiles: [],
-  assignments: [], submissions: [], reviews: [], plans: [], completionUsers: []
+  assignments: [], submissions: [], reviews: [], plans: [],
+  assessments: [], assessmentResults: [], completionUsers: []
 };
 const clients = [];
 
@@ -66,6 +67,8 @@ async function readIds(client, table, filterColumn, filterId) {
 async function clearRecords() {
   let errors = [];
   const tableGroups = [
+    ["assessment_results","assessmentResults"],
+    ["assessments","assessments"],
     ["teacher_lesson_plans","plans"],
     ["assignment_reviews","reviews"],
     ["assignment_submissions","submissions"],
@@ -147,6 +150,88 @@ try {
     student_user_id:learner.id,guardian_user_id:linkedGuardian.id,
     is_primary:true,can_pay_fees:true
   },"Create linked guardian");cleanup.guardians.push(guardianLink);
+
+  // Phase 15: live local JWT checks for classroom assessment creation,
+  // grade recording, authorised revision and guardian/tenant isolation.
+  // The mobile client must use the same RLS as the web client.
+  const mathTest=await ok(teacherMath.client.from("assessments").insert({
+    school_id:schoolA,class_id:klass,subject_id:math,
+    title:"CI Maths Assessment "+unique,max_score:20,
+    assessment_date:"2026-11-11",created_by:teacherMath.id
+  }).select("id").single(),"Assigned Maths teacher creates a test");
+  cleanup.assessments.push(mathTest.id);
+
+  const rejectEnglish=await teacherEnglish.client.from("assessments").insert({
+    school_id:schoolA,class_id:klass,subject_id:math,
+    title:"Not My Subject "+unique,max_score:20,
+    assessment_date:"2026-11-11",created_by:teacherEnglish.id
+  }).select("id");
+  assert.ok(rejectEnglish.error||!rejectEnglish.data?.length,
+    "English teacher must not publish a Maths assessment");
+
+  const rejectStudent=await learner.client.from("assessments").insert({
+    school_id:schoolA,class_id:klass,subject_id:math,
+    title:"Student Made "+unique,max_score:20,
+    assessment_date:"2026-11-11",created_by:learner.id
+  }).select("id");
+  assert.ok(rejectStudent.error||!rejectStudent.data?.length,
+    "Learner must not publish assessments");
+
+  assert.equal((await readIds(teacherMath.client,"assessments")).has(mathTest.id),true);
+  assert.equal((await readIds(teacherEnglish.client,"assessments")).has(mathTest.id),false,
+    "Other-subject teacher must not see the private Maths test");
+
+  const rejectedCrossSchool=await foreignTeacher.client.from("assessment_results").insert({
+    assessment_id:mathTest.id,student_user_id:learner.id,score:5,
+    feedback:"Not my tenant",marked_by:foreignTeacher.id
+  }).select("id");
+  assert.ok(rejectedCrossSchool.error||!rejectedCrossSchool.data?.length,
+    "Foreign school staff must not write grades");
+
+  const rejectedOverMax=await teacherMath.client.from("assessment_results").insert({
+    assessment_id:mathTest.id,student_user_id:learner.id,score:21,
+    feedback:"Exceeds maximum",marked_by:teacherMath.id
+  }).select("id");
+  assert.ok(rejectedOverMax.error||!rejectedOverMax.data?.length,
+    "Assessment score above maximum must be rejected");
+
+  const marked=await ok(teacherMath.client.from("assessment_results").insert({
+    assessment_id:mathTest.id,student_user_id:learner.id,score:17,
+    feedback:"Good working shown.",marked_by:teacherMath.id
+  }).select("id").single(),"Assigned teacher saves assessment grade");
+  cleanup.assessmentResults.push(marked.id);
+
+  for(const person of [teacherMath,schoolAdmin,learner,linkedGuardian]){
+    assert.equal((await readIds(person.client,"assessment_results")).has(marked.id),true,
+      "Only authorised classroom, administrator, learner or guardian sees grade");
+  }
+  for(const person of [teacherEnglish,unrelatedGuardian,foreignTeacher]){
+    assert.equal((await readIds(person.client,"assessment_results")).has(marked.id),false,
+      "Wrong subject, unlinked guardian and foreign school cannot read grades");
+  }
+
+  const rejectedForeignEdit=await teacherEnglish.client.from("assessment_results")
+    .update({score:0,marked_by:teacherEnglish.id})
+    .eq("id",marked.id).select("id");
+  assert.ok(rejectedForeignEdit.error||!rejectedForeignEdit.data?.length,
+    "Teacher for another subject cannot edit a grade");
+
+  const rejectedIdentityEdit=await teacherMath.client.from("assessment_results")
+    .update({student_user_id:foreignTeacher.id}).eq("id",marked.id).select("id");
+  assert.ok(rejectedIdentityEdit.error||!rejectedIdentityEdit.data?.length,
+    "Grade update must not allow learner reassignment");
+
+  const revisedMark=await ok(teacherMath.client.from("assessment_results")
+    .update({score:18,feedback:"Excellent progress.",marked_by:teacherMath.id})
+    .eq("id",marked.id).select("id,score").single(),
+    "Teacher corrects own previous assessment mark");
+  assert.equal(revisedMark.id,marked.id);
+  assert.equal(Number(revisedMark.score),18);
+  const familyMark=await ok(linkedGuardian.client.from("assessment_results")
+    .select("score,feedback").eq("id",marked.id).single(),
+    "Linked parent sees corrected assessment score");
+  assert.equal(Number(familyMark.score),18);
+  assert.equal(familyMark.feedback,"Excellent progress.");
 
   // Phase 10: test real JWT-backed lesson completion via PostgREST, not
   // postgres role impersonation. Only a learner may append, never reassign.
@@ -429,7 +514,7 @@ try {
   assert.equal((await readIds(linkedGuardian.client,"assignment_reviews")).has(review.id),false,
     "Revoked guardian must lose private grade feedback visibility");
 
-  console.log("PASS: seven JWT accounts; role-specific planning, coursework and grades, admin class/teacher/guardian management, role revocation and tenant RLS; synthetic fixtures cleaned.");
+  console.log("PASS: seven JWT accounts; teacher assessment and mark correction, coursework, admin school membership, parent revocation and tenant RLS; synthetic fixtures cleaned.");
 } catch (error) {
   testError=error;
 } finally {
