@@ -82,29 +82,17 @@ class WorkspaceUiInstrumentedTest {
     assertTrue("Signout callback must fire",requested.get())
   }
 
-  @Test fun dashboardTeacherLearnerParentCardsReallyOpenFullScreenDirectories() {
+  @Test fun administratorKeepsSecondaryDirectoriesUnderMoreMenu(){
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("admin"),onSignOut={}) }
     }
-    val destinations = listOf(
-      Triple("teachers","teacher","Teacher directory"),
-      Triple("learners","student","Learner register"),
-      Triple("parents","parent","Parent & guardian directory")
-    )
-    for ((card,directoryRole,heading) in destinations) {
-      // LazyColumn composes only visible rows. Scroll to an off-screen card
-      // before querying its semantics node (especially Parents, row two).
-      compose.onNodeWithTag("home-module-list")
-        .performScrollToNode(hasTestTag("home-tool-$card"))
-      compose.onNodeWithTag("home-tool-$card")
-        .assertIsDisplayed().performTouchInput { click() }
-      compose.onNodeWithTag("module-screen-$card").assertExists()
-      compose.onNodeWithTag("people-directory-$directoryRole").assertExists()
-      compose.onNodeWithText(heading).assertIsDisplayed()
-      compose.onNodeWithContentDescription("Back to dashboard")
-        .assertIsDisplayed().performTouchInput { click() }
-      compose.onNodeWithTag("module-screen-home").assertExists()
-    }
+    compose.onNodeWithTag("home-module-list")
+      .performScrollToNode(hasTestTag("home-tool-members"))
+    compose.onNodeWithTag("home-tool-members").assertExists()
+    compose.onNodeWithTag("home-tool-teachers").assertDoesNotExist()
+    compose.onNodeWithContentDescription("Open navigation menu").performClick()
+    compose.onNodeWithTag("drawer-more-tools").performClick()
+    compose.onNodeWithText("Teachers").assertExists()
   }
 
   @Test fun teacherToolOpensClassesInsteadOfRemainingOnDashboard() {
@@ -119,15 +107,20 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithContentDescription("Back to dashboard").assertExists()
   }
 
-  @Test fun learnerToolOpensOwnClassModule() {
+  @Test fun learnerHomeOpensCareerGuidanceAndKeepsResultsAndSchoolLife(){
     compose.setContent {
       ZimSchoolTheme { SchoolWorkspace(profile("student"),onSignOut={}) }
     }
+    for(card in listOf("results","school_life","careers")){
+      compose.onNodeWithTag("home-module-list")
+        .performScrollToNode(hasTestTag("home-tool-$card"))
+      compose.onNodeWithTag("home-tool-$card").assertExists()
+    }
     compose.onNodeWithTag("home-module-list")
-      .performScrollToNode(hasTestTag("home-tool-my_classes"))
-    compose.onNodeWithTag("home-tool-my_classes")
-      .assertIsDisplayed().performTouchInput { click() }
-    compose.onNodeWithTag("module-screen-my_classes").assertExists()
+      .performScrollToNode(hasTestTag("home-tool-careers"))
+    compose.onNodeWithTag("home-tool-careers").performTouchInput{click()}
+    compose.onNodeWithTag("module-screen-careers").assertExists()
+    compose.onNodeWithText("My future").assertExists()
   }
 
   @Test fun parentToolOpensLinkedLearnersModule() {
@@ -152,34 +145,15 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("staff-assessments-screen").assertExists()
   }
 
-  @Test fun teacherSearchOpensMatchingToolInsteadOfDecorativeCard(){
+  @Test fun teacherHasFewWorkingToolsInsteadOfSearchAndFilters(){
     compose.setContent{
       ZimSchoolTheme{SchoolWorkspace(profile("teacher"),onSignOut={})}
     }
     compose.onNodeWithTag("home-module-list")
-      .performScrollToNode(hasTestTag("home-module-search"))
-    compose.onNodeWithTag("home-module-search").performTextInput("notices")
-    compose.onNodeWithTag("home-module-list")
       .performScrollToNode(hasTestTag("home-tool-notices"))
-    compose.onNodeWithTag("home-tool-notices").assertIsDisplayed()
-      .performTouchInput{click()}
-    compose.onNodeWithTag("module-screen-notices").assertExists()
-  }
-
-  @Test fun unmatchedSearchShowsHelpfulEmptyStateAndClears(){
-    compose.setContent{
-      ZimSchoolTheme{SchoolWorkspace(profile("student"),onSignOut={})}
-    }
-    compose.onNodeWithTag("home-module-list")
-      .performScrollToNode(hasTestTag("home-module-search"))
-    compose.onNodeWithTag("home-module-search").performTextInput("no-tool-12345")
-    compose.onNodeWithTag("home-module-list")
-      .performScrollToNode(hasTestTag("no-module-match"))
-    compose.onNodeWithTag("no-module-match").assertExists()
-    compose.onNodeWithText("Clear tool search").performClick()
-    compose.onNodeWithTag("home-module-list")
-      .performScrollToNode(hasTestTag("home-tool-learning"))
-    compose.onNodeWithTag("home-tool-learning").assertExists()
+    compose.onNodeWithTag("home-tool-notices").assertExists()
+    compose.onNodeWithTag("home-module-search").assertDoesNotExist()
+    compose.onNodeWithTag("home-tool-users").assertDoesNotExist()
   }
 
   @Test fun teacherCanOpenLessonPlanning() {

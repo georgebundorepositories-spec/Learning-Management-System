@@ -60,6 +60,17 @@ class WorkspaceNavigationTest {
     }
   }
 
+  @Test fun roleFirstHomeHasFiveOrFewerAuthorisedChoices(){
+    for(role in listOf("admin","head","teacher","student","parent","bursar","clerk","unknown")){
+      val home=WorkspaceNavigation.homeTabs(role)
+      assertTrue(home.size<=5)
+      assertTrue(home.all{WorkspaceNavigation.canOpen(role,it)})
+    }
+    assertTrue(WorkspaceNavigation.homeTabs("student").contains(WorkspaceTab.RESULTS))
+    assertTrue(WorkspaceNavigation.homeTabs("student").contains(WorkspaceTab.CAREERS))
+    assertTrue(WorkspaceNavigation.homeTabs("student").contains(WorkspaceTab.SCHOOL_LIFE))
+    assertFalse(WorkspaceNavigation.canOpen("parent",WorkspaceTab.CAREERS))
+  }
   @Test fun unknownRoleCannotSeeOtherUsersRecords() {
     assertEquals(listOf(WorkspaceTab.HOME), WorkspaceNavigation.tabs("unrecognised"))
   }

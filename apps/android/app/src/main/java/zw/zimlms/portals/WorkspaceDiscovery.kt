@@ -12,11 +12,11 @@ enum class WorkspaceGroup(val label:String){
 
 fun workspaceGroup(tab:WorkspaceTab):WorkspaceGroup=when(tab){
  WorkspaceTab.LEARNERS,WorkspaceTab.TEACHERS,WorkspaceTab.PARENTS,
- WorkspaceTab.MEMBERS,WorkspaceTab.CHILDREN->WorkspaceGroup.PEOPLE
+ WorkspaceTab.MEMBERS,WorkspaceTab.CHILDREN,WorkspaceTab.SCHOOL_LIFE->WorkspaceGroup.PEOPLE
  WorkspaceTab.ASSIGNMENTS,WorkspaceTab.ATTENDANCE,WorkspaceTab.ASSESSMENTS,
  WorkspaceTab.PLANNING,WorkspaceTab.COURSEWORK,WorkspaceTab.MY_CLASSES,
  WorkspaceTab.CLASSES->WorkspaceGroup.TEACHING
- WorkspaceTab.LEARNING,WorkspaceTab.RESULTS->WorkspaceGroup.LEARNING
+ WorkspaceTab.LEARNING,WorkspaceTab.RESULTS,WorkspaceTab.CAREERS->WorkspaceGroup.LEARNING
  WorkspaceTab.CALENDAR,WorkspaceTab.NOTICES,WorkspaceTab.RESOURCES->WorkspaceGroup.COMMUNICATION
  WorkspaceTab.FEES->WorkspaceGroup.FINANCE
  WorkspaceTab.HOME->WorkspaceGroup.ALL
@@ -41,6 +41,8 @@ fun workspaceModuleDescription(tab:WorkspaceTab):String=when(tab){
  WorkspaceTab.RESOURCES -> "Teacher-shared materials"
  WorkspaceTab.RESULTS -> "Private assessment marks"
  WorkspaceTab.COURSEWORK -> "Class tasks and submissions"
+ WorkspaceTab.SCHOOL_LIFE -> "Approved school activities, club membership status and supervised discussions"
+ WorkspaceTab.CAREERS -> "Explore interests and possible careers"
  WorkspaceTab.HOME -> "Overview"
 }
 fun filterWorkspaceModules(

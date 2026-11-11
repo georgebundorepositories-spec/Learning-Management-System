@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit
 data class PortalNotice(
   val id:String, val title:String, val body:String, val audience:String, val createdAt:String
 )
+data class PortalSchoolEvent(
+  val id:String,val title:String,val startsAt:String,val location:String?,val category:String
+)
 data class PortalInvoice(
   val id:String, val description:String, val amount:String,
   val currency:String, val dueOn:String?, val status:String
@@ -64,6 +67,20 @@ class SchoolOperationsRepository(
     }
   }
 
+  /** Read only approved, published school activities. School RLS is authoritative. */
+  suspend fun publishedActivities(actor:CachedProfile):List<PortalSchoolEvent> {
+    require(actor.role=="student")
+    val rows=read(actor,"calendar_events?select=id,title,start_at,location,category" +
+      "&school_id=eq."+actor.schoolId+"&is_published=eq.true" +
+      "&approval_status=eq.approved&deleted_at=is.null" +
+      "&category=in.(sports,cultural,meeting)&order=start_at.asc&limit=40")
+    return rows.map { row ->
+      PortalSchoolEvent(row.getString("id"),row.getString("title"),
+        row.getString("start_at"),
+        row.optString("location").takeUnless{it.isBlank()||it=="null"},
+        row.getString("category"))
+    }
+  }
   suspend fun invoices(actor:CachedProfile):List<PortalInvoice> {
     require(actor.role in setOf("admin","head","bursar","parent","student"))
     val rows=read(actor,"fee_invoices?select=id,description,amount,currency,due_on,status" +

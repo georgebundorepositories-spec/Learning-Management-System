@@ -137,7 +137,7 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         line(5.5f,10f,5.5f,21f);line(5.5f,21f,18.5f,21f);line(18.5f,21f,18.5f,10f)
         rect(10f,14f,4f,7f)
       }
-      WorkspaceTab.LEARNERS,WorkspaceTab.CHILDREN,WorkspaceTab.PARENTS,WorkspaceTab.MEMBERS -> {
+      WorkspaceTab.LEARNERS,WorkspaceTab.CHILDREN,WorkspaceTab.PARENTS,WorkspaceTab.MEMBERS,WorkspaceTab.SCHOOL_LIFE -> {
         circle(12f,8f,3.3f);circle(4.7f,10f,2f);circle(19.3f,10f,2f)
         line(5f,20f,5f,18f);line(5f,18f,8f,16.2f)
         line(19f,20f,19f,18f);line(19f,18f,16f,16.2f)
@@ -154,7 +154,7 @@ fun WorkspaceIcon(tab: WorkspaceTab, modifier: Modifier=Modifier.size(23.dp),
         rect(3f,4f,18f,16f)
         line(3f,10f,21f,10f);line(9f,10f,9f,20f);line(15f,10f,15f,20f)
       }
-      WorkspaceTab.PLANNING,WorkspaceTab.LEARNING -> {
+      WorkspaceTab.PLANNING,WorkspaceTab.LEARNING,WorkspaceTab.CAREERS -> {
         line(12f,6f,12f,21f);line(12f,7f,8f,5f);line(8f,5f,3f,5f)
         line(3f,5f,3f,19f);line(3f,19f,8f,19f);line(8f,19f,12f,21f)
         line(12f,7f,16f,5f);line(16f,5f,21f,5f)

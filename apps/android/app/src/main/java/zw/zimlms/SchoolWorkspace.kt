@@ -194,17 +194,21 @@ fun SchoolWorkspace(
     return
   }
   val drawer = rememberDrawerState(DrawerValue.Closed)
+  var showMoreTools by rememberSaveable(profile.userId,profile.role){mutableStateOf(false)}
   val tabs = remember(profile.role) { WorkspaceNavigation.tabs(profile.role) }
   val mainTabs = remember(profile.role) {
-    when (profile.role) {
-      "admin", "head" -> listOf(WorkspaceTab.HOME, WorkspaceTab.LEARNERS,
-        WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
-      "teacher" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,
-        WorkspaceTab.LEARNING, WorkspaceTab.CALENDAR)
-      "parent" -> listOf(WorkspaceTab.HOME, WorkspaceTab.CHILDREN,WorkspaceTab.LEARNING)
-      "student" -> listOf(WorkspaceTab.HOME, WorkspaceTab.MY_CLASSES,WorkspaceTab.LEARNING)
-      else -> listOf(WorkspaceTab.HOME, WorkspaceTab.LEARNING)
-    }.filter { it in tabs }
+    val requested=when(profile.role){
+      "admin","head"->listOf(WorkspaceTab.HOME,WorkspaceTab.LEARNERS,
+        WorkspaceTab.LEARNING,WorkspaceTab.NOTICES)
+      "teacher"->listOf(WorkspaceTab.HOME,WorkspaceTab.MY_CLASSES,
+        WorkspaceTab.PLANNING,WorkspaceTab.ASSESSMENTS)
+      "parent"->listOf(WorkspaceTab.HOME,WorkspaceTab.CHILDREN,
+        WorkspaceTab.RESULTS,WorkspaceTab.NOTICES)
+      "student"->listOf(WorkspaceTab.HOME,WorkspaceTab.RESULTS,
+        WorkspaceTab.LEARNING,WorkspaceTab.NOTICES)
+      else->listOf(WorkspaceTab.HOME,WorkspaceTab.NOTICES)
+    }
+    requested.filter{it in tabs}
   }
   var selectedKey by rememberSaveable(profile.userId,profile.role) {
     mutableStateOf(WorkspaceTab.HOME.name)
@@ -280,7 +284,11 @@ fun SchoolWorkspace(
           Text("WORKSPACE",modifier=Modifier.padding(start=24.dp,top=22.dp,bottom=9.dp),
             style=MaterialTheme.typography.labelSmall,
             color=MaterialTheme.colorScheme.onSurfaceVariant)
-          tabs.forEach { tab ->
+          val featured=WorkspaceNavigation.homeTabs(profile.role)
+          val secondary=tabs.filter{it!=WorkspaceTab.HOME&&it !in featured}
+          val drawerTabs=listOf(WorkspaceTab.HOME)+featured+
+            (if(showMoreTools)secondary else emptyList())
+          drawerTabs.forEach { tab ->
             NavigationDrawerItem(
               label={ Text(tab.label,style=MaterialTheme.typography.labelLarge) },
               selected=tab==selected,
@@ -293,6 +301,12 @@ fun SchoolWorkspace(
               modifier=Modifier.padding(horizontal=12.dp,vertical=2.dp),
               shape=RoundedCornerShape(14.dp)
             )
+          }
+          if(secondary.isNotEmpty()){
+            TextButton(onClick={showMoreTools=!showMoreTools},
+              modifier=Modifier.padding(start=12.dp).testTag("drawer-more-tools")){
+              Text(if(showMoreTools)"Show fewer tools" else "More school tools")
+            }
           }
         }
         HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
@@ -450,6 +464,8 @@ fun SchoolWorkspace(
         WorkspaceTab.COURSEWORK -> SchoolCourseworkPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.MY_CLASSES -> MyClassesPage(profile,directory,Modifier.padding(insets))
         WorkspaceTab.CHILDREN -> FamilyPage(directory,Modifier.padding(insets))
+        WorkspaceTab.SCHOOL_LIFE -> StudentSchoolLifePage(profile,Modifier.padding(insets))
+        WorkspaceTab.CAREERS -> StudentCareerPage(profile,Modifier.padding(insets))
         }
       }
     }
@@ -467,20 +483,7 @@ private fun HomePage(
   onRefresh: ()->Unit,
   onSignOut: ()->Unit
 ) {
-  val admin=profile.role in setOf("admin","head")
-  var moduleQuery by rememberSaveable(profile.userId) { mutableStateOf("") }
-  var activeGroup by rememberSaveable(profile.userId) {
-    mutableStateOf(WorkspaceGroup.ALL.name)
-  }
-  val group=WorkspaceGroup.entries.firstOrNull{it.name==activeGroup}
-    ?:WorkspaceGroup.ALL
-  val modules=filterWorkspaceModules(profile.role,moduleQuery,group)
-  val availableGroups=remember(profile.role) {
-    WorkspaceGroup.entries.filter { candidate ->
-      candidate==WorkspaceGroup.ALL ||
-        filterWorkspaceModules(profile.role,group=candidate).isNotEmpty()
-    }
-  }
+  val modules=WorkspaceNavigation.homeTabs(profile.role)
   val date=remember { LocalDate.now(ZoneId.of("Africa/Harare"))
     .format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")) }
   // Calculate tile count using actual available width in dp, not pixels.
@@ -509,86 +512,17 @@ private fun HomePage(
           status,if(directory!=null) MaterialTheme.colorScheme.primary
           else MaterialTheme.colorScheme.tertiary)
       }
-      if (directory!=null) {
-        item(key="metrics") {
-          Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
-            SectionTitle("School at a glance","Authorised records in your school")
-            Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
-              MiniStat("Classes",directory.classes.size.toString(),"Academic groups",
-                Modifier.weight(1f))
-              MiniStat("Subjects",directory.subjects.size.toString(),"Available subjects",
-                Modifier.weight(1f))
-            }
-            if (admin) {
-              Row(horizontalArrangement=Arrangement.spacedBy(10.dp)) {
-                MiniStat("Learners",directory.peopleByRole("student").size.toString(),
-                  "Registered profiles",Modifier.weight(1f))
-                MiniStat("Teachers",directory.peopleByRole("teacher").size.toString(),
-                  "Teaching profiles",Modifier.weight(1f))
-              }
-            }
-          }
-        }
+      item(key="modules-header"){
+        SectionTitle("What would you like to do?",
+          "Choose one task. Other authorised tools are under the menu.")
       }
-      item(key="modules-header") {
-        SectionTitle("Find a school tool",
-          "Type a task or filter the tools available to your role")
-      }
-      item(key="module-search"){
-        Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
-          OutlinedTextField(
-            value=moduleQuery,
-            onValueChange={if(it.length<=80)moduleQuery=it},
-            singleLine=true,
-            label={Text("Search workspaces")},
-            placeholder={Text("e.g. lesson, marks or attendance")},
-            modifier=Modifier.fillMaxWidth().testTag("home-module-search")
-          )
-          LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){
-            items(availableGroups,key={it.name}){option->
-              FilterChip(
-                selected=option==group,
-                onClick={activeGroup=option.name},
-                label={Text(option.label)}
-              )
-            }
+      items(modules.chunked(columns),
+        key={row->row.joinToString("-"){it.name}}) { row ->
+        Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+          row.forEach { tab ->
+            DashboardModule(tab=tab,modifier=Modifier.weight(1f),onClick=onNavigate)
           }
-          Row(
-            modifier=Modifier.fillMaxWidth(),
-            verticalAlignment=Alignment.CenterVertically,
-            horizontalArrangement=Arrangement.SpaceBetween
-          ) {
-            Text("${modules.size} available ${if(modules.size==1) "tool" else "tools"}",
-              style=MaterialTheme.typography.labelMedium,
-              color=MaterialTheme.colorScheme.onSurfaceVariant)
-            if(moduleQuery.isNotBlank()||group!=WorkspaceGroup.ALL){
-              TextButton(onClick={moduleQuery="";activeGroup=WorkspaceGroup.ALL.name}){
-                Text("Clear tool search")
-              }
-            }
-          }
-        }
-      }
-      if(modules.isEmpty()){
-        item(key="empty-modules"){
-          Box(Modifier.testTag("no-module-match")){
-            StateNotice("No matching tools",
-              "Try a different keyword or clear your filters. Only school-authorised tools can be opened.")
-          }
-        }
-      }else{
-        items(modules.chunked(columns),
-          key={row->row.joinToString("-"){it.name}}) { row ->
-          Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
-            row.forEach { tab ->
-              DashboardModule(
-                tab=tab,
-                modifier=Modifier.weight(1f),
-                onClick=onNavigate
-              )
-            }
-            repeat(columns-row.size){Spacer(Modifier.weight(1f))}
-          }
+          repeat(columns-row.size){Spacer(Modifier.weight(1f))}
         }
       }
       item(key="refresh") {
