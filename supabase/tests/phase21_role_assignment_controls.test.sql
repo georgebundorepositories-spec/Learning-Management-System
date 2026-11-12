@@ -163,6 +163,8 @@ select is((select count(*) from public.student_guardian_link
  where guardian_user_id='d0000000-0000-4000-8000-000000000005'),0::bigint,
  'guardian instantly loses access after final revocation');
 reset role;
+-- Trusted SQL Editor statements have no signed-in actor JWT.
+select set_config('request.jwt.claim.sub','',true);
 
 select throws_ok(
  $role_statement$update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000001'$role_statement$,
