@@ -165,7 +165,7 @@ select is((select count(*) from public.student_guardian_link
 reset role;
 
 select throws_ok(
- $update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000001'$,
+ $role_statement$update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000001'$role_statement$,
  '23514',null,'the last active administrator cannot be demoted');
 
 select * from finish();
