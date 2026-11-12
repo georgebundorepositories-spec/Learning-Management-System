@@ -141,3 +141,35 @@ create trigger trg_users_designation_change
 before update of role on public.users for each row
 when (old.role is distinct from new.role)
 execute function app_private.control_user_designation();
+
+
+-- Active guardians and learners may see active links only. Same-school
+-- school administrators may inspect archived links to reverify consent.
+-- Neither a role change nor a JWT refresh restores an archived link.
+drop policy if exists guardians_read on public.student_guardian_link;
+create policy guardians_read on public.student_guardian_link
+for select to authenticated
+using (
+ (select app_private.current_school_id()) is not null
+ and (
+  (deleted_at is null and (
+    (guardian_user_id=(select auth.uid())
+     and (select app_private.is_guardian_of(student_user_id)))
+    or student_user_id=(select auth.uid())
+    or ((select app_private.is_school_admin())
+        and student_user_id in (
+          select id from public.users
+          where school_id=(select app_private.current_school_id())
+        ))
+  ))
+  or (
+    (select app_private.current_role())='admin'
+    and exists (
+      select 1 from public.users s
+      join public.users g on g.school_id=s.school_id
+      where s.id=student_user_id and g.id=guardian_user_id
+        and s.school_id=(select app_private.current_school_id())
+    )
+  )
+ )
+);

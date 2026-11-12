@@ -31,7 +31,7 @@ insert into public.staff_profiles(user_id) values ('d0000000-0000-4000-8000-0000
 insert into public.student_guardian_link(student_user_id,guardian_user_id)
 values('d0000000-0000-4000-8000-000000000003','d0000000-0000-4000-8000-000000000005');
 
-select plan(21);
+select plan(29);
 select ok(exists(select 1 from pg_trigger
  where tgrelid='public.users'::regclass and tgname='trg_users_designation_change'
  and not tgisinternal),'role update trigger installed');
@@ -118,8 +118,54 @@ select ok(exists(select 1 from public.staff_profiles
 select ok(exists(select 1 from public.student_guardian_link
  where guardian_user_id='d0000000-0000-4000-8000-000000000005' and deleted_at is not null),
  'old guardian links never follow a new designation');
+-- A role change must archive links permanently until newly verified by
+-- the school administrator. Ordinary parents can never select archived links.
+select lives_ok(
+ $update public.users set role='student' where id='d0000000-0000-4000-8000-000000000003'$,
+ 'trusted provisioning restores student role without prior class');
+select lives_ok(
+ $update public.users set role='parent' where id='d0000000-0000-4000-8000-000000000005'$,
+ 'trusted provisioning restores parent designation without family privileges');
+
+set local role authenticated;
+select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000005',true);
+select is((select count(*) from public.student_guardian_link
+ where guardian_user_id='d0000000-0000-4000-8000-000000000005'),0::bigint,
+ 'restored parent cannot see archived guardian link');
+select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000001',true);
+select is((select count(*) from public.student_guardian_link
+ where guardian_user_id='d0000000-0000-4000-8000-000000000005'),1::bigint,
+ 'same-school administrator may verify archived guardian link');
+with reverified as (
+ update public.student_guardian_link
+ set deleted_at=null,is_primary=false,can_pay_fees=false
+ where student_user_id='d0000000-0000-4000-8000-000000000003'
+ and guardian_user_id='d0000000-0000-4000-8000-000000000005'
+ and deleted_at is not null
+ returning id
+)
+select is((select count(*) from reverified),1::bigint,
+ 'administrator can explicitly restore reverified archived relationship');
+select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000005',true);
+select is((select count(*) from public.student_guardian_link
+ where guardian_user_id='d0000000-0000-4000-8000-000000000005'),1::bigint,
+ 'guardian sees only freshly authorised active relationship');
+select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000001',true);
+with revoked as (
+ delete from public.student_guardian_link
+ where guardian_user_id='d0000000-0000-4000-8000-000000000005'
+ returning id
+)
+select is((select count(*) from revoked),1::bigint,
+ 'school administrator can revoke restored relationship');
+select set_config('request.jwt.claim.sub','d0000000-0000-4000-8000-000000000005',true);
+select is((select count(*) from public.student_guardian_link
+ where guardian_user_id='d0000000-0000-4000-8000-000000000005'),0::bigint,
+ 'guardian instantly loses access after final revocation');
+reset role;
+
 select throws_ok(
- $$update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000001'$$,
+ $update public.users set role='teacher' where id='d0000000-0000-4000-8000-000000000001'$,
  '23514',null,'the last active administrator cannot be demoted');
 
 select * from finish();

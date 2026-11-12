@@ -88,16 +88,31 @@ export async function updateSchoolMembership(_prev:MemberActionState,form:FormDa
      .eq("role","parent").eq("is_active",true).is("deleted_at",null).maybeSingle()
    ]);
    if(!learner||!parent)return {status:"error",message:"The learner and guardian must both be active in the same school."};
+   // School admin may see a unique archived relationship only to reverify it.
+   // confirmedGuardianAction(form,"link") above requires consent verification.
    const {data:existing,error:readError}=await db.from("student_guardian_link")
-    .select("id").eq("student_user_id",studentId).eq("guardian_user_id",parentId)
-    .is("deleted_at",null).maybeSingle();
+    .select("id,deleted_at").eq("student_user_id",studentId)
+    .eq("guardian_user_id",parentId).maybeSingle();
    if(readError)return {status:"error",message:"Unable to check existing family links."};
-   if(existing)return {status:"success",message:"This parent is already linked to that learner."};
+   if(existing&&!existing.deleted_at)
+    return {status:"success",message:"This parent is already linked to that learner."};
+   if(existing?.deleted_at){
+    const {data:restored,error:restoreError}=await db.from("student_guardian_link")
+     .update({deleted_at:null,is_primary:false,can_pay_fees:false})
+     .eq("id",existing.id).not("deleted_at","is",null)
+     .select("id").maybeSingle();
+    if(restoreError||!restored)
+     return {status:"error",message:"Unable to restore the archived relationship. Recheck consent."};
+    revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/my-learning");
+    revalidatePath("/dashboard/progress");
+    return {status:"success",message:"Guardian link restored after verification. Fee-payment permission remains disabled until separately approved."};
+   }
    const {error}=await db.from("student_guardian_link").insert({
     student_user_id:studentId,guardian_user_id:parentId,
     is_primary:false,can_pay_fees:false
    });
-   if(error)return {status:"error",message:"Unable to link the accounts. Check for a previously deactivated relationship."};
+   if(error)return {status:"error",message:"Unable to create the verified guardian link."};
    revalidatePath("/dashboard/users");
    revalidatePath("/dashboard/my-learning");
    revalidatePath("/dashboard/progress");

@@ -500,13 +500,36 @@ try {
     "Former guardian must lose linked learner progress");
   await ok(server.from("users").update({role:"parent"}).eq("id",linkedGuardian.id),
     "Restore local parent designation");
+  // Restoring the role must NOT restore a revoked guardian relationship.
+  assert.equal((await lessonIds(linkedGuardian)).has(lessonId),false,
+    "Returning to parent role must not revive old learner progress access");
+  assert.equal((await readIds(linkedGuardian.client,"assignment_reviews")).has(review.id),false,
+    "Returning to parent role must not reveal archived marks");
+  assert.equal((await readIds(linkedGuardian.client,"student_guardian_link")).has(guardianLink),false,
+    "Parent cannot see an archived relationship");
+  const archivedLink=await ok(schoolAdmin.client.from("student_guardian_link")
+    .select("id,deleted_at").eq("id",guardianLink).single(),
+    "School administrator can check archived guardian relationship");
+  assert.ok(archivedLink.deleted_at,"Relationship was archived on role change");
+
+  // Once the school separately re-verifies guardian consent, the actual
+  // role-authorised admin must deliberately restore the existing unique link.
+  const restoredLink=await ok(schoolAdmin.client.from("student_guardian_link")
+    .update({deleted_at:null,is_primary:false,can_pay_fees:false})
+    .eq("id",guardianLink).not("deleted_at","is",null)
+    .select("id,is_primary,can_pay_fees").single(),
+    "School administrator explicitly re-authorises relationship");
+  assert.equal(restoredLink.id,guardianLink);
+  assert.equal(restoredLink.is_primary,false);
+  assert.equal(restoredLink.can_pay_fees,false);
   assert.equal((await lessonIds(linkedGuardian)).has(lessonId),true,
-    "Restored parent relationship still works before link removal");
-  // Revocation test: a previous guardian must immediately lose visibility
-  // after the school administrator removes the learner relationship.
+    "Explicit re-verification restores parent learning access");
+  assert.equal((await readIds(linkedGuardian.client,"assignment_reviews")).has(review.id),true,
+    "Reverified guardian can read authorised private feedback");
+
   const revokedOriginal=await ok(schoolAdmin.client.from("student_guardian_link")
     .delete().eq("id",guardianLink).select("id").single(),
-    "School administrator revokes existing parent-learner relationship");
+    "School administrator revokes reverified guardian relationship");
   assert.equal(revokedOriginal.id,guardianLink);
   cleanup.guardians=cleanup.guardians.filter(id=>id!==guardianLink);
   assert.equal((await lessonIds(linkedGuardian)).has(lessonId),false,
