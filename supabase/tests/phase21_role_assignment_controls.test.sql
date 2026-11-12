@@ -121,10 +121,10 @@ select ok(exists(select 1 from public.student_guardian_link
 -- A role change must archive links permanently until newly verified by
 -- the school administrator. Ordinary parents can never select archived links.
 select lives_ok(
- $update public.users set role='student' where id='d0000000-0000-4000-8000-000000000003'$,
+ $role_statement$update public.users set role='student' where id='d0000000-0000-4000-8000-000000000003'$role_statement$,
  'trusted provisioning restores student role without prior class');
 select lives_ok(
- $update public.users set role='parent' where id='d0000000-0000-4000-8000-000000000005'$,
+ $role_statement$update public.users set role='parent' where id='d0000000-0000-4000-8000-000000000005'$role_statement$,
  'trusted provisioning restores parent designation without family privileges');
 
 set local role authenticated;
