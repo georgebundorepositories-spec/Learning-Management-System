@@ -91,6 +91,12 @@ async function clearRecords() {
       .delete().in("student_user_id",cleanup.completionUsers);
     if(error)errors.push("lesson_completions: "+error.message);
   }
+  // Local Phase 21 role changes create audit_log FK rows.
+  // Remove only synthetic school audit events before deleting fixture users.
+  if (cleanup.schools.length) {
+    const {error}=await server.from("audit_log").delete().in("school_id",cleanup.schools);
+    if(error)errors.push("audit_log: "+error.message);
+  }
   for (const [table, key] of tableGroups) {
     if (!cleanup[key].length) continue;
     const {error} = await server.from(table).delete().in(
