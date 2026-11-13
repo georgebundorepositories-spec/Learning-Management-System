@@ -43,7 +43,7 @@ class AuthRepository(
     val refreshToken = session.optString("refresh_token")
     val expiresIn = session.optLong("expires_in", 0L)
     if (accessToken.isBlank() || refreshToken.isBlank() || expiresIn !in 60L..86400L) {
-      throw IOException("Server did not return a renewable session")
+      throw SchoolSignInFailure(SchoolSignInProblem.INVALID_SESSION)
     }
     // Set an early safety margin to avoid using expired JWTs on unstable networks.
     return AuthenticatedSchoolLogin(
@@ -54,11 +54,12 @@ class AuthRepository(
 
   private suspend fun loginCore(identifier: String, password: String):
     Pair<CachedProfile, JSONObject> = withContext(Dispatchers.IO) {
-    require(baseUrl.startsWith("https://") && publishableKey.startsWith("sb_publishable_")) {
-      "School connection is not configured"
+    if (!baseUrl.startsWith("https://") || !publishableKey.startsWith("sb_publishable_")) {
+      throw SchoolSignInFailure(SchoolSignInProblem.APP_NOT_CONFIGURED)
     }
-    require(password.isNotBlank()) { "Password is required" }
-    val login = LoginIdentifiers.parse(identifier)
+    if (password.isBlank()) throw SchoolSignInFailure(SchoolSignInProblem.INCORRECT_CREDENTIALS)
+    val login = try { LoginIdentifiers.parse(identifier) }
+      catch (_: IllegalArgumentException) { throw SchoolSignInFailure(SchoolSignInProblem.INVALID_IDENTIFIER) }
     val payload = JSONObject().put(login.key, login.value).put("password", password)
     val tokenRequest = Request.Builder()
       .url("${baseUrl.trimEnd('/')}/auth/v1/token?grant_type=password")
@@ -68,12 +69,24 @@ class AuthRepository(
       .build()
 
     val token: JSONObject = http.newCall(tokenRequest).execute().use { response ->
-      if (!response.isSuccessful) throw IOException("Unable to sign in; check your credentials or connection")
-      JSONObject(response.body?.string() ?: throw IOException("Empty authentication response"))
+      if (!response.isSuccessful) {
+        // Classify the server's response without ever displaying its raw text.
+        val raw = response.body?.string().orEmpty().lowercase()
+        val problem = when {
+          response.code == 429 -> SchoolSignInProblem.TOO_MANY_ATTEMPTS
+          raw.contains("email_not_confirmed") || raw.contains("email not confirmed") ->
+            SchoolSignInProblem.EMAIL_NOT_CONFIRMED
+          response.code in 400..403 -> SchoolSignInProblem.INCORRECT_CREDENTIALS
+          else -> SchoolSignInProblem.SERVER_UNAVAILABLE
+        }
+        throw SchoolSignInFailure(problem)
+      }
+      JSONObject(response.body?.string() ?: throw SchoolSignInFailure(SchoolSignInProblem.INVALID_SESSION))
     }
     val accessToken = token.optString("access_token")
     val userId = token.optJSONObject("user")?.optString("id").orEmpty()
-    if (accessToken.isBlank() || userId.isBlank()) throw IOException("Invalid login response")
+    if (accessToken.isBlank() || userId.isBlank())
+      throw SchoolSignInFailure(SchoolSignInProblem.INVALID_SESSION)
 
     // The JWT is checked by Supabase and the row is filtered by school-aware RLS.
     val profileRequest = Request.Builder()
@@ -82,12 +95,13 @@ class AuthRepository(
       .header("Authorization", "Bearer $accessToken")
       .get().build()
     val profile: JSONObject = http.newCall(profileRequest).execute().use { response ->
-      if (!response.isSuccessful) throw IOException("Cannot access school profile")
+      if (!response.isSuccessful) throw SchoolSignInFailure(SchoolSignInProblem.PROFILE_UNAVAILABLE)
       val records = JSONArray(response.body?.string() ?: "[]")
-      if (records.length() != 1) throw IOException("Account not yet registered with a school")
+      if (records.length() != 1) throw SchoolSignInFailure(SchoolSignInProblem.SCHOOL_NOT_LINKED)
       records.getJSONObject(0)
     }
-    if (!profile.optBoolean("is_active", false)) throw IOException("Account inactive")
+    if (!profile.optBoolean("is_active", false))
+      throw SchoolSignInFailure(SchoolSignInProblem.SCHOOL_INACTIVE)
     val authorized = CachedProfile(
       userId = userId,
       fullName = profile.getString("full_name"),

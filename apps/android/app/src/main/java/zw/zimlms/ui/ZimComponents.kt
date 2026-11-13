@@ -85,6 +85,7 @@ fun SectionTitle(title: String, caption: String?=null) {
 @Composable
 fun StateNotice(title: String, detail: String, accent: Color=MaterialTheme.colorScheme.primary) {
   Surface(color=MaterialTheme.colorScheme.surfaceVariant.copy(alpha=.65f),
+    contentColor=MaterialTheme.colorScheme.onSurface,
     shape=RoundedCornerShape(17.dp),modifier=Modifier.fillMaxWidth()) {
     Row(
       modifier=Modifier.padding(16.dp),

@@ -27,6 +27,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,6 +51,7 @@ import zw.zimlms.core.auth.OfflineLogin
 import zw.zimlms.core.auth.OfflineVault
 import zw.zimlms.core.auth.SessionBroker
 import zw.zimlms.core.auth.SessionVault
+import zw.zimlms.core.auth.safeSchoolSignInMessage
 import zw.zimlms.core.sync.CalendarSyncScheduler
 import zw.zimlms.learning.LessonSyncScheduler
 import zw.zimlms.ui.BrandMark
@@ -61,7 +63,13 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      ZimSchoolTheme { ZimSchoolApp() }
+      ZimSchoolTheme {
+        Surface(
+          modifier = Modifier.fillMaxSize(),
+          color = MaterialTheme.colorScheme.background,
+          contentColor = MaterialTheme.colorScheme.onBackground
+        ) { ZimSchoolApp() }
+      }
     }
   }
 }
@@ -260,7 +268,9 @@ private fun ZimSchoolApp() {
                     pendingSession=it
                     password=""
                   },
-                  onFailure={error=context.getString(R.string.login_failure)}
+                  onFailure={cause ->
+                    error=safeSchoolSignInMessage(cause)
+                  }
                 )
                 busy=false
               }
