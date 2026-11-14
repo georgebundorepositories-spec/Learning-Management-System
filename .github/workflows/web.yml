@@ -1,17 +1,20 @@
 name: Web authentication foundation
 on:
+  # Avoid duplicate push + pull_request builds for the same development commit.
+  # Main has push protection; active feature branches are checked through PRs.
   push:
-    paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
+    branches: [main]
+    paths: ['apps/web/**', 'apps/android/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
   pull_request:
     paths: ['apps/web/**', 'packages/shared-types/**', 'package.json', 'package-lock.json', '.github/workflows/web.yml']
 
 jobs:
   web:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
       - name: Install pinned dependencies

@@ -1,0 +1,112 @@
+name: ZimSchool Vercel verified preview deployment
+on:
+  workflow_dispatch:
+  push:
+    branches: [integration/zimschool-web-android-v05]
+    paths:
+      - 'apps/web/**'
+      - 'packages/shared-types/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/vercel-preview.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zimschool-vercel-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Deploy and verify fictional preview
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Check deployment credentials
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        id: credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${VERCEL_TOKEN}" || -z "${VERCEL_ORG_ID}" || -z "${VERCEL_PROJECT_ID}" ]]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Preview deployment not started"
+              echo "Configure VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID as repository Actions secrets."
+              echo "In the Vercel project, set **Root Directory** to `apps/web` and Framework to Next.js."
+              echo "Nothing has been deployed by this workflow."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # A skipped deployment must never show a misleading green release check.
+      - name: Require deployment credentials before claiming a preview
+        if: steps.credentials.outputs.ready != 'true'
+        shell: bash
+        run: |
+          echo "::error::No Vercel preview was deployed. Configure VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID in repository secrets."
+          exit 1
+
+      - name: Install Vercel CLI
+        if: steps.credentials.outputs.ready == 'true'
+        run: npm install --global vercel@latest
+
+      - name: Pull verified Vercel preview environment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        if: steps.credentials.outputs.ready == 'true'
+        working-directory: apps/web
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+
+      - name: Build Next.js preview using project settings
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        if: steps.credentials.outputs.ready == 'true'
+        working-directory: apps/web
+        run: vercel build --token="$VERCEL_TOKEN"
+
+      - name: Deploy preview and smoke test public fictional pages
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        if: steps.credentials.outputs.ready == 'true'
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          deploy_url="$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")"
+          if [[ "$deploy_url" != https://* ]]; then
+            echo "Vercel did not return an HTTPS deployment URL" >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error --location --retry 3 --max-time 35 \
+            "$deploy_url/demo" > /tmp/zimschool-demo.html
+          grep -q 'fictional demonstration' /tmp/zimschool-demo.html
+          curl --fail --silent --show-error --location --retry 3 --max-time 35 \
+            "$deploy_url/login" > /tmp/zimschool-login.html
+          test -s /tmp/zimschool-login.html
+          curl --fail --silent --show-error --location --retry 3 --max-time 35 \
+            "$deploy_url/accept-invite" > /tmp/zimschool-invite.html
+          grep -q 'Accept your school invitation' /tmp/zimschool-invite.html
+          {
+            echo "### Verified ZimSchool preview"
+            echo "Deployment: $deploy_url"
+            echo "Public fictional demo: $deploy_url/demo"
+            echo "Login route: $deploy_url/login"
+            echo "Authenticated live role testing, real school onboarding and production promotion remain gated."
+          } >> "$GITHUB_STEP_SUMMARY"

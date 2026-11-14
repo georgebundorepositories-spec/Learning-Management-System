@@ -92,13 +92,77 @@ class AuthRepositoryTest {
     }
   }
 
+  @Test fun wrongPasswordGetsCredentialsMessageNotMisleadingConnectionMessage() = runBlocking {
+    val http = OkHttpClient.Builder().addInterceptor { chain ->
+      response(chain.request(), 400, """{"error_code":"invalid_credentials","msg":"Invalid login credentials"}""")
+    }.build()
+    val repo = AuthRepository("https://test.example.invalid","sb_publishable_ci_key",http)
+    try {
+      repo.login("teacher@example.invalid","incorrect")
+      fail("A rejected password must not open school access")
+    } catch (e: SchoolSignInFailure) {
+      assertEquals(SchoolSignInProblem.INCORRECT_CREDENTIALS,e.problem)
+      assertFalse(safeSchoolSignInMessage(e).contains("connection",ignoreCase=true))
+    }
+  }
+
+  @Test fun confirmedAuthWithoutSchoolShowsActionableEnrolmentMessage() = runBlocking {
+    val http = OkHttpClient.Builder().addInterceptor { chain ->
+      val req=chain.request()
+      when (req.url.encodedPath) {
+        "/auth/v1/token" ->
+          response(req,200,"""{"access_token":"jwt-for-test","user":{"id":"$profileId"}}""")
+        "/rest/v1/users" -> response(req,200,"[]")
+        else -> response(req,404,"{}")
+      }
+    }.build()
+    val repo=AuthRepository("https://test.example.invalid","sb_publishable_ci_key",http)
+    try {
+      repo.login("teacher@example.invalid","correct")
+      fail("Orphaned Auth identities must not get a role")
+    } catch (e: SchoolSignInFailure) {
+      assertEquals(SchoolSignInProblem.SCHOOL_NOT_LINKED,e.problem)
+      val message=safeSchoolSignInMessage(e)
+      assertTrue(message.contains("Password accepted"))
+      assertTrue(message.contains("administrator"))
+      assertTrue(message.contains("school and role"))
+    }
+  }
+
+  @Test fun serverOutageAndRateLimitsHaveDifferentGuidance() = runBlocking {
+    for ((status,expected) in listOf(
+      429 to SchoolSignInProblem.TOO_MANY_ATTEMPTS,
+      503 to SchoolSignInProblem.SERVER_UNAVAILABLE,
+      400 to SchoolSignInProblem.EMAIL_NOT_CONFIRMED
+    )) {
+      val http=OkHttpClient.Builder().addInterceptor { chain ->
+        response(chain.request(),status,
+          if(status==400) """{"error_code":"email_not_confirmed"}""" else "{}")
+      }.build()
+      val repo=AuthRepository("https://test.example.invalid","sb_publishable_ci_key",http)
+      try {
+        repo.login("teacher@example.invalid","test")
+        fail("A failed Auth response must not sign in")
+      } catch (e: SchoolSignInFailure) {
+        assertEquals(expected,e.problem)
+      }
+    }
+  }
+
+  @Test fun unexpectedServerErrorsNeverLeakRawExceptionToUser() {
+    val msg=safeSchoolSignInMessage(IllegalStateException("token=super-secret"))
+    assertFalse(msg.contains("super-secret"))
+    assertTrue(msg.contains("Could not sign in securely"))
+  }
+
   @Test fun invalidPublicUrlCannotBeUsedForCredentials() = runBlocking {
     val repo = AuthRepository("http://insecure.example.invalid", "sb_publishable_ci_key")
     try {
       repo.login("teacher@example.invalid", "PasswordForCI!")
       fail("TLS must be enforced")
-    } catch (_: IllegalArgumentException) {
-      // Expected: auth credentials are never sent over cleartext HTTP.
+    } catch (error: SchoolSignInFailure) {
+      assertEquals(SchoolSignInProblem.APP_NOT_CONFIGURED, error.problem)
+      // Auth credentials are never sent over cleartext HTTP.
     }
   }
 }

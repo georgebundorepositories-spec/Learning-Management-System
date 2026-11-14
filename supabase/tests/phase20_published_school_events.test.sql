@@ -1,0 +1,15 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+set local search_path=public,extensions,pg_catalog;
+select plan(9);
+select ok((select relrowsecurity from pg_class where oid='public.calendar_events'::regclass),'calendar RLS enabled');
+select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='calendar_events' and policyname='calendar_read' and cmd='SELECT' and roles::text like '%authenticated%'),'authorised reader policy installed');
+select ok(exists(select 1 from pg_policies where tablename='calendar_events' and policyname='calendar_read' and qual like '%current_school_id%'),'same school only');
+select ok(exists(select 1 from pg_policies where tablename='calendar_events' and policyname='calendar_read' and qual like '%is_published%' and qual like '%approved%'),'school publications only');
+select ok(exists(select 1 from pg_policies where tablename='calendar_events' and policyname='calendar_read' and qual like '%students%' and qual like '%parents%' and qual like '%visibility%'),'role visibility enforced');
+select ok(exists(select 1 from pg_policies where tablename='calendar_events' and policyname='calendar_read' and qual like '%audience_roles%' and qual like '%audience_class_ids%'),'restricted audiences checked');
+select ok(exists(select 1 from pg_policies where tablename='calendar_events' and policyname='calendar_read' and qual like '%is_school_admin%' and qual like '%created_by%'),'original admin and author reads preserved');
+select ok(not has_table_privilege('anon','public.calendar_events','SELECT'),'anonymous event access denied');
+select is((select count(*)::int from pg_policies where schemaname='public' and tablename='calendar_events' and cmd='SELECT'),1,'no additive overlapping select policies');
+select * from finish();
+rollback;

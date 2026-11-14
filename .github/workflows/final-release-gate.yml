@@ -1,0 +1,77 @@
+name: ZimSchool FINAL release gate (fail-closed)
+on:
+  workflow_dispatch:
+    inputs:
+      release_target:
+        description: 'Select the scope to inspect; this does not publish or merge anything'
+        type: choice
+        options: [full, limited-pilot]
+        default: full
+        required: true
+  push:
+    branches: [integration/zimschool-web-android-v05]
+    paths:
+      - 'scripts/release-readiness-*.mjs'
+      - '.github/workflows/final-release-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  final-readiness:
+    name: Inspect public hosting, signing and release evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      RELEASE_TARGET: ${{ inputs.release_target || 'full' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Test fail-closed release rules
+        run: node --test scripts/release-readiness.test.mjs
+      - name: Detect deployment and signing configuration (values never printed)
+        shell: bash
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+          for item in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID ANDROID_KEYSTORE_BASE64 ANDROID_STORE_PASSWORD ANDROID_KEY_PASSWORD ANDROID_KEY_ALIAS; do
+            if [ -n "${!item}" ]; then
+              echo "GATE_HAS_${item}=true" >> "${GITHUB_ENV}"
+            else
+              echo "GATE_HAS_${item}=false" >> "${GITHUB_ENV}"
+            fi
+          done
+      - name: Audit external go-live requirements (never deploys or changes accounts)
+        env:
+          ZIMSCHOOL_WEB_ORIGIN: ${{ vars.ZIMSCHOOL_WEB_ORIGIN }}
+          ZIMSCHOOL_EVIDENCE_AUTH_PASSWORD_PROTECTION: ${{ vars.ZIMSCHOOL_EVIDENCE_AUTH_PASSWORD_PROTECTION }}
+          ZIMSCHOOL_EVIDENCE_AUTH_INVITE_DELIVERY: ${{ vars.ZIMSCHOOL_EVIDENCE_AUTH_INVITE_DELIVERY }}
+          ZIMSCHOOL_EVIDENCE_SCHOOL_ROLES: ${{ vars.ZIMSCHOOL_EVIDENCE_SCHOOL_ROLES }}
+          ZIMSCHOOL_EVIDENCE_CHILD_DATA_CONSENT: ${{ vars.ZIMSCHOOL_EVIDENCE_CHILD_DATA_CONSENT }}
+          ZIMSCHOOL_EVIDENCE_BACKUP_RESTORE: ${{ vars.ZIMSCHOOL_EVIDENCE_BACKUP_RESTORE }}
+          ZIMSCHOOL_EVIDENCE_OFFLINE_72H: ${{ vars.ZIMSCHOOL_EVIDENCE_OFFLINE_72H }}
+          ZIMSCHOOL_EVIDENCE_PHYSICAL_ANDROID: ${{ vars.ZIMSCHOOL_EVIDENCE_PHYSICAL_ANDROID }}
+          ZIMSCHOOL_EVIDENCE_SIGNED_ANDROID: ${{ vars.ZIMSCHOOL_EVIDENCE_SIGNED_ANDROID }}
+          ZIMSCHOOL_EVIDENCE_ACCESSIBILITY: ${{ vars.ZIMSCHOOL_EVIDENCE_ACCESSIBILITY }}
+          ZIMSCHOOL_EVIDENCE_OWNER_APPROVAL: ${{ vars.ZIMSCHOOL_EVIDENCE_OWNER_APPROVAL }}
+          ZIMSCHOOL_EVIDENCE_PAYMENT_PROVIDER: ${{ vars.ZIMSCHOOL_EVIDENCE_PAYMENT_PROVIDER }}
+          ZIMSCHOOL_EVIDENCE_MESSAGING_PROVIDER: ${{ vars.ZIMSCHOOL_EVIDENCE_MESSAGING_PROVIDER }}
+          ZIMSCHOOL_EVIDENCE_USSD_PROVIDER: ${{ vars.ZIMSCHOOL_EVIDENCE_USSD_PROVIDER }}
+        run: node scripts/release-readiness.mjs
+      - name: Upload exact technical gate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zimschool-final-release-evidence
+          path: release-evidence/readiness.json
+          if-no-files-found: warn
+          retention-days: 30

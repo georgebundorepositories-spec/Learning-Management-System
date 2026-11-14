@@ -1,0 +1,1 @@
+create index if not exists school_assignments_class_fk_idx on public.school_assignments(class_id);

@@ -1,0 +1,33 @@
+name: Deployed Phase 1 API access smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: ['feature/phase1-offline-sync']
+    paths: ['supabase/functions/**', 'supabase/migrations/**', '.github/workflows/sync-deployment-smoke.yml']
+  pull_request:
+    paths: ['supabase/functions/**', 'supabase/migrations/**', '.github/workflows/sync-deployment-smoke.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  unauthorized-rejection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Confirm the deployed API denies calls without user JWT
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://mezbtcdkmvtkjxdmmhbw.supabase.co/functions/v1'
+          for function_name in sync-push sync-pull; do
+            code=$(curl --silent --show-error --location --connect-timeout 10 --max-time 20 \
+              --output /tmp/response_body --write-out '%{http_code}' \
+              "$base/$function_name")
+            echo "$function_name unauthenticated HTTP status: $code"
+            if [[ "$code" != '401' ]]; then
+              echo "::error::Unauthenticated $function_name must reject access with HTTP 401"
+              exit 1
+            fi
+          done
+          echo "PASS: both deployed functions reject unauthenticated traffic"

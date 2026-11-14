@@ -1,64 +1,61 @@
 # ZimSchool LMS
 
-Offline-first school management and learning platform for Zimbabwean schools, governed by **MASTER PROMPT v2.0 — ZimSchool LMS**.
+A school-management and learning system for Zimbabwean schools. **The development preview is functioning and CI-tested; the full production launch has NOT been approved.** The project includes a Next.js web portal, Kotlin/Compose Android app and a Supabase PostgreSQL backend. Public registration is deliberately disabled.
 
-## Current build status — Phase 0 foundations plus staged Phase 1 backend and fictional web preview
-- Supabase project: [ZimSchool LMS](https://supabase.com/dashboard/project/mezbtcdkmvtkjxdmmhbw) in **LMS Omni** organisation.
-- Applied foundation migrations: shared primitives, identity model and tenant relationship hardening.
-- 17 public application tables have RLS policies and version triggers. Two fictional `is_demo=true` schools are seeded in LMS Omni, with academic/class/subject records but no personal identities.
-- Next.js web app: phone/email login, invite-only registration, protected dashboard, sign-out, three-language UI foundation.
-- Kotlin/Compose Android app: online phone/email login and Keystore-encrypted offline PIN; Android 8 and Android 10 emulator tests passed.
-- GitHub Actions: [web checks](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/web.yml), [database/RLS](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/supabase.yml), [Android debug APK](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/android.yml).
-- Phase 1 calendar synchronisation backend is live in Supabase; further offline engine work lives in [draft PR #1](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/1), not in `main`.
-- The public fictional school preview is in `main`: `/demo` is the homepage. Web CI tested the actual route, but a Vercel deployment URL has not been verified.
-- Real hosted user sign-in, 72-hour two-device offline convergence and the complete Phase 1 gate are outstanding.
+## Current verified status — 11 November 2026
 
-## Local web quickstart
-Prerequisites: Node.js 22 and npm 10.
+- **Android v0.17.0:** Debug APK [artifact](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992470/artifacts/13852491741), installable alongside older previews. It is **not** a persistently owner-signed production release.
+- **Web:** Secure role-specific server pages, a read-only fictional `/demo`, `/login`, `/dashboard` and email invitation acceptance code. A public Vercel deployment URL is **not yet verified**.
+- **Database:** Hosted Supabase project [ZimSchool LMS](https://supabase.com/dashboard/project/mezbtcdkmvtkjxdmmhbw), 29 public application tables, all with row-level security. At last check only **one active administrator**; no real active teachers, learners or parents have been provisioned.
+- **Full-feature status:** Payments, USSD, SMS/push, all-entity offline sync, restore drills, real-device 72-hour convergence and live school onboarding are not production-verified. Calendar-only sync endpoints are deployed; private grades, attendance, invoices, family records and plans currently require an online authorisation check.
+- **Supabase security advisor:** Leaked-password protection is disabled; enable in Auth settings before real user onboarding.
+- **Final release gate:** [GitHub Actions](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/workflows/final-release-gate.yml) fails closed when necessary public hosting, permanent Android signing, external provider and school privacy/testing evidence are absent. A red release gate is not the same as a failing application build.
 
+## Verified code CI
+
+The latest Android v0.17 feature revision passed all four workflows:
+- [Android build, unit tests, API 26/29 emulators and package audit](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992470).
+- [Supabase local migrations, pgTAP, and authenticated seven-account school permissions](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992462).
+- [Next.js build, tests, and fictional web-demo HTTP smoke](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992653).
+- [Hosted sync endpoint unauthenticated rejection](https://github.com/georgebundorepositories-spec/Learning-Management-System/actions/runs/43014992493). This does NOT verify a hosted website.
+
+Development code is maintained on `integration/zimschool-web-android-v05` in [draft PR #10](https://github.com/georgebundorepositories-spec/Learning-Management-System/pull/10), awaiting a release review. Do not confuse a draft PR, a compiled preview APK or a Supabase API test with a production launch.
+
+## Capabilities implemented in the development branch
+
+**Web:** School-specific dashboards and identities, staff/teacher/learner/guardian roles, attendance, class and subject assignments, calendar, coursework, assessment scores, lesson preparation, curriculum lessons and progress, notices, school resources, invoice viewing, administrator invitations and guardian linking, and fictional demonstration pages.
+
+**Android:** Verified online login, encrypted device PIN, 75 bundled curriculum lessons and local progress, calendar-only offline synchronization, staff attendance and lesson planning, school member and class assignments, classroom assessments/marks and teacher feedback, private learner/parent results, notices, coursework and resource/invoice viewing. Access to current private school data is online and governed by Supabase RLS.
+
+**Backend:** Supabase multi-tenant tables with RLS, unexposed private security helpers, authenticated Edge calendar sync functions and user invitation code. Never embed service-role keys in a client application.
+
+## Running the code locally
+
+Web (Node.js 22, npm 10):
 ```bash
 npm ci
-# Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY to apps/web/.env.local
+# Configure ignored apps/web/.env.local with NEXT_PUBLIC_SUPABASE_URL
+# and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 npm run dev --workspace=@zimschool/web
 ```
 
-Visit http://localhost:3000/demo for the fictional school preview. For secure login, open http://localhost:3000/login and sign in with an administrator-provisioned account.
-
-## Local database testing
-Prerequisites: Supabase CLI and Docker.
-
+Database (Supabase CLI and Docker):
 ```bash
 supabase start
 supabase db reset
 supabase test db
 ```
+**Never run `supabase db reset` on the hosted production project.**
 
-No public registration is enabled. Use the [ops runbook](docs/ops-runbook.md) for first-school setup.
-
-## Android development
-Set `ZIMLMS_SUPABASE_URL` and `ZIMLMS_SUPABASE_PUBLISHABLE_KEY` in your local environment. From `apps/android` run:
-
+Android (Java 17, Android SDK 35, Gradle 8.9):
 ```bash
+cd apps/android
 gradle :app:testDebugUnitTest :app:assembleDebug
 ```
+Set `ZIMLMS_SUPABASE_URL` and `ZIMLMS_SUPABASE_PUBLISHABLE_KEY` locally. Keep all privileged API keys and Android keystore passwords outside Git.
 
-GitHub Actions also publishes the compiled debug APK under the Android workflow artifacts.
+## Release and safety
 
-## Build phases
-0. Foundations and secure login — **in progress**.
-1. Offline sync and convergence — partial backend deployed; remainder in draft development, must pass the 72-hour two-device test.
-2. Calendar and sports.
-3. Teacher, student and parent portals.
-4. Payments, USSD and receipts.
-5. Messaging and alerts.
-6. Content and reports.
-7. Administration, localisation, performance and accessibility.
-8. Hardening, acceptance tests and documentation.
+See the [final-phase release runbook](docs/final-phase-release-runbook.md), [current deployment status](DEPLOYMENT_STATUS.md), [operations](docs/ops-runbook.md), [security](docs/security.md) and [release acceptance gates](docs/phase8-release-gates.md).
 
-See [deployment status](DEPLOYMENT_STATUS.md), [public preview release](docs/public-demo-release.md), [current Phase 0 status](docs/phase0-status.md), [architecture](docs/architecture.md), [security baseline](docs/security.md), and [operations](docs/ops-runbook.md).
-
-## Security
-Do not commit secret keys, administrator passwords, student records or personal data. Use the public publishable key only in client apps. Each newly exposed table requires school-scoped RLS and negative access tests. Offline state never proves cloud authorisation.
-
-## Licence
-The specification calls for AGPL-3.0 with a separately drafted commercial exception for payments/messaging adapter interfaces. Licence wording and exceptions require review before external distribution.
+**No real children's personal records, live funds, bulk messages or automated production publishing before documented school-authorised consent, live testing and owner approval.**

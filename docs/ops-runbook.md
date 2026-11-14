@@ -31,7 +31,7 @@ For a new *empty* school, configure secure, ignored environment variables:
 
 Run `node scripts/create-admin.mjs`. This privileged command must run only in a trusted administrative environment and never in a browser, APK or public CI job. It creates one school and a phone-authenticated administrator.
 
-Note: Phone/password login requires enabling **Phone** on the hosted Supabase Auth Providers page. This has not yet been verified on the hosted project. Email/password sign-in can be used for a provisioned admin meanwhile. The administration and bulk-invite UI are not yet implemented. Administrator provisioning is a gated operational action.
+Note: Phone/password login requires enabling **Phone** on the hosted Supabase Auth Providers page. This has not yet been verified on the hosted project. Email/password sign-in can be used for a provisioned admin meanwhile. **The development branch now includes the administrator invitation and membership manager UI. However the hosted invite function is still v1 and end-to-end email onboarding is NOT operationally verified until Vercel URL, redirect allow-list and SMTP are configured.** Administrator provisioning is a gated operational action. See [final release runbook](final-phase-release-runbook.md).
 
 ## Android Phase 0
 Set `ZIMLMS_SUPABASE_URL` and `ZIMLMS_SUPABASE_PUBLISHABLE_KEY` locally.
