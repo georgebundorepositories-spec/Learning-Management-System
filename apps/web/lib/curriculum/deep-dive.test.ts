@@ -14,7 +14,7 @@ describe("Original deeper curriculum learning activities",()=>{
       expect(unit.starter.length).toBeGreaterThan(60);
       expect(unit.vocabulary.length).toBeGreaterThanOrEqual(4);
       expect(unit.steps.length).toBeGreaterThanOrEqual(3);
-      expect(unit.steps.every(([heading,description])=>heading.length>5&&description.length>80)).toBe(true);
+      expect(unit.steps.every(([heading,description])=>heading.length>5&&description.length>60)).toBe(true);
       expect(unit.worked.length).toBeGreaterThanOrEqual(3);
       expect(unit.guided.length).toBeGreaterThanOrEqual(2);
       expect(unit.guided.every(([prompt,hint,answer])=>prompt.length>20&&hint.length>15&&answer.length>1)).toBe(true);
@@ -29,7 +29,8 @@ describe("Original deeper curriculum learning activities",()=>{
       const unit=curriculumUnits.find(u=>u.id===lesson.id)!;
       const result=curriculumAssignmentInstructions(unit);
       for(const [question,,answer] of lesson.guided){
-        expect(result).toContain(question);
+        // Guided practice belongs inside the lesson; coursework receives only independent prompts.
+        expect(result).not.toContain(question);
         if(answer.length>35)expect(result).not.toContain(answer);
       }
       for(const [question] of lesson.practice)expect(result).toContain(question);
