@@ -2,6 +2,7 @@ import Link from "next/link";
 import {notFound,redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import {curriculumUnits,curriculumGrades,curriculumSubjects,curriculumVersion,canonicalGrade} from "@/lib/curriculum/catalog";
+import {deepDiveCount,getDeepDive} from "@/lib/curriculum/deep-dive";
 
 export const dynamic="force-dynamic";
 
@@ -42,7 +43,7 @@ export default async function CurriculumCatalogue({
  <div className="dash-wrap">
   <p className="eyebrow">2024–2030 HERITAGE-BASED CURRICULUM</p>
   <h1>{profile.role==="student"?"My syllabus":"Lessons, exercises & assignments"}</h1>
-  <p className="subhead">{curriculumUnits.length} original learning units for ECD A to Grade 7, organised using the supplied MoPSE syllabi. Each includes a lesson, worked example, exercises and an assignment template.</p>
+  <p className="subhead">{curriculumUnits.length} original learning units for ECD A to Grade 7 with {deepDiveCount} expanded lessons featuring vocabulary, staged explanations, extra worked methods, guided questions and practical tasks. The catalogue follows its existing syllabus references; new textbook alignment is pending source review.</p>
   {profile.role==="student"?<p className="notice-panel">
    {myGrade?"Showing lessons for "+myGrade+" first. You can change the grade to review another level.":
     "Your school has not yet assigned a grade to your account. Choose your class level below or ask the school office."}
@@ -69,6 +70,7 @@ export default async function CurriculumCatalogue({
       <span>{unit.level} · {unit.subject}</span>
       <strong>{unit.title}</strong>
       <span>{unit.topic} · {unit.durationMinutes} min</span>
+      {getDeepDive(unit.id)?<span style={{color:"var(--green)",fontWeight:700}}>Expanded lesson · extra practice & worked steps</span>:null}
       <p>{unit.objective}</p>
       <span style={{fontWeight:700,color:"var(--green)"}}>Open lesson and exercises →</span>
     </Link>)}

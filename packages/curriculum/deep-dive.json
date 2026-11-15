@@ -1,0 +1,916 @@
+{
+  "version": "2026-11-16.1",
+  "notice": "Original enriched activities expand existing ZimSchool catalogue. The newly uploaded Syllabi.zip and Textbooks.zip have not yet been ingested or verified; do not claim alignment with those files.",
+  "units": [
+    {
+      "id": "ecd-a-english-listening-instructions",
+      "starter": "Play the listening game: one adult says 'touch your shoulders', pauses, and observes. Now give two safe actions. Which one did you hear first?",
+      "vocabulary": [
+        [
+          "instruction",
+          "Words or signs telling us what to do"
+        ],
+        [
+          "sequence",
+          "The order in which actions happen"
+        ],
+        [
+          "first",
+          "The action that starts"
+        ],
+        [
+          "next",
+          "The action that follows"
+        ]
+      ],
+      "steps": [
+        [
+          "Prepare to listen",
+          "Turn towards the speaker or watch the signer. Stop other activities. It is fine to ask for the instruction to be repeated."
+        ],
+        [
+          "Find the order",
+          "Listen for 'first', 'then' or 'after'. In 'stand and clap', standing comes before clapping. Point to each action as you hear it."
+        ],
+        [
+          "Do and describe",
+          "Carry out the two safe actions. Then say or sign what happened first and what happened next. A partner checks the order kindly."
+        ]
+      ],
+      "worked": [
+        "The instruction is 'Touch your head and then wave'.",
+        "Hear the first action: touch your head. Do it before moving to the second action.",
+        "Hear the next action: wave. The sequence is now complete."
+      ],
+      "guided": [
+        [
+          "An adult says 'Sit down, then clap once'. Which action is first?",
+          "Listen for the word 'then'.",
+          "Sit down."
+        ],
+        [
+          "Why might you ask a teacher to repeat an instruction?",
+          "Think about what to do when you miss a word.",
+          "To understand the action and its order safely."
+        ]
+      ],
+      "practice": [
+        [
+          "Draw or act three different pairs of safe classroom actions.",
+          "Learner shows two distinct actions in the correct sequence for each pair."
+        ],
+        [
+          "Tell a partner how to put a pencil in a box and close the box.",
+          "Put the pencil in the box first, then close the box."
+        ]
+      ],
+      "misconception": "A two-part instruction is not two actions done at the same time. Listen for the order; one comes before the other.",
+      "application": "Create a three-minute 'teacher says' game with cards for safe actions. Include a pause after the first action.",
+      "recap": [
+        "I can listen or watch carefully.",
+        "I can do the first action before the next.",
+        "I can politely ask for a repeat."
+      ]
+    },
+    {
+      "id": "ecd-b-english-language-sounds-around-us",
+      "starter": "Close your eyes briefly while a teacher taps a desk and then shakes a small container. Describe what is different about the sounds without guessing too quickly.",
+      "vocabulary": [
+        [
+          "sound source",
+          "The thing that makes a sound"
+        ],
+        [
+          "loud",
+          "A sound with strong volume"
+        ],
+        [
+          "soft",
+          "A quiet sound"
+        ],
+        [
+          "pattern",
+          "A repeated order of sounds"
+        ]
+      ],
+      "steps": [
+        [
+          "Listen before naming",
+          "Sound may come from hands, an object, an animal or a vehicle. Wait until the sound is finished before you decide on its source."
+        ],
+        [
+          "Compare two sounds",
+          "One sound can be high or low, long or short, loud or soft. Name the difference without needing to know the source yet."
+        ],
+        [
+          "Match sounds and sources",
+          "Match a clap to hands or a ring to a bell. Use pictures, real objects or signs so that everyone can participate."
+        ]
+      ],
+      "worked": [
+        "A teacher makes one short clap and rings a small bell.",
+        "The clap is short and comes from hands; the bell rings longer and comes from the bell.",
+        "Learners describe the sound quality and identify the correct source."
+      ],
+      "guided": [
+        [
+          "Which makes a barking sound: a dog, a cup or a leaf?",
+          "Think of an animal you hear near home.",
+          "A dog."
+        ],
+        [
+          "If you hear three claps, what is the sound pattern?",
+          "Count the separate claps.",
+          "Clap, clap, clap: three short sounds."
+        ]
+      ],
+      "practice": [
+        [
+          "Record a tally of three safe sounds heard in class; do not record other people's voices.",
+          "An accurate list of three distinct sources or categories."
+        ],
+        [
+          "Work with a partner to make two soft sounds and describe how they differ.",
+          "Two safely demonstrated sounds and a meaningful comparison."
+        ]
+      ],
+      "misconception": "A loud sound is not automatically a large object, and quietness does not mean an object made no sound. Describe what you actually heard.",
+      "application": "Build a sound-matching station using paper, a bell and a bottle with dry beans; work under adult supervision.",
+      "recap": [
+        "I listen carefully before naming a source.",
+        "I compare volume, length and pattern.",
+        "I respect others by keeping classroom sounds safe."
+      ]
+    },
+    {
+      "id": "grade-1-english-language-recognising-beginning-sounds",
+      "starter": "Say 'sun', 'sock' and 'soap' slowly. Which sound do you hear at the start of every word? Now try 'ball' and 'bat'.",
+      "vocabulary": [
+        [
+          "beginning sound",
+          "The first sound we hear in a word"
+        ],
+        [
+          "letter",
+          "A written symbol that represents a speech sound in a language"
+        ],
+        [
+          "blend",
+          "To put separate sounds together"
+        ],
+        [
+          "sort",
+          "To group things that share a feature"
+        ]
+      ],
+      "steps": [
+        [
+          "Say the whole word",
+          "Say the word naturally and clearly, then stretch it a little. Listen to the first sound rather than the last."
+        ],
+        [
+          "Separate sound from letter name",
+          "The letter S is called 'ess' but in 'sun' its beginning sound is /s/. Learning to hear the sound helps us read unfamiliar words."
+        ],
+        [
+          "Sort and check",
+          "Place pictures or word cards in groups by beginning sound. Read them with a partner and correct cards that do not belong."
+        ]
+      ],
+      "worked": [
+        "Read 'map', 'moon' and 'fish'.",
+        "Hear /m/ at the beginning of 'map' and 'moon'. 'Fish' begins with /f/.",
+        "Put 'map' and 'moon' together. Put 'fish' in a different sound group."
+      ],
+      "guided": [
+        [
+          "Which word begins like 'cat': car or sun?",
+          "Say each word slowly and compare the first sound.",
+          "Car."
+        ],
+        [
+          "What is the beginning sound in 'pen'?",
+          "Stretch the word gently: p-e-n.",
+          "/p/."
+        ]
+      ],
+      "practice": [
+        [
+          "Find four safe classroom objects and sort their names by first sound.",
+          "Two or more accurate sound groups, explained aloud."
+        ],
+        [
+          "Draw two objects whose names begin with the /b/ sound.",
+          "Examples include ball and book."
+        ]
+      ],
+      "misconception": "The written first letter and the spoken first sound are related but not identical concepts. Judge the sound by listening.",
+      "application": "Make a six-card sound hunt using learner drawings rather than photographs of other learners.",
+      "recap": [
+        "I can hear the first sound in a word.",
+        "I can compare two words by sound.",
+        "I can explain why two words belong together."
+      ]
+    },
+    {
+      "id": "grade-2-science-soil-water",
+      "starter": "Imagine rainwater flowing past a plastic wrapper into a stream. Where might the wrapper end up? What can people do to stop it?",
+      "vocabulary": [
+        [
+          "pollution",
+          "Harmful or unwanted material introduced into the environment"
+        ],
+        [
+          "litter",
+          "Rubbish dropped or left where it does not belong"
+        ],
+        [
+          "erosion",
+          "The movement of soil by water, wind or other forces"
+        ],
+        [
+          "conservation",
+          "Caring for and using natural resources responsibly"
+        ]
+      ],
+      "steps": [
+        [
+          "Notice the surroundings",
+          "Look at a school yard, garden or pathway. Identify clean soil, plants, bins and safe water sources. Do not enter drainage channels."
+        ],
+        [
+          "Trace what rain can carry",
+          "Water flowing downhill can carry loose soil, litter and other substances. Draw arrows to show a safe, imagined route."
+        ],
+        [
+          "Choose a useful action",
+          "Use bins, keep litter out of drains and protect planted areas. Discuss the difference between cleaning litter and treating polluted water."
+        ]
+      ],
+      "worked": [
+        "A drawing shows a garden, a sloping path, a wrapper and a stream.",
+        "An arrow follows rain from the path towards the stream. The wrapper could travel with the flow.",
+        "Move the wrapper to an appropriate bin before rain. Explain why this helps prevent pollution."
+      ],
+      "guided": [
+        [
+          "Can clear-looking water always be assumed safe to drink?",
+          "Some harmful things cannot be seen.",
+          "No. Appearance does not prove drinking water is safe."
+        ],
+        [
+          "Why can plants help soil stay in place?",
+          "Think about roots gripping soil.",
+          "Roots can help hold soil and reduce erosion."
+        ]
+      ],
+      "practice": [
+        [
+          "Draw two ways litter reaches water and one action that interrupts each path.",
+          "Two plausible routes and preventive actions."
+        ],
+        [
+          "Create a classroom sorting poster showing reusable, recyclable and non-recyclable waste according to local collection rules.",
+          "Categories justified for the school's actual waste arrangements."
+        ]
+      ],
+      "misconception": "Filtering out visible dirt does not guarantee safe drinking water; microorganisms and dissolved contaminants may remain.",
+      "application": "Conduct a supervised litter audit within the school grounds, record findings and propose improvements without handling dangerous waste.",
+      "recap": [
+        "Rainwater can carry waste into water sources.",
+        "Plants and careful waste disposal help protect soil.",
+        "We must never assume dirty or clear water is safe to drink."
+      ]
+    },
+    {
+      "id": "grade-3-mathematics-place-value-up-to-one-thousand",
+      "starter": "Use number cards 4, 0 and 7. Build 407 and 470. Why do the same digits give different numbers?",
+      "vocabulary": [
+        [
+          "digit",
+          "A symbol from 0 to 9 used to write numbers"
+        ],
+        [
+          "hundreds",
+          "Groups of 100"
+        ],
+        [
+          "tens",
+          "Groups of 10"
+        ],
+        [
+          "units",
+          "Single ones not grouped into tens"
+        ]
+      ],
+      "steps": [
+        [
+          "Read each column",
+          "The rightmost digit tells the units. To its left are tens and then hundreds. A zero means there are no groups of that size."
+        ],
+        [
+          "Represent with materials",
+          "Build a number with bundles, straws or place-value blocks. Exchange ten units for one ten and ten tens for one hundred."
+        ],
+        [
+          "Regroup and compare",
+          "Break the number into hundreds, tens and units. Compare numbers from the hundreds column first, then tens, then units."
+        ]
+      ],
+      "worked": [
+        "Write 407 in a hundreds–tens–units table.",
+        "The columns contain 4 hundreds, 0 tens and 7 units.",
+        "Expanded form: 400 + 0 + 7 = 407. It is smaller than 470 because 0 tens is less than 7 tens."
+      ],
+      "guided": [
+        [
+          "What is the value of 6 in 628?",
+          "Look at its column.",
+          "600, or six hundreds."
+        ],
+        [
+          "Write 3 hundreds, 5 tens and 2 units as a number.",
+          "Add 300 + 50 + 2.",
+          "352."
+        ]
+      ],
+      "practice": [
+        [
+          "Write the expanded forms of 709, 580 and 236.",
+          "700 + 0 + 9; 500 + 80 + 0; 200 + 30 + 6."
+        ],
+        [
+          "Arrange 407, 470, 704 and 740 from smallest to largest.",
+          "407, 470, 704, 740."
+        ]
+      ],
+      "misconception": "A zero is a placeholder. Removing it from 407 produces 47, which is a different number.",
+      "application": "Use a small shop price list with three-digit prices. Compare which items cost more and explain using place value.",
+      "recap": [
+        "Every digit's position changes its value.",
+        "A zero can hold a place.",
+        "Expanded form helps me explain a number."
+      ]
+    },
+    {
+      "id": "grade-4-english-language-a-friendly-letter",
+      "starter": "A cousin has moved to another town. What would you say to share one interesting school event and ask how they are?",
+      "vocabulary": [
+        [
+          "greeting",
+          "The friendly opening of a letter"
+        ],
+        [
+          "paragraph",
+          "A group of sentences about one main idea"
+        ],
+        [
+          "closing",
+          "The polite words before the writer's name"
+        ],
+        [
+          "audience",
+          "The person who will read or hear the message"
+        ]
+      ],
+      "steps": [
+        [
+          "Plan the purpose",
+          "Choose one reason for writing: share news, ask about someone or describe an event. Make a short list of details the reader would enjoy."
+        ],
+        [
+          "Organise the letter",
+          "Write a suitable date, a greeting, an opening sentence, one or two body paragraphs, and a friendly ending with your name."
+        ],
+        [
+          "Revise for a real reader",
+          "Check that each sentence communicates clearly. Correct capital letters and punctuation. Do not share private phone numbers or addresses in class examples."
+        ]
+      ],
+      "worked": [
+        "Purpose: tell a friend about a school tree-planting activity.",
+        "Opening: 'Dear Tariro, I hope you are well. Our class planted two trees at school last week.'",
+        "Body: describe what learners did and learned. Closing: 'Write soon. Your friend, Chipo.'"
+      ],
+      "guided": [
+        [
+          "Which is a suitable informal greeting: 'Dear Friend' or 'To whom it may concern'?",
+          "Think about who receives a friendly letter.",
+          "'Dear Friend' is suitable."
+        ],
+        [
+          "Why should the body have separate paragraphs?",
+          "Think about helping the reader follow different ideas.",
+          "Paragraphs organise information into clear parts."
+        ]
+      ],
+      "practice": [
+        [
+          "Write a six-sentence friendly letter describing a school club activity.",
+          "Greeting, coherent body and closing; relevant, correctly punctuated sentences."
+        ],
+        [
+          "Edit a draft letter that has no greeting and no closing.",
+          "Add an appropriate greeting, closing and writer's name."
+        ]
+      ],
+      "misconception": "An informal letter can sound friendly without being careless. Use respectful language, clear sentences and correct punctuation.",
+      "application": "Set up a class postbox and exchange fictional or consented letters about classroom projects, without personal addresses.",
+      "recap": [
+        "I know who my audience is.",
+        "I organise a friendly letter into parts.",
+        "I reread and improve my writing before sharing it."
+      ]
+    },
+    {
+      "id": "grade-5-mathematics-finding-fractions-of-quantities",
+      "starter": "Twelve bottle tops are placed into four equal groups. What is one quarter of twelve? Why must the groups be equal?",
+      "vocabulary": [
+        [
+          "numerator",
+          "The top number telling how many equal parts are taken"
+        ],
+        [
+          "denominator",
+          "The bottom number telling how many equal parts make a whole"
+        ],
+        [
+          "quantity",
+          "The number or amount being considered"
+        ],
+        [
+          "equal groups",
+          "Groups containing the same number of items"
+        ]
+      ],
+      "steps": [
+        [
+          "Identify the whole",
+          "Read the number of objects carefully. A fraction of a quantity always refers to a specified whole, for example 20 oranges."
+        ],
+        [
+          "Divide by the denominator",
+          "To find one fifth of 20, divide 20 by 5, giving four objects per equal part."
+        ],
+        [
+          "Multiply by the numerator",
+          "To find three fifths of 20, take three groups of four: 3 × 4 = 12. Verify the answer is not larger than the whole for a proper fraction."
+        ]
+      ],
+      "worked": [
+        "Find 3/4 of 28.",
+        "Divide 28 into 4 equal groups: 28 ÷ 4 = 7.",
+        "Take 3 groups: 3 × 7 = 21, so 3/4 of 28 is 21."
+      ],
+      "guided": [
+        [
+          "Find 2/3 of 18.",
+          "Divide by 3, then multiply by 2.",
+          "12."
+        ],
+        [
+          "A group has 24 pencils. How many is 1/6?",
+          "24 ÷ 6 gives the size of one part.",
+          "4 pencils."
+        ]
+      ],
+      "practice": [
+        [
+          "Calculate 3/5 of 40 and 2/7 of 35.",
+          "24 and 10."
+        ],
+        [
+          "A class plants 32 seedlings; 3/8 are vegetables. How many vegetable seedlings?",
+          "12 seedlings."
+        ]
+      ],
+      "misconception": "Do not multiply the whole by the denominator. The denominator tells how many equal groups to divide into.",
+      "application": "Use 30 counters to demonstrate 1/3, 2/5 and 4/6; draw the grouping and describe how you checked it.",
+      "recap": [
+        "I find the size of one equal group first.",
+        "I take as many groups as the numerator says.",
+        "I check my answer using the whole quantity."
+      ]
+    },
+    {
+      "id": "grade-5-science-water-pollution",
+      "starter": "A stream near a community receives litter after rain. Write two observations you could safely make from a distance and two questions you would investigate.",
+      "vocabulary": [
+        [
+          "contaminant",
+          "A substance or agent that makes water less clean or safe"
+        ],
+        [
+          "runoff",
+          "Water flowing over the land"
+        ],
+        [
+          "prevention",
+          "Stopping a problem before it occurs"
+        ],
+        [
+          "evidence",
+          "Information collected to support a conclusion"
+        ]
+      ],
+      "steps": [
+        [
+          "Identify possible sources",
+          "Describe how litter, soil, sewage, oils or farm chemicals might enter a waterway. Do not make claims about a particular location without evidence."
+        ],
+        [
+          "Distinguish observation from inference",
+          "'There is plastic near the stream' is an observation; 'the factory caused it' is a conclusion requiring evidence. Report both separately."
+        ],
+        [
+          "Plan safe prevention",
+          "Use correct waste disposal, protect drainage, and report suspected contamination to responsible adults or authorities. Do not taste or touch potentially polluted water."
+        ]
+      ],
+      "worked": [
+        "Observation: a drawing shows a storm drain with scattered wrappers after rain.",
+        "Possible mechanism: runoff can carry wrappers through the drain towards surface water.",
+        "Proposed action: provide accessible bins and organise a safe, adult-supervised clean-up away from hazardous sites."
+      ],
+      "guided": [
+        [
+          "Can you prove water is safe by looking at it?",
+          "Some contaminants are invisible.",
+          "No. Water requires appropriate testing or treatment information."
+        ],
+        [
+          "What is the difference between observation and an assumption?",
+          "Think about what you directly saw.",
+          "Observation describes evidence; an assumption goes beyond evidence."
+        ]
+      ],
+      "practice": [
+        [
+          "Draw a source–pathway–water diagram showing three forms of pollution.",
+          "Three plausible sources with clear pathways and labels."
+        ],
+        [
+          "Write a paragraph proposing two prevention measures and explaining how each helps.",
+          "Two feasible measures with causal explanations."
+        ]
+      ],
+      "misconception": "A simple cloth or sand filter may make water clearer but does not make it reliably safe for drinking.",
+      "application": "Design a poster for your school about preventing water pollution, using original drawings and practical actions.",
+      "recap": [
+        "Pollution can reach water by different pathways.",
+        "A careful scientist separates evidence from claims.",
+        "Prevention must be safe and community-centred."
+      ]
+    },
+    {
+      "id": "grade-6-maths-ratio-scale",
+      "starter": "A school garden has six tomato plants and three cabbage plants. How many tomato plants are there for every one cabbage plant?",
+      "vocabulary": [
+        [
+          "ratio",
+          "A comparison of two quantities in a given order"
+        ],
+        [
+          "equivalent ratio",
+          "A ratio with the same relationship in simpler or scaled form"
+        ],
+        [
+          "scale",
+          "A relationship between a representation and the actual measurement"
+        ],
+        [
+          "unit ratio",
+          "A ratio comparing a quantity to one unit of another"
+        ]
+      ],
+      "steps": [
+        [
+          "Keep the order consistent",
+          "A ratio of tomatoes to cabbages is 6:3; reversing it gives cabbages to tomatoes, 3:6. Words determine the order."
+        ],
+        [
+          "Simplify by a common factor",
+          "Divide both parts of 6:3 by 3 to obtain 2:1. Both quantities are still being compared in the same way."
+        ],
+        [
+          "Scale together",
+          "To make an equivalent ratio, multiply or divide both parts by the same nonzero number. A recipe with a 2:1 mix might use 8 cups and 4 cups."
+        ]
+      ],
+      "worked": [
+        "Compare 12 red counters with 18 blue counters.",
+        "Write red:blue = 12:18. Both parts can be divided by 6.",
+        "The simplest form is 2:3. It means two red for every three blue."
+      ],
+      "guided": [
+        [
+          "Simplify 15:10.",
+          "Divide both parts by their greatest common factor, 5.",
+          "3:2."
+        ],
+        [
+          "For every 2 cups of concentrate, use 5 cups of water. How much water for 6 cups of concentrate?",
+          "The concentrate is multiplied by 3; scale water by 3 as well.",
+          "15 cups of water."
+        ]
+      ],
+      "practice": [
+        [
+          "Simplify 24:36 and 14:21.",
+          "2:3 and 2:3."
+        ],
+        [
+          "A map scale is 1 cm to 4 km. What distance does 7 cm represent?",
+          "28 km."
+        ]
+      ],
+      "misconception": "Never add the same number to both parts and assume the ratio stays equivalent. Equivalent ratios require multiplication or division by the same factor.",
+      "application": "Draw a scaled classroom plan with a clearly stated scale, then calculate actual lengths for three drawn segments.",
+      "recap": [
+        "Order matters in a ratio.",
+        "Equivalent ratios scale both parts together.",
+        "I can use ratios to solve practical situations."
+      ]
+    },
+    {
+      "id": "grade-6-science-and-technology-water-filtration-and-safe-storage",
+      "starter": "An open bucket contains visibly muddy water. What can you observe? What can you not know simply by looking at it?",
+      "vocabulary": [
+        [
+          "filtration",
+          "Separating certain suspended particles using a suitable barrier"
+        ],
+        [
+          "sediment",
+          "Particles that settle out of water"
+        ],
+        [
+          "microorganism",
+          "A tiny living organism, some of which may cause illness"
+        ],
+        [
+          "safe storage",
+          "Protecting treated water from contamination"
+        ]
+      ],
+      "steps": [
+        [
+          "Let larger particles settle",
+          "In a supervised demonstration, leave a sealed, labelled sample undisturbed and observe visible particles collect lower down. Do not drink or taste it."
+        ],
+        [
+          "Filter for clarity",
+          "Pass model muddy water through a teacher-built paper or cloth filter. Compare visible clarity, but label all experimental water NOT FOR DRINKING."
+        ],
+        [
+          "Explain the limits and storage",
+          "Even clear filtered water may contain invisible microbes or dissolved chemicals. Drinking water needs an approved treatment process and clean covered storage."
+        ]
+      ],
+      "worked": [
+        "Observation: one transparent container holds water with suspended soil particles.",
+        "After settling and filtering, the sample appears clearer because some particles were removed.",
+        "Conclusion: visible particles reduced. This does not prove the sample is safe to drink."
+      ],
+      "guided": [
+        [
+          "Does a clearer sample mean all germs have been removed?",
+          "A microscope could reveal things our eyes cannot see.",
+          "No, filtration for visible particles is not proof of safety."
+        ],
+        [
+          "Name one safe water-storage practice.",
+          "Think about preventing hands, insects and dust from entering.",
+          "Use a clean, covered container and a safe way to pour."
+        ]
+      ],
+      "practice": [
+        [
+          "Write a three-column observation table: before, after settling and after filtering.",
+          "Accurate visible changes, without unverified safety claims."
+        ],
+        [
+          "Explain two reasons why clean covered storage matters.",
+          "Prevents contamination by dust, hands, insects or other sources."
+        ]
+      ],
+      "misconception": "Cloth, paper or sand demonstration filters are not verified drinking-water purifiers. Never consume demonstration water.",
+      "application": "Draw a labelled water-treatment and storage sequence and explain which steps require professional or authorised guidance.",
+      "recap": [
+        "Filtration can remove some visible particles.",
+        "Clear water is not automatically safe to drink.",
+        "Safe storage is an important part of protecting treated water."
+      ]
+    },
+    {
+      "id": "grade-7-mathematics-percentages-and-discounts",
+      "starter": "A book costs $20. A shop offers 10% off. Does the price fall by $10 or $2? Explain before calculating.",
+      "vocabulary": [
+        [
+          "percentage",
+          "A quantity expressed per hundred"
+        ],
+        [
+          "discount",
+          "The amount subtracted from the original price"
+        ],
+        [
+          "original price",
+          "The price before any discount"
+        ],
+        [
+          "sale price",
+          "The price after the discount is deducted"
+        ]
+      ],
+      "steps": [
+        [
+          "Convert percent to a fraction",
+          "10% means 10 out of 100, or 0.10. For a price, find that portion of the original amount."
+        ],
+        [
+          "Calculate the discount",
+          "Discount = original price × rate. For $20 at 10%, the discount is $2."
+        ],
+        [
+          "Subtract and verify",
+          "Sale price = original price − discount: $20 − $2 = $18. Since it is a discount, the sale price must be lower."
+        ]
+      ],
+      "worked": [
+        "A school bag costs $48 and has a 25% discount.",
+        "25% is one quarter, and 48 ÷ 4 = 12. The discount is $12.",
+        "Subtract: $48 − $12 = $36. Check that $36 + $12 = $48."
+      ],
+      "guided": [
+        [
+          "Find 15% of $80.",
+          "10% is $8 and 5% is $4.",
+          "$12."
+        ],
+        [
+          "An item costs $60 after a 20% discount from $75. Is that correct?",
+          "Find 20% of 75, then subtract.",
+          "Yes. 20% of 75 is $15, giving $60."
+        ]
+      ],
+      "practice": [
+        [
+          "Calculate the price after a 12% discount on $150.",
+          "$132; discount $18."
+        ],
+        [
+          "Two shops sell a $40 item: one offers $6 off, the other 20% off. Which saves more?",
+          "20% saves $8, which is $2 more than $6."
+        ]
+      ],
+      "misconception": "A 20% discount does not mean subtract 20 currency units. Compute a percentage of the *original price* first.",
+      "application": "Compare three fictional store offers on a $75 item and explain the best price using a table.",
+      "recap": [
+        "Percent means per hundred.",
+        "I calculate the discount from the original price.",
+        "I subtract to obtain the sale price."
+      ]
+    },
+    {
+      "id": "grade-7-science-respiratory-system",
+      "starter": "After walking briskly, someone breathes faster. What is one observable change, and why should we avoid making conclusions about illness from a single observation?",
+      "vocabulary": [
+        [
+          "trachea",
+          "Air passage that leads towards the lungs"
+        ],
+        [
+          "lungs",
+          "Organs involved in exchanging oxygen and carbon dioxide"
+        ],
+        [
+          "diaphragm",
+          "A muscle involved in breathing"
+        ],
+        [
+          "gas exchange",
+          "Movement of oxygen into blood and carbon dioxide out of blood"
+        ]
+      ],
+      "steps": [
+        [
+          "Trace the air path",
+          "Air enters through the nose or mouth, travels through the trachea into branching airways, and reaches the lungs."
+        ],
+        [
+          "Describe inhalation",
+          "When the diaphragm contracts, it flattens and chest volume increases. This helps air flow into the lungs."
+        ],
+        [
+          "Describe exhalation",
+          "When the diaphragm relaxes, chest volume decreases and air flows out. Breathing rate may change with activity and individual circumstances."
+        ]
+      ],
+      "worked": [
+        "Draw a simple outline of lungs with the trachea and diaphragm labelled.",
+        "Add arrows into the lungs for inhalation and show the diaphragm moving down as the chest expands.",
+        "Add arrows out for exhalation, showing the diaphragm relaxing upward. Explain the change in chest volume."
+      ],
+      "guided": [
+        [
+          "Which muscle helps change chest volume during breathing?",
+          "It lies under the lungs.",
+          "The diaphragm."
+        ],
+        [
+          "Does air go into the stomach when we breathe normally?",
+          "Trace the trachea and lung airways.",
+          "No. In normal breathing air moves through the respiratory passages towards the lungs."
+        ]
+      ],
+      "practice": [
+        [
+          "Draw and label the nose/mouth, trachea, lungs and diaphragm.",
+          "Accurate labels and plausible airflow arrows."
+        ],
+        [
+          "Write two sentences explaining inhalation and exhalation.",
+          "Inhalation involves increased chest volume and airflow in; exhalation involves airflow out as chest volume decreases."
+        ]
+      ],
+      "misconception": "Lungs are not balloons that pump themselves. Muscle-driven pressure changes help move air. Avoid unsafe breath-holding experiments.",
+      "application": "Use a classroom diagram to compare respiratory anatomy and explain why clean air matters. Avoid judging anyone's health or fitness from breath rate.",
+      "recap": [
+        "Air travels through respiratory passages to the lungs.",
+        "The diaphragm helps move air in and out.",
+        "Clean air supports respiratory health."
+      ]
+    },
+    {
+      "id": "grade-7-indigenous-folktale",
+      "starter": "Think of a folktale told by an elder or community storyteller. What lesson might listeners learn? What details should be remembered faithfully?",
+      "vocabulary": [
+        [
+          "folktale",
+          "A traditional narrative shared across generations"
+        ],
+        [
+          "theme",
+          "The central idea or concern of a story"
+        ],
+        [
+          "moral",
+          "A lesson suggested by events in the narrative"
+        ],
+        [
+          "respectful attribution",
+          "Acknowledging the teller, language and community where appropriate"
+        ]
+      ],
+      "steps": [
+        [
+          "Listen with respect",
+          "Listen or read carefully and identify the storyteller, setting, principal characters and events. Ask permission before recording or publicly sharing a living person's story."
+        ],
+        [
+          "Summarise in sequence",
+          "Tell the beginning, complication and ending in your own words. Avoid copying a commercial story or changing its cultural meaning without discussion."
+        ],
+        [
+          "Interpret and compare",
+          "Discuss a possible theme or lesson, citing the characters' actions as evidence. Explain where retelling choices or local variants differ."
+        ]
+      ],
+      "worked": [
+        "Imagine an original classroom tale: two neighbours must move a heavy basket after a storm.",
+        "In the beginning they argue; in the middle neither succeeds alone; at the end they cooperate and move it safely.",
+        "The summary is in sequence and the lesson may be cooperation. A learner should justify that interpretation with story events."
+      ],
+      "guided": [
+        [
+          "What information belongs in a summary?",
+          "Focus on who did what, why and how events ended.",
+          "Main characters, important events, the problem and resolution."
+        ],
+        [
+          "Should you share someone's recorded storytelling without asking?",
+          "Think about consent and community ownership.",
+          "No; ask permission and respect the storyteller's wishes."
+        ]
+      ],
+      "practice": [
+        [
+          "Retell an approved class folktale in six sentences without copying its text.",
+          "Sequence and meaning retained in learner's original wording."
+        ],
+        [
+          "Give two pieces of evidence for a moral identified by the class.",
+          "Two relevant character actions or story events."
+        ]
+      ],
+      "misconception": "A folktale may have several local versions. Do not claim your classroom retelling is the only authentic form; consult fluent speakers.",
+      "application": "Create a story map with setting, characters, problem, three events and resolution; share only with the storyteller's consent.",
+      "recap": [
+        "I retell events in a clear sequence.",
+        "I support an interpretation with story evidence.",
+        "I respect languages, storytellers and community permission."
+      ]
+    }
+  ]
+}

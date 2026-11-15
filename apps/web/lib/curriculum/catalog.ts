@@ -1,5 +1,6 @@
 import rawCatalog from "../../../../packages/curriculum/catalog.json";
 import extraCatalog from "../../../../packages/curriculum/extension.json";
+import {deepDiveAssignmentPrompts,getDeepDive} from "./deep-dive";
 
 export type CurriculumExercise={question:string;answer:string};
 export type CurriculumUnit={
@@ -54,6 +55,7 @@ export function curriculumAssignmentInstructions(unit:CurriculumUnit):string{
   "",
   "Class assignment:",
   unit.assignment.instructions,
+  ...(getDeepDive(unit.id)?["",...deepDiveAssignmentPrompts(unit.id)]:[]),
   "",
   "Please answer in your own words. Do not include private family or contact information."
  ].join("\n");

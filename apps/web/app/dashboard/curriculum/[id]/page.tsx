@@ -4,6 +4,8 @@ import {createClient} from "@/lib/supabase/server";
 import {curriculumUnits,getCurriculumUnit,gradeMatches,subjectMatches} from "@/lib/curriculum/catalog";
 import {publishCurriculumAssignment} from "../actions";
 import Quiz from "./Quiz";
+import DeepLesson from "./DeepLesson";
+import {getDeepDive} from "@/lib/curriculum/deep-dive";
 export const dynamic="force-dynamic";
 
 export async function generateStaticParams(){
@@ -14,6 +16,7 @@ export default async function CurriculumUnitPage({params}:{params:Promise<{id:st
  const {id}=await params;
  const unit=getCurriculumUnit(id);
  if(!unit)notFound();
+ const deepDive=getDeepDive(unit.id);
  const supabase=await createClient();
  const {data:{user}}=await supabase.auth.getUser();
  if(!user)redirect("/login");
@@ -59,6 +62,7 @@ export default async function CurriculumUnitPage({params}:{params:Promise<{id:st
     <h2>Read and understand</h2>
     {unit.explanation.map((paragraph,index)=><p key={index} style={{fontSize:"1.06rem",lineHeight:1.75}}>{paragraph}</p>)}
     <section className="summary-card"><h2>Worked example</h2><p>{unit.workedExample}</p></section>
+    {deepDive?<DeepLesson content={deepDive} isStaff={isStaff}/>:null}
     <Quiz lessonId={unit.id} question={unit.question} choices={unit.choices} correctIndex={unit.correctIndex} feedback={unit.feedback} trackProgress={trackProgress} initialCompleted={initialCompleted}/>
     <section className="summary-card">
       <h2>Practice exercises</h2>
