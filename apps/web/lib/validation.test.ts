@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { parseLoginIdentifier,zimbabweMobilePattern } from "./validation";
+import { parseLoginIdentifier, zimbabweMobilePattern } from "./validation";
 
 describe("parseLoginIdentifier", () => {
-  it("provides a valid browser-side pattern for the exact Zimbabwe E.164 number", () => {
-    const browser = new RegExp(`^(?:${zimbabweMobilePattern})import { describe, expect, it } from "vitest";
-import { parseLoginIdentifier,zimbabweMobilePattern } from "./validation";
-
-);
+  it("validates Zimbabwe E.164 numbers with the browser HTML pattern", () => {
+    const browser = new RegExp("^(?:" + zimbabweMobilePattern + ")$");
     expect(browser.test("+263771234567")).toBe(true);
     expect(browser.test("+263781234567")).toBe(true);
     expect(browser.test("+263671234567")).toBe(false);
