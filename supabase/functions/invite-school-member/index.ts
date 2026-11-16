@@ -89,7 +89,7 @@ Deno.serve(async(request:Request)=>{
   // Never adopt a same-email demo fixture, transfer a user from another school,
   // grant head/admin roles, or send an existing user a new account password.
   const [existingEmail,existingPhone]=await Promise.all([
-   server.from("users").select("id").ilike("email",email).maybeSingle(),
+   server.from("users").select("id").eq("email",email).maybeSingle(),
    server.from("users").select("id").eq("phone",phone).maybeSingle()
   ]);
   if(existingEmail.error||existingPhone.error)return reply(503,"Could not check for duplicate accounts");
