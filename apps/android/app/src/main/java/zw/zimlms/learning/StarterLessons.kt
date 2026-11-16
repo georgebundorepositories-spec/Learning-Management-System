@@ -8,6 +8,23 @@ package zw.zimlms.learning
  */
 data class LessonExercise(val question: String, val answer: String)
 
+/** Original offline extended workshop: learning content is visible to pupils,
+ * while teacher marking notes are shown in the UI only to school staff.
+ * APK assets are not a secure repository for high-stakes confidential answers.
+ */
+data class LessonDeepDive(
+  val starter: String,
+  val vocabulary: List<Pair<String,String>>,
+  val steps: List<Pair<String,String>>,
+  val worked: List<String>,
+  val guided: List<Triple<String,String,String>>,
+  val practice: List<Pair<String,String>>,
+  val misconception: String,
+  val application: String,
+  val recap: List<String>,
+)
+
+
 data class StarterLesson(
   val id: String,
   val level: String,
@@ -24,6 +41,8 @@ data class StarterLesson(
   val assignmentInstructions: String = "",
   val syllabusSource: String = "",
   val practicalActivity: String = "",
+  val textbookReference: String = "",
+  val deepDive: LessonDeepDive? = null,
 ) {
   init {
     require(id.isNotBlank() && level.isNotBlank() && subject.isNotBlank())

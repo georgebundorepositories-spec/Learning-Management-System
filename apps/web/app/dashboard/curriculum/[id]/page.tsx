@@ -93,7 +93,7 @@ export default async function CurriculumUnitPage({params}:{params:Promise<{id:st
         <button className="outline-button" type="submit">Publish this assignment</button>
       </form>:<p className="notice-panel">No matching school class and subject are available to your account. Ask the school administrator to configure the grade, subject and teacher assignment first.</p>}
     </section>:null}
-    <p className="privacy-note">Syllabus alignment: {unit.syllabusSource}; topic {unit.topic}. Practical or media suggestion: {unit.mediaActivity} Original ZimSchool lesson, not a copied commercial textbook page.</p>
+    <p className="privacy-note">Syllabus alignment: {unit.syllabusSource}; topic {unit.topic}. Practical or media suggestion: {unit.mediaActivity} {unit.textbookReference?<>Source topic reference: {unit.textbookReference}. </>:null} Original ZimSchool lesson, not a copied commercial textbook page.</p>
    </div>
  </main>;
 }

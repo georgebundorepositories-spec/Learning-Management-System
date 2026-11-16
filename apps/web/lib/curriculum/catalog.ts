@@ -1,5 +1,7 @@
 import rawCatalog from "../../../../packages/curriculum/catalog.json";
 import extraCatalog from "../../../../packages/curriculum/extension.json";
+import guidedA from "../../../../packages/curriculum/source-guided-a.json";
+import guidedB from "../../../../packages/curriculum/source-guided-b.json";
 import {deepDiveAssignmentPrompts,getDeepDive} from "./deep-dive";
 
 export type CurriculumExercise={question:string;answer:string};
@@ -9,10 +11,11 @@ export type CurriculumUnit={
  question:string;choices:string[];correctIndex:number;feedback:string;
  exercises:CurriculumExercise[];
  assignment:{title:string;instructions:string;maxScore:number;rubric:string[]};
- syllabusSource:string;mediaActivity:string;
+ syllabusSource:string;mediaActivity:string;textbookReference?:string;
 };
-export const curriculumUnits:CurriculumUnit[]=[...rawCatalog.units,...extraCatalog.units] as CurriculumUnit[];
-export const curriculumVersion=extraCatalog.version;
+export const curriculumUnits:CurriculumUnit[]=[...rawCatalog.units,...extraCatalog.units,...guidedA.units,...guidedB.units] as CurriculumUnit[];
+export const curriculumVersion="2026-11-16.2";
+export const sourceGuidedUnitCount=guidedA.units.length+guidedB.units.length;
 export const curriculumNotice=rawCatalog.licenseNotice;
 export const curriculumGrades=["ECD A","ECD B",
  "Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7"]

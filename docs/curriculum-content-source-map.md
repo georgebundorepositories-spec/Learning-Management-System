@@ -1,50 +1,58 @@
-# ZimSchool — Heritage-Based Curriculum Catalogue (November 2026)
+# ZimSchool 2024–2030 Heritage-Based Curriculum Expansion
 
-## Status
-- **63 original lessons**, from **ECD A through Grade 7**, spanning **English Language, Mathematics, Science and Technology, and Indigenous Languages**.
-- Every lesson includes an objective, two substantive instructional paragraphs, a worked example, a 3-option check question with feedback, **three original practice exercises and a marking guide**, a **10-mark class assignment** with a 4+4+2 rubric, a practical/media suggestion, and the syllabus/topic used.
-- **Web**: `/dashboard/curriculum` allows authorised accounts to browse, filter by grade/subject and open a complete lesson. Staff see answer guides and can publish a template to an appropriately configured school class, with existing coursework RLS used to authorise the publication. Learners do **not** see the staff answer guide on the web lesson page.
-- **Android**: the same `packages/curriculum/catalog.json` is compiled as an asset, so the new lessons, quizzes, exercises and assignments are available **offline**. The app's original 12 starter lessons remain available.
-- Assignments are **templates**, not automatically issued to every school. Teacher approval, mapped classes and active subject assignments are required before publication. Web learning material and Android offline progress are different systems; assignment submissions and grade reports remain school-scoped in Supabase.
+## Current revision (16 November 2026)
 
-## Primary authoritative syllabus sources (uploaded by project owner)
-1. `Infant English Language Syllabus.pdf`: ECD A–Grade 2 listening, speaking, reading and writing.
-2. `Infant Science and Technology Syllabus(1).pdf`: ECD A–Grade 2 health, food, plants, environmental awareness, tools and innovations.
-3. `818573946-Infant-Indigenous-Language-Syllabus.pdf`: ECD A–Grade 2 Indigenous Languages, including cultural aspects and appropriate registers.
-4. `Junior English Syllabus.pdf`: Grade 3–7 reading, writing, speaking and listening; `Junior English Syllabus(1).pdf` is an additional supplied version of the same syllabus.
-5. `Junior mathematics syllabus.pdf`: Grade 3–7 Number, Operations, Measures and Relationships.
-6. `Junior Science and Technology.pdf` and `SCIENCE AND TECHNOLOGY JUNIOR GRADE 3 - 7 HBC.pdf`: two supplied Grade 3–7 2024–2030 Science and Technology syllabus files; their eight strands include Health and Hygiene, Food and Nutrition, Crops/Plants/Animals, Environmental Conservation, Tools, Energy, Disaster Resilience and Educational Technology.
-7. `Junior Indigenous Languages.pdf`: Grade 3–7 comprehension, usage, structure, composition and cultural aspects.
+- **88 original curriculum units** in `packages/curriculum/catalog.json`, `extension.json`, `source-guided-a.json` and `source-guided-b.json`, plus the existing optional **12 Android secondary/demo starter lessons**.
+- **25 new source-guided, original lessons** expand the earlier 63. These include ECD A Science, Grade 1 English, Grade 4 English, Grade 5 English, Grade 5 Mathematics, Grade 5 Shona, Grade 3/5/7 Science, with **138 new stand-alone practice items** and 25 substantial applied 20-mark assignments with staff marking guidance.
+- **13 earlier deep-dive workshops** add vocabulary, three learning stages, worked reasoning, guided questions/hints, independent practice, misconception checks and reflective recap to selected existing units, in `deep-dive.json`.
+- **All 88 units available to web + Android** via shared JSON imported into the Next.js app and Android assets; Android also reads the deep-dive JSON for 13 extended lessons.
+- The supplied textbook PDFs were **inspected for unit/topic selection and teaching progression only**; no commercially copyrighted passages, exercise sequences, copyrighted images or chapters are republished. Treat textbook reference labels as *inspiration for topical coverage*, not a claim of licensing or verbatim matching.
+- Online learners see exercises but not the staff marking guide. Staff can publish grade/subject-matched assignments via existing authorised school controls. On Android, staff-only presentation of answer keys relies on the validated local role and is not a security boundary against somebody who extracts APK assets: do **not** distribute high-stakes exam solutions in offline assets.
+- Lesson progress remains school/user-scoped. The new packs do not create school accounts, issue graded assignments automatically or bypass class/subject authorisation.
 
-## Additional publisher examples consulted for topic selection (not reproduced)
-- `971890994-PlusOne-HBC-Science-and-Tech-Grade-5-TG.pdf`: Grade 5 Teacher's Guide (108 PDF pages), including digestion, water pollution and solar energy.
-- `981912480-Plus-One-HBC-English-Grade-4-LB.pdf`: Grade 4 English excerpt (39 PDF pages), including nouns and informal letters.
-- `985872926-Compressed-Ecd-B-English-HBC-Plus-One-Work-Book-4442-PDF.pdf`: scanned ECD B English workbook (75 PDF pages), including environmental sounds, greetings, phonics and tracing.
-- `675425424-ECD-B-English.pdf`: scanned ECD B English workbook (61 PDF pages), with picture-reading, families, sounds and greetings.
-- `640825817-Plus-One-Maths-Grade-6-Revision.pdf`: Grade 6 Mathematics revision excerpt (35 PDF pages), covering whole numbers, fractions, ratios and related topics.
-- `669763525-Science-Tech-Grade-7-textbook-sample.pdf`: Grade 7 Science and Technology sample (65 PDF pages), including human body, energy, and sustainable resource management.
-- `698036265-PLUS-ONE-GRADE6-SCIE-TECH.pdf`: scanned Grade 6 Science excerpt (44 PDF pages), covering nutrition and water.
-- `698036268-PLUS-ONE-GRADE6-ENGLISH.pdf`: scanned Grade 6 English excerpt (49 PDF pages), including formal letters and report writing.
+## Syllabi reviewed from the user's 16 November uploads
 
-The supplied publisher editions and excerpts are copyrighted; **they are not uploaded to the publicly served LMS, duplicated as lessons, or embedded in the Android APK**. No external media rights were established. The catalogue's `mediaActivity` provides a prompt for original student/teacher diagrams, safe in-class demonstrations, or recordings used only with appropriate consent. Historical syllabus topics are used as curriculum alignment, **not** represented as ministry-approved ZimSchool lesson plans.
+| School level | Source | Mapped topics |
+|---|---|---|
+| ECD A–Grade 2 | `818573946-Infant-Indigenous-Language-Syllabus(1).pdf` | comprehension, language usage/structures, composition and culture |
+| ECD A–Grade 2 | `Infant English Language Syllabus(1).pdf` | listening, speaking, reading, writing and early phonics |
+| ECD A–Grade 2 | `Infant Science and Technology Syllabus(2).pdf` | hygiene, food, plants, environment, tools, energy, safety, innovation |
+| Grades 3–7 | `Junior English Syllabus(1)(1).pdf`, `Junior English Syllabus(2).pdf` | listening, speaking, reading, writing and language structures |
+| Grades 3–7 | `Junior Indigenous Languages(1).pdf` | comprehension/summary, language usage/structures, composition, cultural aspects |
+| Grades 3–7 | `Junior mathematics syllabus(1).pdf` | number, operations, measures, relationships |
+| Grades 3–7 | `Junior Science and Technology(1).pdf`, `SCIENCE AND TECHNOLOGY JUNIOR GRADE 3 - 7 HBC(1).pdf` | eight science and technology topic strands |
 
-## November 2026 extension from newly attached sources
-- Added **16 original teaching units** in `packages/curriculum/extension.json`. Web and Android load this alongside the base 47-unit `catalog.json` (total **63 units**). Android bundles both files in its offline APK.
-- Added ECD A listening instructions; ECD B picture vocabulary and Indigenous-language greetings; Grade 2 water/soil protection; Grade 3 emergency helpers; Grade 4 informal letters and collective nouns; Grade 5 water pollution and solar energy; Grade 6 ratios, tables, balanced diets and factual reports; Grade 7 breathing, safe waste reuse and Indigenous-language folktale summarising.
-- Each unit provides objective, two original instructional explanations, worked example, 3-choice check question and feedback, three exercises with expected answers, teacher publishable 10-mark assignment and practical media suggestion.
-- The supplied publishers' scans include copyright notices; **no publisher images, diagrams, scans or audio were copied into LMS assets**. Media prompts request original teacher-created illustrations or consented school recordings.
-- Curriculum competency is referenced by syllabus titles but not certified as ministry-approved individual lesson plans. Verify the pedagogical fit and local language with school teachers.
-- This update does not auto-assign work or alter school records. Authorised teachers must publish a template to a matched grade/class/subject and Supabase RLS remains active.
+## Textbook topics consulted (six user uploads)
 
-## Teacher workflow
-1. Sign in with an active teacher, head or admin school account.
-2. Open **Curriculum Lessons & Exercises** from the dashboard or Learning module.
-3. Filter by grade and subject; select the lesson, check its learning objective, instructions, answer key, rubric and material suggestion.
-4. Under **Publish to your class**, select the correct class and subject. If none is offered, configure classes and teaching assignments first.
-5. Click **Publish this assignment**. It enters the usual coursework module, where learners can submit answers and authorised staff grade them. No templates auto-post into other schools.
+| Book | Topic guidance | Original LMS content |
+|---|---|---|
+| `995201702-Plus-One-Science-Tech-ECD-a-TG(1).pdf` | handwashing, food sources, plants and gardening | three detailed ECD A Science lessons |
+| `729171969-Grade-1-Ventures-English-1.pdf` | greetings, family words, early short vowels | three detailed Grade 1 English lessons |
+| `981912480-Plus-One-HBC-English-Grade-4-LB(1).pdf` | verbs, letter writing, homophones | three detailed Grade 4 English lessons |
+| `HBC Ventures G5 English.pdf` | similes, summaries, sentence construction | three detailed Grade 5 English lessons |
+| `HBC ventures G5 maths.pdf` | whole numbers, rounding, Roman numerals, fraction and decimal operations | five detailed Grade 5 Mathematics lessons |
+| `HBC Ventures G5 Shona.pdf` | understanding and summarising texts, figures of speech, letter writing | three original Grade 5 Shona lessons |
 
-## Release and quality gates
-- Shared content shape and grade/subject checks: `apps/web/lib/curriculum/catalog.test.ts`
-- Android shared-asset shape, offline availability and cross-grade coverage: `HeritageCurriculumInstrumentedTest.kt`
-- Android full lesson/exercise/assignment navigation: `WorkspaceUiInstrumentedTest.kt`
-- Existing authenticated coursework/RLS tests remain unchanged. Do **not** treat green CI as physical-device deployment approval. Content should be checked by practising teachers, including proper cultural and home-language adaptation.
+Further Grade 3, 5 and 7 Science lessons are syllabus-guided only, because no matching textbook chapter was supplied. Avoid representing those as textbook-derived.
+
+## User experience
+
+Web:
+- School-scoped login → `/dashboard/learning` → `/dashboard/curriculum`, with grade, subject and search filters.
+- A unit opens goals, four explanatory paragraphs (for source-guided packs), a worked example, self-check quiz, five or six original practice questions, an applied assignment and syllabus/textbook topic provenance.
+- Teacher/admin/head see teaching answer/rubric. Learners see questions and instructions; only authorised teachers can publish class-specific coursework.
+
+Android:
+- The same source-guide packs are imported from the shared `packages/curriculum` directory as **offline** JSON assets at build time. This means a **new Android APK must be installed** to receive content changes.
+- 13 extended workshops additionally show vocabulary, three stages, multi-step reasoning, guided clues and independent practice. Teachers may consult visible marking notes.
+- No learner database, private course submissions or publisher scans are bundled.
+
+## Safe release checks
+
+1. Type-check Next.js, unit tests, build Cloudflare Worker and smoke-test public pages (no student data).
+2. Run Android offline catalog emulator tests for **88 unique lessons**, Android unit tests, debug build, APK privileged-key audit and minified release size check.
+3. Merge only when critical checks are green. GitHub-to-Cloudflare Workers Builds then handles a production deployment; check its actual result before saying the website is live.
+4. Android production release requires **permanent owner-held signing credentials** and a distribution channel. GitHub QA APKs are debug-signed and are not a Google Play release.
+5. Require qualified teacher review of local language accuracy and assessment suitability, particularly for younger learners.
+
+The uploaded textbooks are copyrighted and stay outside public web and Android bundles.

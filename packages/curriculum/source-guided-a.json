@@ -1,0 +1,726 @@
+{
+  "version": "2026-11-16.2a",
+  "notice": "Original ZimSchool instructional content informed by uploaded MoPSE syllabi and the listed textbooks; no publisher passages, exercises or art are reproduced.",
+  "units": [
+    {
+      "id": "ecd-a-science-guided-handwashing",
+      "level": "ECD A",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "My clean hands: when and how to wash",
+      "objective": "Demonstrate safe handwashing with soap and explain important times for washing.",
+      "durationMinutes": 20,
+      "explanation": [
+        "Hands help us play, eat, draw and touch many objects. They can pick up dirt and germs that we cannot see. Washing properly with soap and clean water helps stop germs spreading from surfaces to our food, mouth and eyes.",
+        "Before washing, remove any loose dirt and wet both hands with safe running water. Apply soap. Rub palms together, the backs of both hands, between fingers and around thumbs. Keep rubbing for about twenty seconds, then rinse and dry with a clean towel or air.",
+        "We should wash hands before preparing or eating food, after using the toilet, after touching waste and after coughing or sneezing into a tissue. An adult helps young children where taps, hot water or slippery floors create hazards.",
+        "Practise the steps with a teacher using a safe water point. If water is scarce, use a small poured amount carefully while keeping the soap-and-rub steps. A learner who cannot use a tap independently may demonstrate the sequence with picture cards."
+      ],
+      "workedExample": "The class is about to eat sliced fruit. First, each learner wets their hands, rubs with soap, cleans between fingers, rinses with clean water and dries. The class then explains that clean-looking hands can still carry germs.",
+      "question": "When should you wash your hands?",
+      "choices": [
+        "Only on your birthday",
+        "Before eating and after using the toilet",
+        "Only when a teacher is watching"
+      ],
+      "correctIndex": 1,
+      "feedback": "Handwashing before food and after toilet use helps prevent infections.",
+      "exercises": [
+        {
+          "question": "Point to two places on your hands that often get missed.",
+          "answer": "Between fingers and around thumbs are valid examples."
+        },
+        {
+          "question": "Say or demonstrate the first four steps of handwashing.",
+          "answer": "Wet hands; use soap; rub all surfaces; rinse with clean water."
+        },
+        {
+          "question": "Why do we use soap instead of only briefly wetting our hands?",
+          "answer": "Soap and rubbing help loosen and remove dirt and many germs."
+        },
+        {
+          "question": "Name two times when you should wash your hands.",
+          "answer": "Before eating and after using the toilet, or another suitable pair."
+        },
+        {
+          "question": "Draw a handwashing sequence of three or more pictures.",
+          "answer": "Pictures should show soap, rubbing, rinsing and suitable drying."
+        }
+      ],
+      "assignment": {
+        "title": "My clean hands: when and how to wash — applied class assignment",
+        "instructions": "With adult supervision, demonstrate the complete handwashing routine at a safe water point. Draw four pictures showing the steps and tell the teacher two times when you should wash. Teacher observes technique and accessibility; do not collect photographs of learners.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030: Health and Hygiene Practices (ECD A)",
+      "mediaActivity": "Teacher-supervised handwashing station with soap, poured water and large picture sequence.",
+      "textbookReference": "PlusOne Science and Technology ECD A Teacher's Guide: Personal hygiene — washing hands (topic 1)"
+    },
+    {
+      "id": "ecd-a-science-food-from-plants-and-animals",
+      "level": "ECD A",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Where our food comes from",
+      "objective": "Sort familiar foods by plant or animal source and name a healthy snack.",
+      "durationMinutes": 20,
+      "explanation": [
+        "People eat different kinds of food to grow, play and remain healthy. Some foods grow on plants. For example, maize grows on maize plants, tomatoes grow on tomato plants and mangoes grow on trees.",
+        "Other foods come from animals. Milk comes from animals such as cows and goats, while eggs can come from hens. Foods may be cooked or prepared before eating, and children should only taste food that a trusted adult says is safe.",
+        "Different foods help our bodies in different ways. A snack of washed fruit or other nourishing food is often a better everyday choice than eating large amounts of sweets. We do not need to call a whole food 'bad'; we can talk about how often and how much we eat.",
+        "Sort picture cards into two groups: plant source and animal source. Some meals combine both, such as porridge with milk. Explain the source of each ingredient rather than guessing from the colour or packaging."
+      ],
+      "workedExample": "Sadza is usually prepared using maize meal. The maize comes from a plant. Milk comes from an animal. A bowl of sadza served with milk has ingredients from both sources.",
+      "question": "Which food comes from a plant?",
+      "choices": [
+        "Mango",
+        "Egg",
+        "Cow's milk"
+      ],
+      "correctIndex": 0,
+      "feedback": "A mango grows on a mango tree.",
+      "exercises": [
+        {
+          "question": "Name three foods that grow on plants.",
+          "answer": "For example: maize, tomatoes and mangoes."
+        },
+        {
+          "question": "Name two foods that can come from animals.",
+          "answer": "For example: milk and eggs."
+        },
+        {
+          "question": "Does a meal containing sadza and milk use one source or two?",
+          "answer": "Two sources: maize is a plant product and milk is an animal product."
+        },
+        {
+          "question": "Why should fruit be washed before eating?",
+          "answer": "Washing helps remove visible dirt and some contaminants."
+        },
+        {
+          "question": "Describe one nourishing snack available locally.",
+          "answer": "For example: washed fruit, unsweetened yoghurt or suitably prepared groundnuts where safe."
+        }
+      ],
+      "assignment": {
+        "title": "Where our food comes from — applied class assignment",
+        "instructions": "Create a food-source collage from your own drawings. Show four foods from plants and two foods from animals. Explain one local healthy snack in a short conversation with the teacher, without asking families to purchase special items.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030: Food and Nutrition (ECD A)",
+      "mediaActivity": "Sort teacher-drawn food-source cards; use familiar Zimbabwean foods and an allergy-safe approach.",
+      "textbookReference": "PlusOne Science and Technology ECD A Teacher's Guide: Sources of food and healthy snacks"
+    },
+    {
+      "id": "ecd-a-science-discovering-plant-parts",
+      "level": "ECD A",
+      "subject": "Science and Technology",
+      "topic": "Crops, Plants and Animals",
+      "title": "Leaves, stems, roots and our garden",
+      "objective": "Recognise basic plant parts and say what a plant needs to grow.",
+      "durationMinutes": 20,
+      "explanation": [
+        "A plant may have roots, a stem, leaves, flowers and fruit. The roots are usually in the soil, the stem supports the plant, and leaves help the plant use light. Different plants look different, so not all will have flowers or fruit at the same time.",
+        "Plants need suitable water, light, air and space to grow. Watering a little seedling gently is better than pouring so much water that the soil washes away. Ask a teacher before touching or eating an unfamiliar plant.",
+        "Garden plants can give us food and shade. In Zimbabwe, families may grow covo, tomatoes, rape or maize. A school can use a safe garden bed or pot so learners can observe changes without needing a large garden.",
+        "Look at a teacher-selected plant. Point to a leaf and stem, describe what you see, and draw it. If roots cannot be seen, use an original classroom drawing. Water a class plant under adult supervision and check it again after several days."
+      ],
+      "workedExample": "A small bean plant has a root below the soil, one stem and two green leaves. A learner points to the leaves and explains that the roots take in water from the soil while the stem holds the plant upright.",
+      "question": "Which part usually takes water in from the soil?",
+      "choices": [
+        "Roots",
+        "Flowers",
+        "Fruit"
+      ],
+      "correctIndex": 0,
+      "feedback": "Roots generally absorb water and help hold a plant in place.",
+      "exercises": [
+        {
+          "question": "Point to or draw a plant stem.",
+          "answer": "The central supporting part of the plant is shown."
+        },
+        {
+          "question": "Name one thing a young plant needs.",
+          "answer": "Water, light, air or appropriate growing conditions."
+        },
+        {
+          "question": "Why should a garden plant not be pulled up just to examine it?",
+          "answer": "Pulling it up can damage the roots and stop the plant growing."
+        },
+        {
+          "question": "What happens when a plant receives no water for too long?",
+          "answer": "It may wilt or die."
+        },
+        {
+          "question": "Name a plant grown locally for food.",
+          "answer": "For example: maize, tomatoes, rape or covo."
+        }
+      ],
+      "assignment": {
+        "title": "Leaves, stems, roots and our garden — applied class assignment",
+        "instructions": "Observe one safe growing plant with an adult on two different days. Draw what you notice and label leaf and stem. Explain how you helped care for it. Do not taste leaves or use sharp garden tools.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant Science and Technology Syllabus 2024–2030: Crops, Plants and Animals (ECD A)",
+      "mediaActivity": "Hands-on observation with a classroom pot plant, original labelled diagram and supervised watering.",
+      "textbookReference": "PlusOne Science and Technology ECD A Teacher's Guide: Plants and vegetable gardening"
+    },
+    {
+      "id": "grade-1-english-greetings-and-kind-answers",
+      "level": "Grade 1",
+      "subject": "English Language",
+      "topic": "Speaking/Signing",
+      "title": "Greetings and kind answers",
+      "objective": "Choose a suitable greeting and respond with a complete polite sentence.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A greeting begins a conversation. We say 'Good morning' when we meet someone in the morning and 'Good afternoon' later in the day. At other times 'Hello' is a friendly greeting. A polite reply lets the other person know we heard them.",
+        "Speak clearly, look towards the person where appropriate, or use a sign if that is how you communicate. You can say, 'Good morning, Teacher. How are you?' A polite answer might be 'I am well, thank you. How are you?'",
+        "A goodbye is used when we are leaving. It is not the usual greeting when we arrive. Think about who you are speaking to: a friend, teacher or visitor. Respectful words can stay simple and welcoming.",
+        "Practise three short dialogues using different times of day. Take turns as speaker and listener. If a classmate uses another home language first, listen respectfully and practise the English expression alongside it."
+      ],
+      "workedExample": "It is 8 o'clock in the morning. Tariro meets her teacher. Tariro: 'Good morning, Teacher.' Teacher: 'Good morning, Tariro. How are you?' Tariro: 'I am well, thank you.' Each person responds politely.",
+      "question": "What should you say when arriving at school in the morning?",
+      "choices": [
+        "Good night",
+        "Good morning",
+        "Goodbye"
+      ],
+      "correctIndex": 1,
+      "feedback": "Good morning is appropriate when meeting people early in the day.",
+      "exercises": [
+        {
+          "question": "Write one polite morning greeting.",
+          "answer": "For example: Good morning, Teacher."
+        },
+        {
+          "question": "Complete the reply: 'How are you?' — 'I am ____, thank you.'",
+          "answer": "well or fine."
+        },
+        {
+          "question": "When might you say 'Goodbye'?",
+          "answer": "When you leave someone."
+        },
+        {
+          "question": "Write a polite question you can ask after greeting.",
+          "answer": "For example: How are you?"
+        },
+        {
+          "question": "Act out a greeting between two friends in the afternoon.",
+          "answer": "Good afternoon or a suitable friendly hello with appropriate reply."
+        }
+      ],
+      "assignment": {
+        "title": "Greetings and kind answers — applied class assignment",
+        "instructions": "Work in pairs. Write and act out two different four-line conversations: one at school in the morning, the other at a friend's home in the afternoon. Use punctuation in the written version and speak or sign politely.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030: Speaking/Signing (Grade 1)",
+      "mediaActivity": "Pair role-play of local home and school greetings; teacher supplies an accessible signing model.",
+      "textbookReference": "Ventures Primary English Grade 1 Learner's Book: Unit 2 Greetings"
+    },
+    {
+      "id": "grade-1-english-family-and-simple-sentences",
+      "level": "Grade 1",
+      "subject": "English Language",
+      "topic": "Reading/Signing and Writing",
+      "title": "Reading about families and writing short sentences",
+      "objective": "Read or sign simple family words and write short complete sentences.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Families can include parents, grandparents, carers, brothers, sisters and other people who care for us. Every family is different. The words 'mother', 'father', 'sister', 'brother' and 'grandmother' are examples of family words; use the words that fit your home.",
+        "A complete simple sentence starts with a capital letter and ends with a full stop. A sentence tells someone something. For example: 'My aunt reads.' The word 'My' starts with a capital M, and the full stop shows the sentence is finished.",
+        "We can join a person and an action: 'Grandfather cooks.' 'My sister sings.' These examples are complete because they tell us who is doing something and what the person does.",
+        "Read the sentences aloud or with supported signing. Listen for the first capital letter and look for the final full stop. Write two sentences about real or fictional people without sharing private addresses, telephone numbers or family problems."
+      ],
+      "workedExample": "Word cards: 'grandmother', 'plants', 'beans'. Put them in an order that makes sense: 'Grandmother plants beans.' Add a capital G and a full stop. We know who plants and what she plants.",
+      "question": "Which is a complete sentence?",
+      "choices": [
+        "mother cooking",
+        "My aunt cooks.",
+        "aunt"
+      ],
+      "correctIndex": 1,
+      "feedback": "'My aunt cooks.' begins with a capital and tells a complete idea with a full stop.",
+      "exercises": [
+        {
+          "question": "Add punctuation: 'my uncle reads'",
+          "answer": "My uncle reads."
+        },
+        {
+          "question": "Choose an action word for 'The baby ____.'.",
+          "answer": "The baby sleeps, plays or cries; accept suitable actions."
+        },
+        {
+          "question": "Write a sentence about a helpful family member.",
+          "answer": "Any respectful complete sentence with a capital letter and final mark."
+        },
+        {
+          "question": "Circle the family word: 'The brother jumps.'",
+          "answer": "brother."
+        },
+        {
+          "question": "Why might two families look different?",
+          "answer": "People live with and are cared for by different relatives or guardians."
+        }
+      ],
+      "assignment": {
+        "title": "Reading about families and writing short sentences — applied class assignment",
+        "instructions": "Create a four-picture story about a fictional household helping to prepare a meal. Write one short complete sentence for each picture. The task must not require a learner to disclose private information about their own family.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030: Reading and Writing (Grade 1)",
+      "mediaActivity": "Teacher-made word cards and invented family stories; support diverse household structures.",
+      "textbookReference": "Ventures Primary English Grade 1 Learner's Book: Unit 5 My family"
+    },
+    {
+      "id": "grade-1-english-short-vowel-e-sounds",
+      "level": "Grade 1",
+      "subject": "English Language",
+      "topic": "Listening/Observing and Reading",
+      "title": "Hearing and reading the short e sound",
+      "objective": "Hear the short /e/ vowel in familiar words and read simple consonant-vowel-consonant words.",
+      "durationMinutes": 30,
+      "explanation": [
+        "The letter e can make different sounds in English. In the words 'bed', 'hen' and 'pen', we hear a short /e/ sound. Listen to the middle of each word as the teacher says it slowly.",
+        "Many beginner words have three sounds. For 'pen', say /p/ /e/ /n/, then blend the sounds smoothly into 'pen'. Try 'hen', 'ten' and 'red'. Different learners may need to see lip movement, printed words or tactile letters.",
+        "Changing one letter can change a word. 'Hen' becomes 'pen' when the first sound changes. 'Pen' becomes 'pin' when the middle vowel changes; the words do not sound the same.",
+        "Practise with picture cards and letters, starting from listening before spelling. Write or point to three short e words, then use one in a sentence such as 'The pen is red.'"
+      ],
+      "workedExample": "The teacher shows a drawing of a red pen. Say the word 'pen', stretch it into three sounds /p/ /e/ /n/, point to p-e-n, then blend it again. Read 'The pen is red.'",
+      "question": "Which word usually has a short e sound?",
+      "choices": [
+        "hen",
+        "hat",
+        "hop"
+      ],
+      "correctIndex": 0,
+      "feedback": "Hen has the short e sound heard in bed and pen.",
+      "exercises": [
+        {
+          "question": "Write the three letters in the word 'bed'.",
+          "answer": "b-e-d."
+        },
+        {
+          "question": "Complete the word: h_n.",
+          "answer": "hen."
+        },
+        {
+          "question": "Give another word that rhymes with 'pen'.",
+          "answer": "hen, ten or another suitable rhyme."
+        },
+        {
+          "question": "Read aloud or sign and point to: 'The hen is red.'",
+          "answer": "Learner matches words and demonstrates comprehension."
+        },
+        {
+          "question": "How is 'pen' different from 'pin'?",
+          "answer": "The middle vowel sound changes."
+        }
+      ],
+      "assignment": {
+        "title": "Hearing and reading the short e sound — applied class assignment",
+        "instructions": "Make a set of five original short-e word cards with drawings. Read the words to a partner or teacher, then compose two complete sentences using two of the words. Provide tactile or signed alternatives.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Infant English Language Syllabus 2024–2030: Listening/Observing and Reading/Signing (Grade 1)",
+      "mediaActivity": "Original picture cards of hen, bed, pen, red cloth and net; no reproduced book artwork.",
+      "textbookReference": "Ventures Primary English Grade 1 Learner's Book: Unit 3 My body (short e words)"
+    },
+    {
+      "id": "grade-4-english-verbs-and-time",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Writing and Language Structures",
+      "title": "Verbs: actions in past, present and future",
+      "objective": "Identify verbs and use suitable verb forms to describe when actions take place.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A verb tells us about an action, event or state. We can use a verb in a complete sentence: 'The gardener plants vegetables.' The verb 'plants' tells what the gardener does. Words such as 'is' and 'are' are also verbs, even though they do not describe a visible action.",
+        "We show time in different ways. 'Yesterday we planted beans' refers to the past. 'Today we plant beans' refers to the present. 'Tomorrow we will plant beans' refers to a future event. Time words help us choose a suitable verb form.",
+        "Not every past-tense verb ends in -ed. 'Walk' becomes 'walked', but 'go' becomes 'went' and 'eat' becomes 'ate'. Read a whole sentence and look at its meaning before choosing a form.",
+        "Use your own observations at school to write one past, present and future sentence. Check that the subject agrees with the verb: 'She runs', but 'They run'. Read your sentences aloud to hear whether they sound natural."
+      ],
+      "workedExample": "The action is 'carry'. Yesterday: 'Rudo carried water.' Today: 'Rudo carries water.' Tomorrow: 'Rudo will carry water.' The verb form changes as the time changes.",
+      "question": "Choose the correct verb: 'Yesterday the children ____ to school.'",
+      "choices": [
+        "walk",
+        "walked",
+        "will walk"
+      ],
+      "correctIndex": 1,
+      "feedback": "Yesterday points to the past, so 'walked' is correct.",
+      "exercises": [
+        {
+          "question": "Underline the verb in 'A farmer grows maize'.",
+          "answer": "grows."
+        },
+        {
+          "question": "Change to past tense: 'We play football'.",
+          "answer": "We played football."
+        },
+        {
+          "question": "Change to future: 'She cooks sadza'.",
+          "answer": "She will cook sadza."
+        },
+        {
+          "question": "Correct the agreement: 'The boys runs to class'.",
+          "answer": "The boys run to class."
+        },
+        {
+          "question": "Write a sentence using the irregular past form 'went'.",
+          "answer": "For example: We went to the library yesterday."
+        }
+      ],
+      "assignment": {
+        "title": "Verbs: actions in past, present and future — applied class assignment",
+        "instructions": "Write a nine-sentence account of a school gardening project: three sentences about what learners did last week, three about what they do today and three about what they will do next week. Underline all verbs and label past, present and future.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Writing, Supporting Language Structures (Grade 4)",
+      "mediaActivity": "Verb-and-time sentence cards with school garden vocabulary; pair proofreading.",
+      "textbookReference": "PlusOne English Grade 4 Learner's Book: Unit 2 The new baby, verbs; Unit 6 simple past and present continuous"
+    },
+    {
+      "id": "grade-4-english-letter-with-a-purpose",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Writing a clear informal letter",
+      "objective": "Plan and write a friendly letter with a greeting, organised message and suitable ending.",
+      "durationMinutes": 30,
+      "explanation": [
+        "An informal letter is a friendly message sent to someone you know. It usually has the writer's address or location, a date, a greeting, body paragraphs and a friendly ending. In school exercises, use an invented address rather than sharing your real home address.",
+        "Before writing, decide why you are writing and who will read the message. Write a plan with three parts: introduce your news, explain the important details and finish with a question or friendly closing sentence.",
+        "The body should be easy to follow. If you are telling a friend about a school garden, one paragraph might describe the planting day and a second might explain what the class learnt. Keep sentences on the same topic together.",
+        "After writing, check capital letters in names, full stops, spelling and whether the letter sounds friendly. Read it aloud to test the flow. A letter is clearer when the reader can answer: Who wrote? Why? What happened? What next?"
+      ],
+      "workedExample": "Purpose: invite an imaginary friend to a school reading day. Plan: 'Dear Tino,' then the event, date and activities, followed by 'I hope you can come. Your friend, Nyasha.' The teacher checks that the body describes the reason for writing.",
+      "question": "Which opening suits a friendly letter?",
+      "choices": [
+        "Dear Rudo,",
+        "To whom it may concern,",
+        "ATTENTION ALL STAFF"
+      ],
+      "correctIndex": 0,
+      "feedback": "'Dear Rudo,' is a friendly greeting for someone known to the writer.",
+      "exercises": [
+        {
+          "question": "Name three parts of an informal letter.",
+          "answer": "Greeting, body and ending are valid examples."
+        },
+        {
+          "question": "Write one sentence inviting a friend to a reading day.",
+          "answer": "For example: I would like you to visit our school reading day."
+        },
+        {
+          "question": "What belongs in the body of a letter?",
+          "answer": "The main news, invitation or reason for writing, in clear paragraphs."
+        },
+        {
+          "question": "Choose a suitable ending for a friend.",
+          "answer": "Your friend, Best wishes or another appropriate friendly ending."
+        },
+        {
+          "question": "Why should pupils use fictional addresses in an online exercise?",
+          "answer": "To protect private location and contact information."
+        }
+      ],
+      "assignment": {
+        "title": "Writing a clear informal letter — applied class assignment",
+        "instructions": "Write a 120–160 word informal letter to an imaginary friend about a heritage or reading event at school. Use an invented sender address, date, greeting, two meaningful paragraphs and a closing. Peer-review for clarity and punctuation.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Writing and Composition (Grade 4)",
+      "mediaActivity": "Letter layout on a blank teacher-created template; no personal addresses or contact information.",
+      "textbookReference": "PlusOne English Grade 4 Learner's Book: Unit 2 informal letter; Unit 11 informal letter writing"
+    },
+    {
+      "id": "grade-4-english-words-that-sound-alike",
+      "level": "Grade 4",
+      "subject": "English Language",
+      "topic": "Listening/Observing and Writing",
+      "title": "Homophones: choosing the word that fits",
+      "objective": "Distinguish familiar homophones by meaning and choose the correct spelling in context.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Homophones are words that sound alike but have different spellings and meanings. For example, 'sea' is a large area of salt water, while 'see' means using your eyes. We choose the spelling by understanding the sentence.",
+        "Read the whole sentence before answering. 'I can see the hill' needs the verb 'see'. 'The boat sailed on the sea' needs the noun 'sea'. Saying the word aloud is not enough because the two sound the same.",
+        "Other useful pairs include 'there' and 'their', 'hear' and 'here', and 'right' and 'write'. Sometimes grammar helps: 'their books' describes who owns the books, whereas 'there is a book' tells us something exists.",
+        "To check, replace the chosen word with a simple definition. If 'write' means 'put words on paper', then 'Please write your name' makes sense. If the definition does not fit, reconsider the spelling."
+      ],
+      "workedExample": "Sentence: 'Please ____ your answer.' Choices: right/write. The sentence asks a person to put words on paper, so choose 'write'. Sentence: 'Turn ____ at the gate.' Choose 'right' for direction.",
+      "question": "Choose the correct word: 'We can ____ birds singing.'",
+      "choices": [
+        "here",
+        "hear",
+        "hair"
+      ],
+      "correctIndex": 1,
+      "feedback": "'Hear' means to detect a sound.",
+      "exercises": [
+        {
+          "question": "Fill in: 'The children left ____ bags at school.' (there/their)",
+          "answer": "their."
+        },
+        {
+          "question": "Fill in: 'Come ____ and look.' (hear/here)",
+          "answer": "here."
+        },
+        {
+          "question": "Write one sentence with 'sea'.",
+          "answer": "For example: The sea can have large waves."
+        },
+        {
+          "question": "Explain the difference between 'right' and 'write'.",
+          "answer": "Right can refer to correctness or direction; write means form words."
+        },
+        {
+          "question": "Correct: 'I can sea a beautiful tree'.",
+          "answer": "I can see a beautiful tree."
+        }
+      ],
+      "assignment": {
+        "title": "Homophones: choosing the word that fits — applied class assignment",
+        "instructions": "Create a six-pair homophone mini-dictionary. For each pair, give a short definition and an original sentence that makes the correct meaning clear. Exchange with a classmate to check spelling and usage.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Listening/Observing (Grade 4) and Language Structures",
+      "mediaActivity": "Context sentence cards and peer comparison using teacher-written original examples.",
+      "textbookReference": "PlusOne English Grade 4 Learner's Book: Unit 8 homophones"
+    },
+    {
+      "id": "grade-5-english-similes-in-real-descriptions",
+      "level": "Grade 5",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Similes that make descriptions clearer",
+      "objective": "Identify similes and create effective comparisons using 'like' or 'as'.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A simile compares two things using 'like' or 'as'. Writers use similes to help readers imagine a quality. For example, 'The path was as narrow as a ribbon' compares the width of the path with a ribbon.",
+        "A strong simile makes sense in its context. 'The water was as clear as glass' gives a picture of transparency. A confusing comparison distracts the reader. Think first about the quality you want to describe: speed, colour, sound, texture or size.",
+        "Similes are comparisons, not literal statements. A child described as 'as quick as a hare' is not a hare. The writer is comparing speed. Distinguish a comparison from a fact that can be checked.",
+        "Use similes sparingly in a paragraph. Describe a scene around your school using observation, then add one comparison that improves the reader's mental picture. Re-read the paragraph and remove any comparison that does not help."
+      ],
+      "workedExample": "Observation: the wind moved rapidly through tall grass. Quality: speed and movement. Comparison: 'The grass waved like dancers moving in the wind.' The comparison describes movement rather than claiming the grass is human.",
+      "question": "Which sentence contains a simile?",
+      "choices": [
+        "The river flowed.",
+        "The clouds looked like cotton.",
+        "It rained last night."
+      ],
+      "correctIndex": 1,
+      "feedback": "'Like cotton' compares the clouds with another familiar thing.",
+      "exercises": [
+        {
+          "question": "Finish: 'The classroom was as quiet as ____.'",
+          "answer": "For example: a library; any suitable quiet comparison."
+        },
+        {
+          "question": "Underline the comparison in 'The sand was as hot as an oven'.",
+          "answer": "as hot as an oven."
+        },
+        {
+          "question": "Why does a writer use a simile?",
+          "answer": "To help readers imagine a quality or idea more vividly."
+        },
+        {
+          "question": "Write a simile about the colour of a flower.",
+          "answer": "Any meaningful like/as comparison related to colour."
+        },
+        {
+          "question": "Rewrite a plain description of rain using one helpful simile.",
+          "answer": "For example: Rain drummed like small feet on the roof."
+        }
+      ],
+      "assignment": {
+        "title": "Similes that make descriptions clearer — applied class assignment",
+        "instructions": "Write a descriptive paragraph of 130–160 words about a safe place in your community. Include exactly three meaningful similes and underline them. Add a note explaining what one simile helps a reader picture.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Reading and Writing (Grade 5)",
+      "mediaActivity": "Compare original local weather, tree and market observations without copying textbook prose.",
+      "textbookReference": "Ventures Primary English Grade 5 Learner's Book: Unit 1 A new beginning — Writing: Similes"
+    },
+    {
+      "id": "grade-5-english-summary-and-key-facts",
+      "level": "Grade 5",
+      "subject": "English Language",
+      "topic": "Reading and Writing",
+      "title": "Summaries: keep the important information",
+      "objective": "Select central facts from a short passage and write a concise summary in own words.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A summary tells the important meaning of a longer text using fewer words. It must keep the central idea and key supporting facts, but leave out minor descriptions and repeated information. It should not add new claims that were absent from the text.",
+        "First read the whole passage. Ask: Who or what is it about? What happened? Why is it important? Underline only facts needed to answer those questions. A detail such as the colour of someone's shoes may not matter in a passage about planting trees.",
+        "Next group related facts and rewrite them in your own words. Use short, clear sentences and logical order. Do not simply copy the first sentence or list unrelated words from the passage.",
+        "Finally compare your summary with the source. Check names, dates, numbers and reasons. If a summary says the planting was on Friday when the passage says Tuesday, the summary changes the facts and must be corrected."
+      ],
+      "workedExample": "Original invented text: 'On Tuesday, Grade 5 planted 20 trees near the school fence. Learners used compost and watered each tree. The aim was to provide shade and protect soil.' Summary: 'Grade 5 planted and watered 20 trees on Tuesday to provide shade and protect soil.'",
+      "question": "What should a good summary usually leave out?",
+      "choices": [
+        "The central event",
+        "Repeated or unimportant details",
+        "The main reason"
+      ],
+      "correctIndex": 1,
+      "feedback": "Keep main facts and remove repetition and minor details.",
+      "exercises": [
+        {
+          "question": "Identify the main event in the worked passage.",
+          "answer": "Grade 5 planted 20 trees."
+        },
+        {
+          "question": "Name one supporting fact worth keeping.",
+          "answer": "The trees were watered or the aim was shade and soil protection."
+        },
+        {
+          "question": "Give one detail that would be unhelpful if the passage were about planting.",
+          "answer": "An unrelated detail such as a pupil's shoe colour."
+        },
+        {
+          "question": "Write a 25–35 word summary of a short school notice supplied by your teacher.",
+          "answer": "Accurate central message, key details, own words and logical order."
+        },
+        {
+          "question": "Why must numbers remain accurate in a summary?",
+          "answer": "Changing a number can change the meaning of the original text."
+        }
+      ],
+      "assignment": {
+        "title": "Summaries: keep the important information — applied class assignment",
+        "instructions": "Read a teacher-written 180–220 word informational passage about a school garden, community health or local conservation. Write a 35–45 word factual summary and a five-point checklist explaining what you kept, removed and checked.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Reading and Writing (Grade 5)",
+      "mediaActivity": "Teacher-created short non-fiction passages and main-idea highlighting; no textbook passages republished.",
+      "textbookReference": "Ventures Primary English Grade 5 Learner's Book: Unit 2 Growing roots — Writing: Summarising"
+    },
+    {
+      "id": "grade-5-english-clear-sentences-and-paragraphs",
+      "level": "Grade 5",
+      "subject": "English Language",
+      "topic": "Writing",
+      "title": "Constructing accurate sentences and linked paragraphs",
+      "objective": "Build sentences with clear subjects and verbs, then link them in a focused paragraph.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A complete sentence normally expresses a finished idea. A subject tells us who or what the sentence concerns, and a verb tells us about the action or state. 'The learners measured the garden' has a clear subject and verb.",
+        "Some sentences also need an object or other information. 'The learners measured' is grammatically possible but may leave the reader asking what was measured. Adding 'the garden fence' makes the idea precise.",
+        "A paragraph brings together sentences about one main point. Begin with a topic sentence, add evidence or details in two or three supporting sentences, then close or connect to the next idea.",
+        "Words such as 'first', 'because', 'however' and 'finally' can help the reader follow ideas. Do not add a linking word where the relationship is unclear. Read the paragraph aloud to check that it stays on one topic."
+      ],
+      "workedExample": "Words: 'harvested / the pupils / tomatoes'. Sentence: 'The pupils harvested tomatoes.' Add a reason: 'The pupils harvested tomatoes because the vegetables were ripe.' The paragraph can now explain how the class used the harvest.",
+      "question": "Which sentence has a clear subject and verb?",
+      "choices": [
+        "Through the gate.",
+        "The gardener watered the seedlings.",
+        "When the rain."
+      ],
+      "correctIndex": 1,
+      "feedback": "'The gardener watered the seedlings' gives the doer and the action.",
+      "exercises": [
+        {
+          "question": "Identify subject and verb: 'The teacher read the notice.'",
+          "answer": "Subject: The teacher; verb: read."
+        },
+        {
+          "question": "Rearrange: 'books / the pupils / borrowed'.",
+          "answer": "The pupils borrowed books."
+        },
+        {
+          "question": "Improve this fragment: 'After the assembly'.",
+          "answer": "For example: After the assembly, the learners returned to class."
+        },
+        {
+          "question": "Write a topic sentence about keeping classrooms clean.",
+          "answer": "Any clear complete sentence introducing the cleanliness topic."
+        },
+        {
+          "question": "Write two supporting details for your topic sentence.",
+          "answer": "Two relevant, coherent reasons or examples."
+        }
+      ],
+      "assignment": {
+        "title": "Constructing accurate sentences and linked paragraphs — applied class assignment",
+        "instructions": "Write a two-paragraph 160–200 word factual account of a small school improvement activity. The first paragraph introduces the activity and the second explains its results. Underline a subject and verb in each paragraph, then revise one sentence for clarity.",
+        "maxScore": 20,
+        "rubric": [
+          "Concept understanding and correct terminology — 6 marks",
+          "Method, reasoning and relevant application — 8 marks",
+          "Clear presentation and completeness — 4 marks",
+          "Reflection and improvement — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior English Language Syllabus 2024–2030: Writing (Grade 5)",
+      "mediaActivity": "Sentence sorting cards and peer feedback on a school-related invented news item.",
+      "textbookReference": "Ventures Primary English Grade 5 Learner's Book: Unit 1 A new beginning — Sentence construction"
+    }
+  ]
+}
