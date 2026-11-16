@@ -12,8 +12,8 @@ class HeritageCurriculumInstrumentedTest {
  @Test fun sharedCatalogIsAvailableOfflineForEveryCoveredGrade() {
    val context=InstrumentationRegistry.getInstrumentation().targetContext
    val lessons=HeritageCurriculum.load(context)
-   assertEquals(63, lessons.size)
-   assertEquals(63, lessons.map { it.id }.distinct().size)
+   assertEquals(88, lessons.size)
+   assertEquals(88, lessons.map { it.id }.distinct().size)
    for(level in listOf("ECD A","ECD B","Grade 1","Grade 2","Grade 3",
        "Grade 4","Grade 5","Grade 6","Grade 7")) {
      assertTrue("Missing level: $level", lessons.any { it.level==level })
@@ -27,9 +27,19 @@ class HeritageCurriculumInstrumentedTest {
    assertTrue("ECD listening and school greetings must be offline",
       lessons.any { it.id=="ecd-a-english-listening-instructions" } &&
       lessons.any { it.id=="ecd-b-indigenous-greetings" })
+   assertEquals(13,lessons.count { it.deepDive!=null })
+   assertEquals(25,lessons.count { it.textbookReference.isNotBlank() })
+   assertTrue("Source-guided Maths must load offline",
+     lessons.any { it.id=="grade-5-maths-rounding-useful-estimates" })
+   assertTrue("Source-guided Shona must load offline",
+     lessons.any { it.id=="grade-5-shona-kuverenga-kunzwisisa-nyaya" })
+   assertTrue("All workshops should include staged teaching and practice",
+     lessons.filter { it.deepDive!=null }.all {
+       it.deepDive!!.steps.size>=3 && it.deepDive!!.practice.size>=2
+     })
    assertTrue("Lessons must have substantive explanations, examples and quizzes",
      lessons.all { it.objective.length>15 && it.explanation.size>=3 &&
-       it.workedExample.length>20 && it.exercises.size==3 &&
+       it.workedExample.length>20 && it.exercises.size>=3 &&
        it.assignmentInstructions.isNotBlank() && it.choices.size==3 &&
        it.correctIndex in it.choices.indices })
  }

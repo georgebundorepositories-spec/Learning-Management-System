@@ -1,0 +1,838 @@
+{
+  "version": "2026-11-16.2b",
+  "notice": "Original topic-aligned learning content written for ZimSchool using uploaded Ministry syllabi and textbooks only as curriculum references. No publisher text or images reproduced.",
+  "units": [
+    {
+      "id": "grade-5-maths-place-value-number-meaning",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Place value, expanded form and number order",
+      "objective": "Read, partition, compare and order whole numbers up to 100 000 using place value.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Each digit's value depends on its place. In 47 305, the 4 is in the ten-thousands place and means 40 000, while the 3 is in the hundreds place and means 300. A zero holds a place even when it adds no quantity.",
+        "Expanded form writes the total as the sum of place values. Thus 47 305 is 40 000 + 7 000 + 300 + 5. Explain every digit from left to right rather than reading it as an isolated symbol.",
+        "To compare two numbers, begin at the largest place. For 47 305 and 46 990, both have four ten-thousands, but the first has seven thousands while the second has six. Therefore 47 305 is greater.",
+        "Order numbers by comparing their place values. Check the direction: ascending means smallest to largest and descending means largest to smallest. Use a place-value chart or bundles of classroom counters when numbers seem abstract."
+      ],
+      "workedExample": "Compare 52 604, 52 460 and 52 640. All have five ten-thousands and two thousands. Compare hundreds: 604 has six hundreds, 460 has four hundreds, 640 has six hundreds. Compare tens where needed. Ascending: 52 460, 52 604, 52 640.",
+      "question": "What is the value of 7 in 37 204?",
+      "choices": [
+        "7",
+        "700",
+        "7 000"
+      ],
+      "correctIndex": 2,
+      "feedback": "The 7 is in the thousands column, so it represents 7 000.",
+      "exercises": [
+        {
+          "question": "Write 68 409 in expanded form.",
+          "answer": "60 000 + 8 000 + 400 + 9."
+        },
+        {
+          "question": "Write 'seventy-two thousand and sixty-five' as digits.",
+          "answer": "72 065."
+        },
+        {
+          "question": "What is the value of 5 in 95 018?",
+          "answer": "5 000."
+        },
+        {
+          "question": "Arrange 34 450, 34 405 and 34 540 in ascending order.",
+          "answer": "34 405, 34 450, 34 540."
+        },
+        {
+          "question": "Give one reason why zero matters in 40 607.",
+          "answer": "It marks empty thousands and tens places and preserves other digits' values."
+        },
+        {
+          "question": "How many hundreds are in 4 500?",
+          "answer": "45 hundreds."
+        }
+      ],
+      "assignment": {
+        "title": "Place value, expanded form and number order — applied class assignment",
+        "instructions": "Create a place-value chart for five independently chosen four- or five-digit quantities connected to a fictional library, shop or school. For each, write numeral, number words and expanded form. Order all five from least to greatest and explain one comparison.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030: Grade 5 Number, numerals and place value to 100 000",
+      "mediaActivity": "Original place-value chart and reusable counter bundles; do not reproduce publisher diagrams.",
+      "textbookReference": "Ventures Primary Mathematics Grade 5 Learner's Book: Unit 1 Whole numbers"
+    },
+    {
+      "id": "grade-5-maths-rounding-useful-estimates",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Rounding to tens, hundreds and thousands",
+      "objective": "Round numbers to specified place values and judge when an estimate is useful.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Rounding replaces a number with a nearby simpler value. To round to the nearest ten, look at the units digit. Values 0–4 round down; 5–9 round up. For example, 184 rounds to 180.",
+        "To round to the nearest hundred, locate the hundreds digit and inspect the tens digit. The number 1 268 is between 1 200 and 1 300; because the tens digit is 6, it rounds to 1 300.",
+        "To round to the nearest thousand, compare the hundreds digit. The number 6 499 rounds to 6 000, but 6 500 rounds to 7 000. A number line helps visualise which multiple is closer.",
+        "An estimate is useful for checking whether an answer is sensible. When planning transport, you might round distances for a quick comparison. For official measurements or payments, however, use exact values when accuracy matters."
+      ],
+      "workedExample": "Round 23 768 to the nearest 10, 100 and 1 000. Nearest 10: units 8, so 23 770. Nearest 100: tens 6, so 23 800. Nearest 1 000: hundreds 7, so 24 000.",
+      "question": "Round 7 649 to the nearest hundred.",
+      "choices": [
+        "7 600",
+        "7 700",
+        "8 000"
+      ],
+      "correctIndex": 0,
+      "feedback": "The tens digit is 4, so 7 649 rounds down to 7 600.",
+      "exercises": [
+        {
+          "question": "Round 4 372 to the nearest ten.",
+          "answer": "4 370."
+        },
+        {
+          "question": "Round 4 372 to the nearest hundred.",
+          "answer": "4 400."
+        },
+        {
+          "question": "Round 4 372 to the nearest thousand.",
+          "answer": "4 000."
+        },
+        {
+          "question": "Round 15 500 to the nearest thousand.",
+          "answer": "16 000 using standard half-up rounding."
+        },
+        {
+          "question": "Why is 9 994 closer to 10 000 than 9 000?",
+          "answer": "It is only 6 away from 10 000 but 994 away from 9 000."
+        },
+        {
+          "question": "Estimate 2 480 + 3 520 by rounding each to the nearest hundred.",
+          "answer": "2 500 + 3 500 = 6 000."
+        }
+      ],
+      "assignment": {
+        "title": "Rounding to tens, hundreds and thousands — applied class assignment",
+        "instructions": "Create a table of eight realistic distances or quantities from a fictional transport timetable or community market. Show each original number rounded to the nearest 10, 100 and 1 000. Explain which degree of rounding suits a quick estimate and which situations require exact numbers.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030: Grade 5 Number, estimation/approximation",
+      "mediaActivity": "Draw a reusable number line for each rounding threshold and justify the closer multiple.",
+      "textbookReference": "Ventures Primary Mathematics Grade 5 Learner's Book: Unit 2 Rounding off numbers"
+    },
+    {
+      "id": "grade-5-maths-roman-numerals-1-to-20",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Number",
+      "title": "Reading and writing Roman numerals",
+      "objective": "Convert familiar numbers between Roman numerals and Arabic numerals, using I, V and X.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Roman numerals use letters for values. I means 1, V means 5 and X means 10. We can combine them to represent numbers. For example, XIII means 10 + 1 + 1 + 1 = 13.",
+        "When a smaller numeral comes before a larger one in common forms, it may be subtracted. IV is 5 − 1 = 4; IX is 10 − 1 = 9. When a smaller or equal numeral follows, we usually add its value.",
+        "The numerals from 1 to 20 include VII = 7, XII = 12, XVI = 16 and XIX = 19. Learn patterns rather than memorising every separate numeral. X + V + II gives XVII = 17.",
+        "Roman numerals may appear on old clocks, chapter headings and important dates. Read them carefully but keep the classroom scope to the forms taught, then verify your answer by converting back to ordinary numerals."
+      ],
+      "workedExample": "Convert 14 to Roman numerals: 10 + 4 = X + IV, so XIV. Convert XIX: X = 10 and IX = 9, so XIX = 19. Check that both forms represent the same quantity.",
+      "question": "Which Roman numeral means 14?",
+      "choices": [
+        "XIV",
+        "XVI",
+        "IX"
+      ],
+      "correctIndex": 0,
+      "feedback": "XIV combines ten and four.",
+      "exercises": [
+        {
+          "question": "Convert VIII into an Arabic numeral.",
+          "answer": "8."
+        },
+        {
+          "question": "Write 12 using Roman numerals.",
+          "answer": "XII."
+        },
+        {
+          "question": "Write 19 using Roman numerals.",
+          "answer": "XIX."
+        },
+        {
+          "question": "Explain why IV represents 4.",
+          "answer": "I appears before V, so 1 is subtracted from 5."
+        },
+        {
+          "question": "A clock shows XI. What number is it?",
+          "answer": "11."
+        },
+        {
+          "question": "A club has IX girls and VI boys. How many members are there?",
+          "answer": "9 + 6 = 15."
+        }
+      ],
+      "assignment": {
+        "title": "Reading and writing Roman numerals — applied class assignment",
+        "instructions": "Design an original twelve-hour clock face using Roman numerals I–XII. Write a matching table of numerals 1–20 and Roman forms, and solve three short word problems using the conversions.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030: Grade 5 Number, Arabic and Roman numeration up to XX",
+      "mediaActivity": "Create a paper clock model; do not copy publisher pages or clock artwork.",
+      "textbookReference": "Ventures Primary Mathematics Grade 5 Learner's Book: Unit 3 Roman and Arabic numerals"
+    },
+    {
+      "id": "grade-5-maths-add-subtract-fractions",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Operations",
+      "title": "Adding and subtracting fractions of equal parts",
+      "objective": "Add and subtract proper fractions with common denominators and explain the denominator's role.",
+      "durationMinutes": 30,
+      "explanation": [
+        "The denominator tells how many equal parts make one whole. The numerator tells how many such parts we are counting. In 3/8, the whole is divided into eight equal pieces and three are considered.",
+        "When denominators are equal, add or subtract only the numerators. For example, 2/7 + 3/7 = 5/7. The denominator remains seven because we are still counting sevenths, not creating a new kind of part.",
+        "For subtraction, 6/9 − 2/9 = 4/9. Check that the subtraction answers a meaningful story such as six ninths of a garden bed planted, two ninths harvested, four ninths still planted.",
+        "If a fraction can be simplified, divide numerator and denominator by the same common factor. For example, 4/8 simplifies to 1/2. Use shaded bars or paper strips to see the equivalence before relying only on symbols."
+      ],
+      "workedExample": "A learner colours 3/10 of a strip red and 4/10 blue. Total coloured: 3/10 + 4/10 = 7/10. Remaining uncoloured: 10/10 − 7/10 = 3/10. Check the parts add up to one whole.",
+      "question": "What is 2/9 + 4/9?",
+      "choices": [
+        "6/18",
+        "6/9",
+        "8/9"
+      ],
+      "correctIndex": 1,
+      "feedback": "The fractions already refer to ninths, so add the numerators: 2 + 4 = 6.",
+      "exercises": [
+        {
+          "question": "Calculate 1/8 + 5/8.",
+          "answer": "6/8 = 3/4."
+        },
+        {
+          "question": "Calculate 7/10 − 3/10.",
+          "answer": "4/10 = 2/5."
+        },
+        {
+          "question": "Explain why 2/5 + 1/5 is not 3/10.",
+          "answer": "The denominator stays five; the answer is 3/5."
+        },
+        {
+          "question": "What fraction of a strip remains if 5/12 is shaded?",
+          "answer": "7/12."
+        },
+        {
+          "question": "Give an equivalent fraction for 3/6.",
+          "answer": "1/2."
+        },
+        {
+          "question": "Write a word problem that can be solved with 2/7 + 3/7.",
+          "answer": "Any coherent story with equal sevenths and total 5/7."
+        }
+      ],
+      "assignment": {
+        "title": "Adding and subtracting fractions of equal parts — applied class assignment",
+        "instructions": "Create three original fraction-strip stories about a vegetable garden, recipe or class art project. For each, draw equal-sized parts, show the addition or subtraction, simplify where possible and write a sentence explaining the result.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030: Grade 5 Operations, fractions",
+      "mediaActivity": "Teacher-created shaded strips and folded paper; keep all compared wholes the same size.",
+      "textbookReference": "Ventures Primary Mathematics Grade 5 Learner's Book: Units 14–15 Addition and Subtraction of proper fractions"
+    },
+    {
+      "id": "grade-5-maths-decimals-in-money",
+      "level": "Grade 5",
+      "subject": "Mathematics",
+      "topic": "Number and Operations",
+      "title": "Decimal place value and money calculations",
+      "objective": "Read two-decimal-place values and add/subtract decimal numbers with aligned place values.",
+      "durationMinutes": 30,
+      "explanation": [
+        "A decimal point separates whole numbers from parts of one. The first digit to its right shows tenths and the second shows hundredths. The number 3.47 means three wholes, four tenths and seven hundredths.",
+        "In money amounts expressed with two decimal places, the digits to the right of the point represent smaller currency units. Use fictional prices in class and always label the currency; different countries use different currencies.",
+        "When adding decimal values, line up the decimal points so ones, tenths and hundredths are in their correct columns. Then add each column, carrying to the next column if the total reaches ten.",
+        "When subtracting, also line up place values and regroup when needed. Estimate first: if an item costs 2.35 and another costs 1.40, the total should be a little under four, not thirty-seven. Write trailing zeros when they make column alignment clearer."
+      ],
+      "workedExample": "A fictional shop sells a ruler for $1.25 and a pencil for $0.80. Align decimal points: 1.25 + 0.80 = 2.05. A customer pays $3.00, so change is 3.00 − 2.05 = $0.95.",
+      "question": "What is 2.40 + 1.35?",
+      "choices": [
+        "3.75",
+        "3.65",
+        "3.05"
+      ],
+      "correctIndex": 0,
+      "feedback": "Add each place-value column: 2.40 + 1.35 = 3.75.",
+      "exercises": [
+        {
+          "question": "Name the tenths digit in 6.58.",
+          "answer": "5."
+        },
+        {
+          "question": "Write 4.07 as four wholes and a fraction.",
+          "answer": "4 and 7/100."
+        },
+        {
+          "question": "Add 3.20 and 1.45.",
+          "answer": "4.65."
+        },
+        {
+          "question": "Subtract 5.00 − 2.65.",
+          "answer": "2.35."
+        },
+        {
+          "question": "Why must decimal points be aligned?",
+          "answer": "To add or subtract the same place-value columns."
+        },
+        {
+          "question": "A fictional snack costs $1.60 and a drink $1.35. Find the total.",
+          "answer": "$2.95."
+        }
+      ],
+      "assignment": {
+        "title": "Decimal place value and money calculations — applied class assignment",
+        "instructions": "Design a small fictional price list of six school supplies, each priced with two decimal places. Build two shopping baskets, calculate totals and change from $10.00, and show one method of estimating to check whether each result is sensible.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Mathematics Syllabus 2024–2030: Grade 5 Number, decimals up to two places and Operations",
+      "mediaActivity": "Use original price tags and a place-value grid; no real purchases or family financial information.",
+      "textbookReference": "Ventures Primary Mathematics Grade 5 Learner's Book: Units 19–22 Decimal numbers and decimal operations"
+    },
+    {
+      "id": "grade-5-shona-madimikira-nezvirevo",
+      "level": "Grade 5",
+      "subject": "Indigenous Languages",
+      "topic": "Language Usage and Cultural Aspects",
+      "title": "Madimikira nefananidzo mukurondedzera",
+      "objective": "Tsanangura fananidzo uye shandisa mutauro wakajeka kurondedzera chiitiko.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Fananidzo inzira yokutsanangura chinhu tichichienzanisa nechimwe kuti muverengi aone mufananidzo wakajeka mupfungwa. Mumutsara wokuti 'Akamhanya semhepo', mutauri ari kusimbisa kumhanya kwemunhu, kwete kuti munhu wacho imhepo.",
+        "Pakunyora rondedzero, sarudza fananidzo inoenderana nezvauri kutaura. 'Mvura yaipenya segirazi' inogona kubatsira munhu kufungidzira kupenya kwemvura. Fananidzo isina kubatana nepfungwa inoita kuti nyaya inetse kunzwisisa.",
+        "Madimikira nemitsara yemadimikira zvinogona kusiyana munharaunda uye pakushandiswa. Teerera mashandisirwo emutauro nevakuru kana nemudzidzisi, wobvunza kana usinganzwisisi. Usangotora mashoko akadzidzwa pasina kufunga nezvemamiriro aari kushandiswa.",
+        "Verenga ndima pfupi yakanyorwa nemudzidzisi. Sarudza mutsara une fananidzo, tsanangura zvauri kuenzanisa, uye nyora mutsara wako unotsanangura mamiriro okunze, basa kana mutambo."
+      ],
+      "workedExample": "Mutsara wakareruka: 'Musikana akamhanya zvikuru.' Fananidzo: 'Musikana akamhanya semhepo.' Zvinofananidzwa: kumhanya kwemusikana uye kufamba kunokurumidza kwemhepo. Tinowedzera kujeka pasina kureva kuti zvinhu zviviri izvi zvakafanana chose.",
+      "question": "Ndeupi mutsara une fananidzo?",
+      "choices": [
+        "Mwana ari kuverenga.",
+        "Mwana akamhanya semhepo.",
+        "Mwana akaenda kuchikoro."
+      ],
+      "correctIndex": 1,
+      "feedback": "'Semhepo' rinoratidza kuenzanisa kukurumidza.",
+      "exercises": [
+        {
+          "question": "Tsanangura fananidzo nemashoko ako.",
+          "answer": "Kuenzanisa chinhu nechimwe kuti pfungwa ijeke."
+        },
+        {
+          "question": "Nyora fananidzo inotsanangura kukurumidza.",
+          "answer": "Semuenzaniso: Akamhanya semhepo; kana imwe yakakodzera."
+        },
+        {
+          "question": "Chii chinofananidzwa mumutsara unoti 'Mvura yaipenya segirazi'?",
+          "answer": "Kupenya kwemvura nokupenya kwegirazi."
+        },
+        {
+          "question": "Nei tichifanira kufunga nezvemamiriro enyaya pakushandisa madimikira?",
+          "answer": "Kuti mashoko asashandurwe zvaanoreva kana kuvhiringidza muverengi."
+        },
+        {
+          "question": "Nyora mitsara miviri inotsanangura zuva remvura.",
+          "answer": "Mitsara miviri ine pfungwa yakabatana uye imwe fananidzo yakakodzera."
+        },
+        {
+          "question": "Verenga fananidzo yawanyora, woitsanangurira mumwe wako.",
+          "answer": "Tsananguro inoburitsa zvinhu zvinofananidzwa uye chinangwa chayo."
+        }
+      ],
+      "assignment": {
+        "title": "Madimikira nefananidzo mukurondedzera — applied class assignment",
+        "instructions": "Nyora rondedzero yemashoko anosvika 120–160 pamusoro pezuva rine mvura, mutambo kana basa rechikoro. Shandisa fananidzo nhatu dzakakodzera, dzitsanangure nerondedzero pfupi uye upe mumwe wako mukana wekukuudza kana mashoko ako akajeka.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030: Grade 5 Language Usage, figurative language",
+      "mediaActivity": "Hurukuro yemakirasi pamwe nemienzaniso mitsva yakagadzirwa nevadzidzi; pasina kukopa ndima dzemubhuku.",
+      "textbookReference": "Ventures Primary Gore ReChishanu ChiShona Bhuku Remudzidzi: Ziva mutauro, madimikira nemashandisirwo emutauro"
+    },
+    {
+      "id": "grade-5-shona-kuverenga-kunzwisisa-nyaya",
+      "level": "Grade 5",
+      "subject": "Indigenous Languages",
+      "topic": "Comprehension and Summary",
+      "title": "Kuverenga, kunzwisisa nokupfupisa nyaya",
+      "objective": "Verenga nyaya pfupi, tsvaga pfungwa huru uye nyora pfupiso yakarurama.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Pakunzwisisa nyaya, verenga zvinyoronyoro uone kuti nyaya iri pamusoro paani, chii chakaitika, kupi uye nei. Musoro wenyaya unogona kukupa fungidziro, asi mhinduro dzinofanira kutsigirwa nezviri mundima.",
+        "Fungidzira nyaya itsva: 'Musi weMugovera, vadzidzi vaChipo vakadyara miti mishanu pamusuwo wechikoro. Vakauya nemvura, vakafukidza midzi nevhu, uye vakavimbisa kuichengeta.' Nyaya iyi iri pamusoro pokudyara nekuchengeta miti.",
+        "Mubvunzo wokuti 'Miti mingani yakadyarwa?' unoda mashoko ari mundima: mishanu. Mubvunzo wokuti 'Nei kuchengeta miti kuchikosha?' unoda kufunga uchitsigira mhinduro nemashoko ari munhau uye ruzivo rwakakodzera.",
+        "Pfupiso inokurukura zviri zvikuru pasina kudzokorora zvose. Nyora nemashoko ako, woongorora kana manhamba nemashoko akakosha zvakarurama. Dzivisa kuwedzera chiitiko chisina kuitika munyaya."
+      ],
+      "workedExample": "Pfupiso yenyaya yakagadzirwa: 'Vadzidzi vaChipo vakadyara miti mishanu pachikoro neMugovera, vakaidiridza uye vakaronga kuichengeta.' Pfupiso inochengetedza vanhu, zuva, chiitiko uye basa rinotevera.",
+      "question": "Miti mingani yakadyarwa munyaya yemuenzaniso?",
+      "choices": [
+        "Miviri",
+        "Mishanu",
+        "Gumi"
+      ],
+      "correctIndex": 1,
+      "feedback": "Nyaya inotaura nezvemiti mishanu.",
+      "exercises": [
+        {
+          "question": "Nyaya yemuenzaniso yakaitika zuva ripi?",
+          "answer": "Musi weMugovera."
+        },
+        {
+          "question": "Ndiani akadyara miti?",
+          "answer": "Vadzidzi vaChipo."
+        },
+        {
+          "question": "Chii chakaitwa nemvura?",
+          "answer": "Vadzidzi vakadiridza miti."
+        },
+        {
+          "question": "Ndeipi pfungwa huru yenyaya?",
+          "answer": "Kudyara uye kuchengeta miti pachikoro."
+        },
+        {
+          "question": "Nyora pfupiso yemitsara miviri usingakopi nyaya yose.",
+          "answer": "Pfupiso inobata chiitiko, vanhu nechinangwa zvakarurama."
+        },
+        {
+          "question": "Nei pfupiso isingafaniri kuwedzera zvakango fungidzirwa?",
+          "answer": "Nokuti inofanira kuenderana nezvakanyorwa munyaya."
+        }
+      ],
+      "assignment": {
+        "title": "Kuverenga, kunzwisisa nokupfupisa nyaya — applied class assignment",
+        "instructions": "Mudzidzisi anopa nyaya itsva yemashoko 150–180 pamusoro pekuchengetedzwa kwemvura kana chiitiko chechikoro. Pindura mibvunzo mishanu yenziyo/chiitiko/chikonzero, wobva wanyora pfupiso yemashoko anenge 35. Ratidza mitsara yakakusvitswa kuziva pfungwa huru.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030: Grade 5 Comprehension and Summary",
+      "mediaActivity": "Shandisa nyaya dzekudzidzisa dzakanyorwa nevadzidzisi, kwete mifananidzo kana ndima dzakakopwa mumabhuku.",
+      "textbookReference": "Ventures Primary Gore ReChishanu ChiShona Bhuku Remudzidzi: Kuverenga nekunyora, nzwisiso nepfupiso"
+    },
+    {
+      "id": "grade-5-shona-tsamba-yeshamwari",
+      "level": "Grade 5",
+      "subject": "Indigenous Languages",
+      "topic": "Composition",
+      "title": "Kunyora tsamba yeshamwari ine hurongwa",
+      "objective": "Nyora tsamba yeshamwari ine kwaziso, mashoko akarongwa uye kupedzisa kwakakodzera.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Tsamba yeshamwari inonyorerwa munhu watinoziva. Inofanira kuva nezvinhu zvinobatsira muverengi: zuva, kwaziso, mashoko makuru uye kupedzisa kwakakodzera. Pakudzidzira paindaneti, shandisa nzvimbo yekugara yakafungidzirwa, kwete kero yako chaiyo.",
+        "Tanga nokufunga chinangwa chetsamba. Ungada kuudza shamwari nezvemutambo, kukoka shamwari pachiitiko kana kutsanangura zvawadzidza. Nyora pfungwa nhatu dzauchashandisa dzisati dzava ndima.",
+        "Ndima yokutanga inotanga nyaya, inotevera inoburitsa zvaitika uye yokupedzisira inopa mashoko ekupedzisa. Batanidza pfungwa zvakanaka uye chengeta mutauro wokuremekedza.",
+        "Mushure mekunyora, verenga tsamba yose. Tarisa kana mazita akanyorwa zvakanaka, pfungwa dzisina kudzokororwa uye muverengi anogona kunzwisisa kuti nei wamunyorera. Shandura mitsara isina kujeka."
+      ],
+      "workedExample": "Chinangwa: kuudza shamwari yako nezvezuva rokudyara miti. Ronga: kwaziso 'Shamwari yangu Tariro,'; ndima yokutanga inotsanangura zuva; yechipiri inotaura mabasa amakaita; yokupedzisira inokoka shamwari kuti ikushanyire pachikoro.",
+      "question": "Chii chinofanira kunge chiri mutsamba yeshamwari?",
+      "choices": [
+        "Kwaziso nemashoko akarongwa",
+        "Nhamba yepassword",
+        "Mashoko asina ndima"
+      ],
+      "correctIndex": 0,
+      "feedback": "Kwaziso, ndima dzakajeka uye kupedzisa zvinoita kuti tsamba inyatsonzwisisika.",
+      "exercises": [
+        {
+          "question": "Doma zvikamu zvitatu zvetsamba yeshamwari.",
+          "answer": "Kwaziso, mashoko makuru, kupedzisa kana zvimwe zvakakodzera."
+        },
+        {
+          "question": "Nyora kwaziso yakakodzera shamwari.",
+          "answer": "Semuenzaniso: Shamwari yangu Rudo,"
+        },
+        {
+          "question": "Nei uchifanira kuronga pfungwa usati wanyora?",
+          "answer": "Kuti nyaya iite hurongwa uye isadzokororwe."
+        },
+        {
+          "question": "Nyora mutsara unokoka shamwari kuchiitiko chechikoro.",
+          "answer": "Mutsara unojekesa kukokwa nenzira yokuremekedza."
+        },
+        {
+          "question": "Nei tisingashandisi kero chaiyo muenzaniso wepaindaneti?",
+          "answer": "Kudzivirira kuburitsa ruzivo rwakavanzika."
+        },
+        {
+          "question": "Nyora kupedzisa kwakakodzera tsamba yeshamwari.",
+          "answer": "Semuenzaniso: Shamwari yako, Tapiwa."
+        }
+      ],
+      "assignment": {
+        "title": "Kunyora tsamba yeshamwari ine hurongwa — applied class assignment",
+        "instructions": "Nyora tsamba yemashoko 130–170 kushamwari yakafungidzirwa pamusoro pechiitiko chekuchengetedza nharaunda. Shandisa kero yefungidziro, zuva, kwaziso, ndima dzinotevedzana uye kupedzisa kwakanaka. Dzokorora wogadzirisa zviperengo zvishanu.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Indigenous Languages Syllabus 2024–2030: Grade 5 Composition and Language Structures",
+      "mediaActivity": "Kunyora uye kuongorora tsamba dzefungidziro dzevadzidzi, pasina kero kana manhamba avo chaiwo.",
+      "textbookReference": "Ventures Primary Gore ReChishanu ChiShona Bhuku Remudzidzi: Tsamba, zvirevo nemashandisirwo emutauro"
+    },
+    {
+      "id": "grade-3-science-human-body-health",
+      "level": "Grade 3",
+      "subject": "Science and Technology",
+      "topic": "Health and Hygiene Practices",
+      "title": "Body organs and everyday health",
+      "objective": "Identify the heart, lungs and stomach and describe simple protective health habits.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Our bodies contain organs that work together. The heart pumps blood around the body, the lungs help us take oxygen from air, and the stomach helps break down food as part of digestion. Organs have different jobs but support the same living body.",
+        "We do not normally see these internal parts. A teacher-created outline can show approximately where the heart, lungs and stomach are located. Do not attempt to draw medical details beyond what is taught at this grade.",
+        "Healthy habits such as safe exercise, eating varied foods, washing hands and getting enough sleep help the body work well. They do not guarantee that someone will never become ill; sick people need care, not blame.",
+        "Use a simple class model: open and close your hands gently to show pumping, then breathe in and out normally to notice chest movement. Never hold your breath for long or perform strenuous exercises to prove how the lungs work."
+      ],
+      "workedExample": "During a short walk, learners breathe faster and their hearts beat faster. The lungs help bring oxygen into the body and the heart helps move blood. After resting, their breathing may gradually slow.",
+      "question": "Which organ pumps blood around the body?",
+      "choices": [
+        "Heart",
+        "Stomach",
+        "Ear"
+      ],
+      "correctIndex": 0,
+      "feedback": "The heart pumps blood through blood vessels.",
+      "exercises": [
+        {
+          "question": "Name one function of the lungs.",
+          "answer": "They help the body take in oxygen and release carbon dioxide."
+        },
+        {
+          "question": "Name one function of the stomach.",
+          "answer": "It helps digest food."
+        },
+        {
+          "question": "Write two healthy habits.",
+          "answer": "Handwashing, suitable exercise, varied food and rest are examples."
+        },
+        {
+          "question": "Why should we avoid teasing someone who is sick?",
+          "answer": "Illness is not a fault; people need respect and help."
+        },
+        {
+          "question": "Place a label for heart, lungs and stomach on a simple body outline.",
+          "answer": "All three are placed approximately in their usual locations."
+        },
+        {
+          "question": "Explain one difference between the heart and the lungs.",
+          "answer": "Heart pumps blood; lungs exchange gases with air."
+        }
+      ],
+      "assignment": {
+        "title": "Body organs and everyday health — applied class assignment",
+        "instructions": "Draw an original human-body outline and label heart, lungs and stomach. Write two sentences about each organ's main job. Add a small poster describing three sensible daily health habits.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030: Grade 3 Health and Hygiene, internal body parts",
+      "mediaActivity": "Teacher-made body outline and a gentle, optional observation of breathing at rest.",
+      "textbookReference": "Syllabus-guided original lesson; no supplied Grade 3 textbook chapter used"
+    },
+    {
+      "id": "grade-5-science-food-preservation",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Food and Nutrition",
+      "title": "Why communities preserve food",
+      "objective": "Compare safe food-preservation methods and explain contamination risks.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Food can spoil when microorganisms grow or when natural processes change it. People preserve food so it can be stored longer and wasted less. Preservation methods include drying, cooling, freezing and suitable food processing.",
+        "Some Zimbabwean communities sun-dry selected foods under hygienic conditions. Drying removes much of the water that microbes need to grow, but poorly handled drying can introduce dust, insects or other contamination.",
+        "Refrigeration slows the growth of many microbes but does not make all food safe indefinitely. Heating, hygiene, dry containers and appropriate storage rules are still important. Never taste food merely to test whether it is spoiled.",
+        "Compare preservation methods using safe classroom diagrams or unopened food packages. Think about which methods need electricity, which may be practical during power cuts and which foods require special care. Ask an adult about food-safety instructions for specific foods."
+      ],
+      "workedExample": "A household wants to keep freshly harvested vegetables. One option is to wash and cook them promptly. Another is suitable refrigeration; some types can be hygienically dried following appropriate food-safety guidance. Choosing depends on the food and available facilities.",
+      "question": "Why does suitable drying help preserve some foods?",
+      "choices": [
+        "It removes much of the water microbes need",
+        "It turns all foods into sweets",
+        "It makes hygiene unnecessary"
+      ],
+      "correctIndex": 0,
+      "feedback": "Drying reduces moisture but food still needs clean handling and safe storage.",
+      "exercises": [
+        {
+          "question": "Name two methods of food preservation.",
+          "answer": "Drying and refrigeration; freezing or other suitable methods also count."
+        },
+        {
+          "question": "Why should a drying rack be kept clean and protected?",
+          "answer": "To reduce dust, insects and contamination."
+        },
+        {
+          "question": "Does refrigeration stop all spoilage forever?",
+          "answer": "No. It slows many processes but does not guarantee indefinite safety."
+        },
+        {
+          "question": "Give one reason people preserve food after harvest.",
+          "answer": "To reduce spoilage, improve availability and reduce waste."
+        },
+        {
+          "question": "Explain why an unsafe-looking or suspicious food should not be tasted.",
+          "answer": "Tasting can expose a person to harmful organisms or toxins."
+        },
+        {
+          "question": "Compare a preservation method that needs electricity with one that may not.",
+          "answer": "Refrigeration requires electricity; suitable drying can be done without it."
+        }
+      ],
+      "assignment": {
+        "title": "Why communities preserve food — applied class assignment",
+        "instructions": "Interview a consenting adult about one traditional or modern food-preservation method without collecting personal contact data. Make a two-column poster comparing safety steps, costs and suitable foods. Present what you learnt and one question still to investigate.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030: Grade 5 Food and Nutrition, food preservation",
+      "mediaActivity": "Class comparison of sealed product labels, original diagrams and safe drying models; no cooking unsupervised.",
+      "textbookReference": "Syllabus-guided original lesson; no supplied Grade 5 science textbook used"
+    },
+    {
+      "id": "grade-5-science-weather-observation",
+      "level": "Grade 5",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Record the weather and explain patterns",
+      "objective": "Observe and record weather conditions accurately using a simple classroom chart.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Weather describes atmospheric conditions at a place and time. We notice temperature, cloud cover, wind, rain and sunshine. One day's weather is not the same as climate, which refers to patterns over a much longer period.",
+        "A thermometer measures temperature. A rain gauge measures rainfall and a wind vane indicates wind direction. At school, simple observations can be recorded without expensive instruments by noting cloudiness and whether it rained.",
+        "Measurements need a time, place and unit. A temperature of 26°C is more informative than '26'. If we record observations at different times of day, we must label those times rather than pretending all measurements were taken together.",
+        "After collecting several days of observations, look for patterns. Which days were hottest? Did cloud cover change? Avoid drawing big climate conclusions from just one week. Make sensible suggestions for clothing, water use or garden care based on conditions."
+      ],
+      "workedExample": "A fictional class chart records Monday 25°C cloudy, Tuesday 28°C sunny and Wednesday 23°C rainy at noon. The warmest observed day is Tuesday. The difference between highest and lowest temperature is 28 − 23 = 5°C.",
+      "question": "What should be included when recording a temperature?",
+      "choices": [
+        "A unit such as °C",
+        "Only a pupil's name",
+        "The number without a unit"
+      ],
+      "correctIndex": 0,
+      "feedback": "Units help a reader understand the measurement.",
+      "exercises": [
+        {
+          "question": "Name three aspects of weather.",
+          "answer": "Temperature, rain, clouds, wind or sunshine."
+        },
+        {
+          "question": "Which instrument measures rainfall?",
+          "answer": "Rain gauge."
+        },
+        {
+          "question": "What was the warmest day in the fictional chart?",
+          "answer": "Tuesday, at 28°C."
+        },
+        {
+          "question": "Calculate the temperature difference between 28°C and 23°C.",
+          "answer": "5°C."
+        },
+        {
+          "question": "Why can one rainy day not prove a long-term climate trend?",
+          "answer": "Climate is described through patterns over much longer periods."
+        },
+        {
+          "question": "Design four headings for a class weather table.",
+          "answer": "Date, time, weather description and temperature, for example."
+        }
+      ],
+      "assignment": {
+        "title": "Record the weather and explain patterns — applied class assignment",
+        "instructions": "Keep a fictional or teacher-observed weather diary for five school days. Record date, time, conditions and any available temperature reading. Present the chart and explain two patterns or contrasts without inventing measurements.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030: Grade 5 Environmental Awareness, weather conditions measuring and recording",
+      "mediaActivity": "Outdoor visual observations at safe times; use teacher-provided measurements when instruments are unavailable.",
+      "textbookReference": "Syllabus-guided original lesson; no supplied Grade 5 science textbook used"
+    },
+    {
+      "id": "grade-7-science-how-plants-make-food",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Crops, Plants and Animals",
+      "title": "Photosynthesis and the needs of green plants",
+      "objective": "Describe the inputs and products of photosynthesis and explain the role of light and leaves.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Green plants can make their own food using light energy. In photosynthesis, plants take in carbon dioxide from air and water through roots. Chlorophyll in green parts of leaves helps capture light for this process.",
+        "A simple word equation is: carbon dioxide + water —(light and chlorophyll)→ glucose + oxygen. Glucose is a sugar the plant can use for energy and growth; oxygen is released into the environment.",
+        "Photosynthesis and respiration are not the same process. Photosynthesis makes sugars using light; respiration releases energy from food. Plants also respire, including at night. Understanding both prevents a common misunderstanding that plants only work in sunlight.",
+        "To explore plant needs, compare two teacher-grown plants that receive similar water and soil but different safe light conditions. Observe changes without leaving seedlings in dangerously hot places. Describe what the results suggest and which variables were not controlled."
+      ],
+      "workedExample": "A green bean seedling receives water, air and light. Its leaves use light energy to make glucose from water and carbon dioxide, releasing oxygen. If light is unavailable for long enough, it cannot photosynthesise at the usual rate.",
+      "question": "Which gas is used by green plants in photosynthesis?",
+      "choices": [
+        "Carbon dioxide",
+        "Oxygen only",
+        "Helium"
+      ],
+      "correctIndex": 0,
+      "feedback": "Carbon dioxide is one reactant in photosynthesis.",
+      "exercises": [
+        {
+          "question": "Write the word equation for photosynthesis.",
+          "answer": "Carbon dioxide + water → glucose + oxygen, with light/chlorophyll indicated."
+        },
+        {
+          "question": "What role does light play?",
+          "answer": "It supplies energy for the process."
+        },
+        {
+          "question": "Where does water enter most land plants?",
+          "answer": "Through roots."
+        },
+        {
+          "question": "Name one product of photosynthesis.",
+          "answer": "Glucose or oxygen."
+        },
+        {
+          "question": "Why is photosynthesis different from respiration?",
+          "answer": "Photosynthesis uses light energy to make food; respiration releases energy from food."
+        },
+        {
+          "question": "Name one variable to keep the same in a fair plant-light comparison.",
+          "answer": "Same species, soil, container size or water amount."
+        }
+      ],
+      "assignment": {
+        "title": "Photosynthesis and the needs of green plants — applied class assignment",
+        "instructions": "Draw and label an original photosynthesis diagram showing inputs, energy source and products. Write the word equation and a 150-word explanation. Plan a safe comparative seedling observation with a clear question, controlled variables and anticipated limits; real outcomes must not be invented.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030: Grade 7 Crops, Plants and Animals, photosynthesis and word equation",
+      "mediaActivity": "Original photosynthesis diagram with arrows and a teacher-controlled seedling observation.",
+      "textbookReference": "Syllabus-guided original lesson; no supplied Grade 7 science textbook used"
+    },
+    {
+      "id": "grade-7-science-climate-and-water-risk",
+      "level": "Grade 7",
+      "subject": "Science and Technology",
+      "topic": "Environmental Awareness and Conservation",
+      "title": "Climate change, water scarcity and local solutions",
+      "objective": "Explain differences between weather and climate and propose realistic water-conservation responses.",
+      "durationMinutes": 30,
+      "explanation": [
+        "Weather describes what the atmosphere is like today or this week. Climate describes the usual pattern over many years. Climate change refers to lasting changes in temperature and rainfall patterns and related systems, not just one unusual rainy day.",
+        "Human activities can increase greenhouse gases that trap additional heat. Cutting or burning forests and burning fossil fuels can contribute. Local effects can include changing rainfall patterns, heat, drought risk and pressure on water supplies, although impacts vary by place.",
+        "Water scarcity can arise when rain is low, water is polluted, infrastructure is damaged or demand exceeds available safe supply. Solutions must fit the community: repair leaks, protect sources from pollution, use water efficiently and plan safe storage.",
+        "Investigate an original community scenario without making claims about your family's income or water access. Compare two solutions by cost, maintenance needs, safety and whether they solve the actual cause. Avoid treating one weather observation as proof of a regional climate trend."
+      ],
+      "workedExample": "A fictional school loses water from a leaking tap every day. Fixing the tap can reduce avoidable water loss immediately. Protecting a nearby catchment and long-term drought planning address different problems; one action does not replace all the others.",
+      "question": "Which statement best describes climate?",
+      "choices": [
+        "One windy afternoon",
+        "Typical weather patterns over many years",
+        "A single day's rain"
+      ],
+      "correctIndex": 1,
+      "feedback": "Climate concerns weather patterns over long periods.",
+      "exercises": [
+        {
+          "question": "Define weather in your own words.",
+          "answer": "Atmospheric conditions at a particular place and time."
+        },
+        {
+          "question": "Define climate in your own words.",
+          "answer": "Long-term weather patterns of a place."
+        },
+        {
+          "question": "Name two reasons communities may lack safe water.",
+          "answer": "Drought, pollution, damaged infrastructure or high demand."
+        },
+        {
+          "question": "Explain how repairing a leaking tap helps.",
+          "answer": "It reduces avoidable water waste."
+        },
+        {
+          "question": "Name one human activity that raises greenhouse-gas emissions.",
+          "answer": "Burning fossil fuels is an example."
+        },
+        {
+          "question": "Explain why a hot day alone cannot establish climate change.",
+          "answer": "Long-term trends require evidence from many years."
+        }
+      ],
+      "assignment": {
+        "title": "Climate change, water scarcity and local solutions — applied class assignment",
+        "instructions": "Design a one-page water-resilience plan for a fictional school facing irregular water supply. Rank three practical actions, estimate resources qualitatively, describe one risk and explain how the school could measure improvements over time.",
+        "maxScore": 20,
+        "rubric": [
+          "Correct syllabus knowledge and language — 6 marks",
+          "Evidence of method, reasoning and application — 8 marks",
+          "Clarity, organisation and completeness — 4 marks",
+          "Checking and reflection — 2 marks"
+        ]
+      },
+      "syllabusSource": "MoPSE Junior Science and Technology Syllabus 2024–2030: Grade 7 Environmental Awareness, climate change and water scarcity",
+      "mediaActivity": "Use imaginary school water-use charts and teacher-created maps; do not collect pupil household water data.",
+      "textbookReference": "Syllabus-guided original lesson; no supplied Grade 7 science textbook used"
+    }
+  ]
+}

@@ -965,6 +965,7 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
     }
   }
   val lesson=remember(opened) { allLessons.find { it.id==opened } }
+  val isTeachingStaff=profile.role in setOf("admin","head","teacher")
   BackHandler(enabled=lesson!=null){opened=null}
   LazyColumn(
     modifier=modifier.fillMaxSize().testTag("learning-library-list"),
@@ -1000,6 +1001,51 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
           }
         }
       }
+      lesson.deepDive?.let { deep ->
+        item(key="extended-workshop") {
+          AppPanel(Modifier.fillMaxWidth().testTag("deep-lesson-workshop")) {
+            Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
+              Eyebrow("DEEPER LEARNING WORKSHOP")
+              SectionTitle("Before we begin")
+              Text(deep.starter, style=MaterialTheme.typography.bodyLarge)
+              SectionTitle("Words you will use")
+              deep.vocabulary.forEach { (term,meaning) ->
+                Text(term + ": " + meaning, style=MaterialTheme.typography.bodyMedium)
+              }
+              SectionTitle("Learn in three stages")
+              deep.steps.forEachIndexed { i,(name,description) ->
+                Text("Stage " + (i+1) + ": " + name, style=MaterialTheme.typography.titleMedium)
+                Text(description, style=MaterialTheme.typography.bodyLarge)
+              }
+              SectionTitle("Follow a worked solution")
+              deep.worked.forEachIndexed { i,part ->
+                Text((i+1).toString() + ". " + part, style=MaterialTheme.typography.bodyLarge)
+              }
+              SectionTitle("Guided practice with clues")
+              deep.guided.forEachIndexed { i,question ->
+                Text((i+1).toString() + ". " + question.first, style=MaterialTheme.typography.bodyLarge)
+                Text("Helpful clue: " + question.second, style=MaterialTheme.typography.bodyMedium)
+                if(isTeachingStaff) Text("Teacher response: " + question.third,
+                  style=MaterialTheme.typography.bodyMedium, color=MaterialTheme.colorScheme.primary)
+              }
+              SectionTitle("Independent practice")
+              deep.practice.forEachIndexed { i,question ->
+                Text((i+1).toString() + ". " + question.first, style=MaterialTheme.typography.bodyLarge)
+                if(isTeachingStaff) Text("Teacher response: " + question.second,
+                  style=MaterialTheme.typography.bodyMedium, color=MaterialTheme.colorScheme.primary)
+              }
+              SectionTitle("Watch out for this mistake")
+              Text(deep.misconception, style=MaterialTheme.typography.bodyLarge)
+              SectionTitle("Apply your learning")
+              Text(deep.application, style=MaterialTheme.typography.bodyLarge)
+              SectionTitle("What I can now explain")
+              deep.recap.forEach { point ->
+                Text("• " + point, style=MaterialTheme.typography.bodyMedium)
+              }
+            }
+          }
+        }
+      }
       item(key="quiz"){
         QuizPanel(lesson,onCorrect={if(profile.role=="student")recordLesson(it)})
       }
@@ -1009,19 +1055,21 @@ private fun LearningPage(profile:CachedProfile,modifier:Modifier=Modifier) {
           AppPanel(Modifier.fillMaxWidth().testTag("lesson-exercises")) {
             Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
               Eyebrow("PRACTISE WHAT YOU LEARNED")
-              SectionTitle("Three practice exercises")
+              SectionTitle("Practice exercises — " + lesson.exercises.size + " questions")
               lesson.exercises.forEachIndexed {index,exercise->
                 Text("${index+1}. ${exercise.question}",
                   style=MaterialTheme.typography.bodyLarge)
-                if(showAnswers) {
+                if(showAnswers && isTeachingStaff) {
                   Text("Suggested answer: ${exercise.answer}",
                     color=MaterialTheme.colorScheme.primary,
                     style=MaterialTheme.typography.bodyMedium)
                 }
               }
-              OutlinedButton(onClick={showAnswers=!showAnswers},
-                modifier=Modifier.fillMaxWidth()) {
-                Text(if(showAnswers) "Hide suggested answers" else "Reveal suggested answers")
+              if(isTeachingStaff) {
+                OutlinedButton(onClick={showAnswers=!showAnswers},
+                  modifier=Modifier.fillMaxWidth()) {
+                  Text(if(showAnswers) "Hide marking notes" else "Show staff marking notes")
+                }
               }
             }
           }
