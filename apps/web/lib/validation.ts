@@ -1,3 +1,6 @@
+/** HTML pattern shared with the school invitation form: [+] avoids fragile backslash escaping. */
+export const zimbabweMobilePattern = "[+]2637[1-8][0-9]{7}";
+
 export type LoginIdentifier = { type: "email" | "phone"; value: string };
 
 /** Normalizes common Zimbabwean mobile-number formats to E.164. */
