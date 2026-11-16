@@ -9,6 +9,10 @@ export function invitationFailureMessage(status:number,body:unknown):string {
     && typeof body.message==="string" ? body.message : "";
 
   if(status===409){
+    if(serverMessage==="This email already has an unverified login; confirm the email before joining a school")
+      return "This email already has an account, but it must be verified before a school administrator can assign membership. Check that account's email confirmation.";
+    if(serverMessage==="This login already belongs to a school; contact the school administrator")
+      return "This login is already linked to a school. Ask the school administrator to review its existing membership instead of inviting it again.";
     return "This email address or mobile number is already registered. No invitation was sent. Review the existing account under School members; use a different address and number only when inviting a different person.";
   }
   if(status===401)return "Your school session has expired. Sign in again before inviting a member.";
@@ -18,6 +22,9 @@ export function invitationFailureMessage(status:number,body:unknown):string {
   if(status===503){
     if(serverMessage.includes("approved HTTPS web URL")){
       return "Invitations are disabled until the administrator configures the approved HTTPS password-setup website URL.";
+    }
+    if(serverMessage==="Existing account lookup is unavailable"||serverMessage==="Existing account lookup reached its safe limit"||serverMessage==="Existing school membership could not be checked"){
+      return "The system could not verify whether this email already has a login. No school assignment was made. Ask the administrator to retry or check the invitation service.";
     }
     if(serverMessage==="Could not check for duplicate accounts"){
       return "Account uniqueness could not be checked. Try again once the school database is available.";

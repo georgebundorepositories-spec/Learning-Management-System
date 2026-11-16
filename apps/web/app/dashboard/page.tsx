@@ -11,12 +11,22 @@ export default async function Dashboard(){
  const supabase=await createClient();
  const {data:{user},error}=await supabase.auth.getUser();
  if(error||!user)redirect("/login");
- const {data:profile}=await supabase.from("users")
+ const {data:profile,error:membershipError}=await supabase.from("users")
   .select("full_name,role,school_id,is_active,deleted_at").eq("id",user.id).maybeSingle();
- if(!profile?.is_active||profile.deleted_at)
-  return <main className="dash-wrap"><h1>Account unavailable</h1>
-   <p>Your school administrator must confirm your active membership.</p>
-   <form action={signOut}><button>Sign out</button></form></main>;
+ if(membershipError)
+  return <main className="dash-wrap"><h1>School membership check unavailable</h1>
+   <p>The service could not verify your school access. Try refreshing this page; if the error continues, contact the system administrator.</p>
+   <form action={signOut}><button type="submit">Sign out</button></form></main>;
+ if(!profile)
+  return <main className="dash-wrap"><h1>School membership not assigned</h1>
+   <p>You have signed in successfully, but this login is not yet assigned to a school.</p>
+   <p>Ask your school administrator to open <strong>School members</strong> and register this verified email with the correct designation. Existing confirmed accounts keep their current password.</p>
+   <p>No private learner or staff information is available until a school administrator completes the assignment.</p>
+   <form action={signOut}><button type="submit">Sign out</button></form></main>;
+ if(!profile.is_active||profile.deleted_at)
+  return <main className="dash-wrap"><h1>School membership inactive</h1>
+   <p>Your login worked, but school access is currently disabled. Please contact your school administrator for review.</p>
+   <form action={signOut}><button type="submit">Sign out</button></form></main>;
  const {data:school}=await supabase.from("schools").select("name").eq("id",profile.school_id).maybeSingle();
  const title=profile.role==="student"?"Learner home":profile.role==="teacher"?"Teacher home":
   profile.role==="parent"?"Parent home":profile.role==="admin"?"School administrator":

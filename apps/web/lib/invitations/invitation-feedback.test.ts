@@ -8,6 +8,11 @@ describe("school invitation error feedback",()=>{
    expect(text).toContain("No invitation was sent");
    expect(text).not.toContain("email settings");
  });
+ it("explains verified account and unverified account assignment separately",()=>{
+   expect(invitationFailureMessage(409,{message:"This email already has an unverified login; confirm the email before joining a school"})).toContain("must be verified");
+   expect(invitationFailureMessage(409,{message:"This login already belongs to a school; contact the school administrator"})).toContain("already linked");
+   expect(invitationFailureMessage(503,{message:"Existing account lookup is unavailable"})).toContain("could not verify");
+ });
  it("directs session and role failures to the correct fix",()=>{
    expect(invitationFailureMessage(401,{})).toContain("Sign in again");
    expect(invitationFailureMessage(403,{})).toContain("not authorised");
