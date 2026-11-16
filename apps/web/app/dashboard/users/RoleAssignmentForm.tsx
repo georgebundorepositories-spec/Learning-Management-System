@@ -18,7 +18,8 @@ export default function RoleAssignmentForm({members}:{members:Member[]}){
  useEffect(()=>{if(result.status==="success")router.refresh()},[result.status,router]);
  return <section className="summary-card" aria-labelledby="role-assignment-heading">
   <h2 id="role-assignment-heading">Assign a member's role</h2>
-  <p>Choose a person and the portal they should use. This changes their school role in Supabase, not their login credentials.</p>
+  <p>This list contains only people already assigned to this school; it does not show every Supabase login. Changing a member's role does not change their password.</p>
+  <p><a href="#invite-or-assign-school-member">Can't find someone? Assign their verified login to this school using the form above.</a> Administrator and Headteacher roles require separate trusted provisioning.</p>
   {!choices.length?<p className="notice-panel">No eligible school members yet. Invite a member first.</p>:
    <form action={action} className="resource-form">
     <label>School member
