@@ -17,6 +17,7 @@ export default function InviteForm({classes,learners}:{classes:Option[];learners
     <option value="teacher">Teacher</option>
    </select>
   </label>
+  <p className="privacy-note">If this person already has a verified login, enter their existing email below. The school will assign the selected role without replacing their password.</p>
   <label>Full name<input name="full_name" required minLength={3} maxLength={120} autoComplete="name"/></label>
   <label>Email for invitation or existing login<input name="email" type="email" required maxLength={254} autoComplete="email"/></label>
   <label>Unique mobile number (+2637...)<input name="phone" type="tel" required pattern={zimbabweMobilePattern} title="Use +263 followed by nine mobile digits, e.g. +263771234567" maxLength={13} inputMode="tel" placeholder="+26377..." autoComplete="tel"/></label>

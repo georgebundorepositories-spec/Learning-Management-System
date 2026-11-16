@@ -41,9 +41,9 @@ export default async function SchoolMemberInvitations(){
     <article className="summary-card"><span>Active parents</span><strong>{counts.parent??0}</strong></article>
    </div>
    {classes.error||learners.error||members.error?<p className="notice-panel" role="alert">School roster could not be verified; retry later.</p>:
-    <section className="summary-card">
-      <h2>Invite a school member</h2>
-      <p>Invitations use email verification. Passwords are never displayed or stored in the school administrator’s browser.</p>
+    <section className="summary-card" id="invite-or-assign-school-member">
+      <h2>Invite or assign a school member</h2>
+      <p>Use this form for both new accounts and existing verified logins that have not yet been assigned to a school. Existing logins keep their passwords; new accounts receive an email invitation. Select the correct designation. Passwords are never displayed or stored in your browser.</p>
       <InviteForm classes={(classes.data??[]).map(c=>({id:c.id,name:c.name}))}
        learners={(learners.data??[]).map(s=>({id:s.id,name:s.full_name}))}/>
     </section>}
