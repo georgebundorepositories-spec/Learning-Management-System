@@ -21,4 +21,4 @@ jobs:
         with:
           deno-version: v2.x
       - name: Type-check server-only Supabase invitation code
-        run: deno check supabase/functions/invite-school-member/index.ts
+        run: deno check --node-modules-dir=auto supabase/functions/invite-school-member/index.ts
