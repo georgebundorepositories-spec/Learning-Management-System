@@ -1,4 +1,4 @@
-import {createClient} from "npm:@supabase/supabase-js@2.119.0";
+import {createClient,type User} from "npm:@supabase/supabase-js@2.119.0";
 
 type Role="teacher"|"student"|"parent";
 type InviteInput={
@@ -84,21 +84,54 @@ Deno.serve(async(request:Request)=>{
     .eq("is_active",true).is("deleted_at",null).maybeSingle();
    if(error||!data)return reply(400,"Linked learner must be active in this school");
   }
-  // Fail before creating an Auth identity if the invitation cannot reach a
-  // verified HTTPS password-setup page. An unknown site URL is not safe.
-  const redirectTo=inviteRedirect();
-  if(!redirectTo)return reply(503,
-   "School invitations require an approved HTTPS web URL. Ask the deployment administrator to configure it.");
+  // A successful Auth login is not a school membership. School administrators
+  // may attach an already-verified Auth email *only* when it has no membership.
+  // Never adopt a same-email demo fixture, transfer a user from another school,
+  // grant head/admin roles, or send an existing user a new account password.
   const [existingEmail,existingPhone]=await Promise.all([
-   server.from("users").select("id").eq("email",email).maybeSingle(),
+   server.from("users").select("id").ilike("email",email).maybeSingle(),
    server.from("users").select("id").eq("phone",phone).maybeSingle()
   ]);
   if(existingEmail.error||existingPhone.error)return reply(503,"Could not check for duplicate accounts");
   if(existingEmail.data||existingPhone.data)
    return reply(409,"An account with this email or phone already exists");
-  const {data:invited,error:invitationError}=await server.auth.admin.inviteUserByEmail(email,{redirectTo});
-  if(invitationError||!invited.user)return reply(400,"Invitation could not be sent; check the email address and school mail settings");
-  const personId=invited.user.id;
+
+  let existingAuth:User|null=null;
+  let scannedAll=false;
+  const perPage=250;
+  for(let page=1;page<=20;page++){
+   const {data:pageData,error:pageError}=await server.auth.admin.listUsers({page,perPage});
+   if(pageError||!pageData?.users)return reply(503,"Existing account lookup is unavailable");
+   const found=pageData.users.find(u=>u.email?.toLowerCase()===email);
+   if(found){existingAuth=found;break;}
+   if(pageData.users.length<perPage){scannedAll=true;break;}
+  }
+  if(!existingAuth && !scannedAll)
+   return reply(503,"Existing account lookup reached its safe limit");
+  if(existingAuth){
+   if(!existingAuth.email_confirmed_at || existingAuth.is_anonymous)
+    return reply(409,"This email already has an unverified login; confirm the email before joining a school");
+   const {data:profile,error:profileError}=await server.from("users")
+    .select("id").eq("id",existingAuth.id).maybeSingle();
+   if(profileError)return reply(503,"Existing school membership could not be checked");
+   if(profile)return reply(409,"This login already belongs to a school; contact the school administrator");
+  }
+  let invited:User;
+  const createdNewAuth=!existingAuth;
+  if(existingAuth){
+   invited=existingAuth;
+  }else{
+   // Only new Auth accounts need password-setup email, and the link must use
+   // a trusted configured origin rather than a guessed or user-supplied host.
+   const redirectTo=inviteRedirect();
+   if(!redirectTo)return reply(503,
+    "School invitations require an approved HTTPS web URL. Ask the deployment administrator to configure it.");
+   const {data,error:invitationError}=await server.auth.admin.inviteUserByEmail(email,{redirectTo});
+   if(invitationError||!data.user)
+    return reply(400,"Invitation could not be sent; check the email address and school mail settings");
+   invited=data.user;
+  }
+  const personId=invited.id;
   let created=false;
   try {
    const {error}=await server.from("users").insert({
@@ -132,18 +165,26 @@ Deno.serve(async(request:Request)=>{
      diff:{role,has_class:!!classId,has_linked_learner:!!linkedId}
    });
    if(auditError)throw auditError;
-  }catch(error){
-   // Newly invited account has only just been created; remove it so an
-   // incomplete school membership cannot be used as a real account.
-   const age=Date.now()-Date.parse(invited.user.created_at||"");
-   if(Number.isFinite(age)&&age>=0&&age<120000) {
-     const {error:cleanup}=await server.auth.admin.deleteUser(personId);
-     if(cleanup)return reply(500,"Invitation setup failed; administrator must review the incomplete account");
+  }catch(_error){
+   // Never delete an existing confirmed Auth account when provisioning fails.
+   // Roll back only the newly inserted membership and subordinate role rows.
+   if(created){
+    const {error:cleanupProfile}=await server.from("users").delete().eq("id",personId);
+    if(cleanupProfile)return reply(500,"School membership setup is incomplete; the administrator must review the account");
    }
-   return reply(500,"Invitation setup could not be completed; no active member was confirmed");
+   if(createdNewAuth){
+    const age=Date.now()-Date.parse(invited.created_at||"");
+    if(Number.isFinite(age)&&age>=0&&age<120000) {
+     const {error:cleanupAuth}=await server.auth.admin.deleteUser(personId);
+     if(cleanupAuth)return reply(500,"Invitation setup failed; administrator must review the incomplete account");
+    }
+   }
+   return reply(500,"School membership setup failed; no new membership was confirmed");
   }
   if(!created)return reply(500,"Invitation not completed");
-  return reply(200,"Invitation sent. The member must accept the email and set their own password.");
+  return reply(200,createdNewAuth
+   ? "Invitation sent. The member must accept the email and set their own password."
+   : "Existing verified login assigned to this school. The member can now sign in using their current password.");
  }catch(_error){
   return reply(500,"Could not complete account invitation");
  }
