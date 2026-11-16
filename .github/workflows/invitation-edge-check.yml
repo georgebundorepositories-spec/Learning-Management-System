@@ -1,0 +1,24 @@
+name: School invitation Edge Function checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/functions/invite-school-member/**'
+      - '.github/workflows/invitation-edge-check.yml'
+  pull_request:
+    paths:
+      - 'supabase/functions/invite-school-member/**'
+      - '.github/workflows/invitation-edge-check.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Type-check server-only Supabase invitation code
+        run: deno check --node-modules-dir=auto supabase/functions/invite-school-member/index.ts

@@ -47,5 +47,9 @@ export async function inviteSchoolMember(_state:InviteState,form:FormData):Promi
   return {status:"error",message:"The invitation service did not confirm delivery. Check the school account before retrying."};
  revalidatePath("/dashboard/users");
  revalidatePath("/dashboard/admin");
- return {status:"success",message:"Invitation sent. The new member must use their emailed link to choose a password."};
+ const linkedExisting=("message" in data && data.message===
+  "Existing verified login assigned to this school. The member can now sign in using their current password.");
+ return {status:"success",message:linkedExisting
+  ? "Existing verified login attached to this school with the selected role. The member can now sign in with their current password."
+  : "Invitation sent. The new member must use their emailed link to choose a password."};
 }
