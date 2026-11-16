@@ -34,7 +34,7 @@ export default function InviteForm({classes,learners}:{classes:Option[];learners
    <button className="outline-button" type="submit" disabled={pending}>
     {pending?"Sending invitation…":"Invite school member"}
    </button>
-   {result.message?<p className="notice-panel" role="status">{result.message}</p>:null}
+   {result.message?<p className="notice-panel" role={result.status==="error"?"alert":"status"}>{result.message}</p>:null}
   </div>
  </form>;
 }
