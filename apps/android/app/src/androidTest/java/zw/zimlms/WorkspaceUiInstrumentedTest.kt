@@ -39,7 +39,7 @@ class WorkspaceUiInstrumentedTest {
     }
     compose.onNodeWithText("Library").assertExists().performClick()
     compose.onNodeWithTag("learning-library-heading").assertExists()
-    compose.onNodeWithText("75 ready-to-read lessons").assertExists()
+    compose.onNodeWithText("100 ready-to-read lessons").assertExists()
     compose.onNodeWithText("Search lessons, subjects or topics").assertExists()
   }
 
@@ -57,10 +57,11 @@ class WorkspaceUiInstrumentedTest {
     compose.onNodeWithTag("learning-library-list")
       .performScrollToNode(hasTestTag("lesson-exercises"))
     compose.onNodeWithTag("lesson-exercises").assertExists()
-    compose.onNodeWithText("Three practice exercises").assertExists()
+    compose.onNodeWithText("Practice exercises — 3 questions").assertExists()
     compose.onNodeWithTag("learning-library-list")
       .performScrollToNode(hasTestTag("lesson-assignment"))
     compose.onNodeWithTag("lesson-assignment").assertExists()
+    compose.onNodeWithText("Show staff marking notes").assertDoesNotExist()
     compose.onNodeWithText("CLASS ASSIGNMENT").assertExists()
   }
 

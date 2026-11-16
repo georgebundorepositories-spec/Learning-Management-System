@@ -63,8 +63,8 @@ class LessonProgressVaultInstrumentedTest {
 
   @Test fun bundledCatalogMatchesSchoolCompletionWhitelist() {
     val lessons=StarterLessons.lessons+HeritageCurriculum.load(context)
-    assertEquals(75,lessons.size)
-    assertEquals(75,lessons.map { it.id }.distinct().size)
+    assertEquals(100,lessons.size)
+    assertEquals(100,lessons.map { it.id }.distinct().size)
   }
 
   @Test fun newlyAddedCurriculumLessonsPersistEncrypted() {
